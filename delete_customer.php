@@ -1,3 +1,11 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+</head>
+<body class='bg-light'>
+    <div class='container mt-5'>
+        <div class='card p-4 shadow-sm'>
 <?php 
 session_start();
         
@@ -7,9 +15,9 @@ if(!isset($_SESSION['admin_login']))
 <!DOCTYPE html>
 <?php
 include '_inc/dbconn.php';
-$sql="SELECT * FROM `customer`";
+$sql="SELECT * FROM `users`";
 $result=  mysql_query($sql) or die(mysql_error());
-$sql_min="SELECT MIN(id) from customer";
+$sql_min="SELECT MIN(id) FROM users";
 $result_min=  mysql_query($sql_min);
 $rws_min=  mysql_fetch_array($result_min);
 ?>
@@ -76,4 +84,10 @@ $rws_min=  mysql_fetch_array($result_min);
                 
             
     </body>
+</html>
+
+
+        </div>
+    </div>
+</body>
 </html>

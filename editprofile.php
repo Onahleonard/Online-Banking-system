@@ -1,4 +1,12 @@
 <!DOCTYPE html>
+<html lang='en'>
+<head>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+</head>
+<body class='bg-light'>
+    <div class='container mt-5'>
+        <div class='card p-4 shadow-sm'>
+<!DOCTYPE html>
 <?php
 include '_inc/dbconn.php';
 $sql="SELECT * FROM `admin` WHERE id=1";
@@ -11,11 +19,11 @@ $rws=  mysql_fetch_array($result);
         <title>profile editing</title>
     </head>
     <body>
-        <div class="wrapper">
+        <div class="container">
             <div class="header">           
                 
             </div>
-            <div class="contentsection">
+            <div class="card p-4">
                 
                 <form action="alter.php" method="POST" enctype="multipart/form-data">
             <table align="center" border="21" class="table">
@@ -120,4 +128,9 @@ $rws=  mysql_fetch_array($result);
             </div>
         </div>
     </body>
+</html>
+
+        </div>
+    </div>
+</body>
 </html>

@@ -1,4 +1,12 @@
 <!DOCTYPE html>
+<html lang='en'>
+<head>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+</head>
+<body class='bg-light'>
+    <div class='container mt-5'>
+        <div class='card p-4 shadow-sm'>
+<!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8">
@@ -33,3 +41,8 @@
             <li>Change your Internet Banking password at periodical intervals.</li>
             <li>Always check the last log-in date and time in the post login page.</li>
             </ul>
+
+        </div>
+    </div>
+</body>
+</html>

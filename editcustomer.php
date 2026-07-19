@@ -1,3 +1,11 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+</head>
+<body class='bg-light'>
+    <div class='container mt-5'>
+        <div class='card p-4 shadow-sm'>
 <?php 
 session_start();
         
@@ -7,14 +15,14 @@ if(!isset($_SESSION['admin_login']))
 <?php
 include '_inc/dbconn.php';
 $id=  mysql_real_escape_string($_REQUEST['customer_id']);
-$sql="SELECT * FROM `customer` WHERE id=$id";
+$sql="SELECT * FROM `users` WHERE id=$id";
 $result=  mysql_query($sql) or die(mysql_error());
 $rws=  mysql_fetch_array($result);
 ?>
 <?php
                         $delete_id=  mysql_real_escape_string($_REQUEST['customer_id']);
                         if(isset($_REQUEST['submit2_id'])){
-                            $sql_delete="DELETE FROM `customer` WHERE `id` = '$delete_id'";
+                            $sql_delete="DELETE FROM `users` WHERE `id` = '$delete_id'";
                             $sql_drop="DROP TABLE passbook".$delete_id;
                             mysql_query($sql_delete) or die(mysql_error());
                             mysql_query($sql_drop) or die(mysql_error());
@@ -96,4 +104,10 @@ $rws=  mysql_fetch_array($result);
                 
            
     </body>
+</html>
+
+
+        </div>
+    </div>
+</body>
 </html>

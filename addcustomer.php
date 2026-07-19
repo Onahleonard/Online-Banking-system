@@ -1,3 +1,11 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+</head>
+<body class='bg-light'>
+    <div class='container mt-5'>
+        <div class='card p-4 shadow-sm'>
 <?php 
 session_start();
         
@@ -67,8 +75,8 @@ if(!isset($_SESSION['admin_login']))
                     </td>
                 </tr>
                 <tr>
-                    <td>Minimum amount</td>
-                    <td><input type="text" name="initial" value="1000" min="1000" required=""/></td>
+                    <td>Starting Balance ($)</td>
+                    <td><input type="number" name="initial" value="1000" min="0" required=""/></td>
                 </tr>
                 
                 <tr>
@@ -97,4 +105,9 @@ if(!isset($_SESSION['admin_login']))
         </form>
 <?php include 'footer.php';?>
     </body>
+</html>
+
+        </div>
+    </div>
+</body>
 </html>
