@@ -960,3 +960,272 @@
     grid-template-columns: 1fr !important;
   }
 }
+
+/* ==========================================================================
+   Meridian Trust Bank - Isolated Login Backdrop & Mobile Passcode Keypad Styles
+   ========================================================================== */
+
+.mt-landing-body .mt-login-backdrop {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 99999 !important;
+  background: 
+    linear-gradient(135deg, rgba(7, 29, 52, 0.72) 0%, rgba(5, 18, 34, 0.85) 100%),
+    url("https://images.unsplash.com/photo-1514565131-fce0801e5785?q=80&w=2074&auto=format&fit=crop") center/cover no-repeat !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 16px !important;
+}
+
+.mt-landing-body .mt-login-card {
+  background: #ffffff !important;
+  width: 100% !important;
+  max-width: 400px !important;
+  border-radius: 20px !important;
+  box-shadow: 0 20px 48px rgba(7, 29, 52, 0.25) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  padding: 40px 32px !important;
+  position: relative !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.mt-landing-body .mt-login-close {
+  position: absolute !important;
+  top: 16px !important;
+  right: 20px !important;
+  font-size: 28px !important;
+  color: var(--mt-muted) !important;
+  text-decoration: none !important;
+  line-height: 1 !important;
+  transition: color var(--mt-transition) !important;
+  cursor: pointer !important;
+}
+
+.mt-landing-body .mt-login-close:hover {
+  color: var(--mt-red) !important;
+}
+
+.mt-landing-body .mt-login-brand {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 10px !important;
+  margin-bottom: 24px !important;
+}
+
+.mt-landing-body .mt-login-brand svg {
+  flex-shrink: 0 !important;
+}
+
+.mt-landing-body .mt-login-bank-title {
+  margin: 0 !important;
+  color: var(--mt-navy) !important;
+  font-family: "Lora", Georgia, "Times New Roman", serif !important;
+  font-weight: 700 !important;
+  font-size: 1.55rem !important;
+  letter-spacing: -0.01em !important;
+}
+
+.mt-landing-body .mt-red-dot {
+  color: var(--mt-red) !important;
+}
+
+.mt-landing-body .mt-login-card-subtitle {
+  text-align: center !important;
+  margin: 0 0 8px 0 !important;
+  font-size: 1.15rem !important;
+  color: var(--mt-navy) !important;
+  font-weight: 750 !important;
+}
+
+.mt-landing-body .mt-login-card-desc {
+  text-align: center !important;
+  margin: 0 0 24px 0 !important;
+  font-size: 0.85rem !important;
+  color: var(--mt-text-2) !important;
+  line-height: 1.45 !important;
+}
+
+.mt-landing-body .mt-login-form {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 16px !important;
+}
+
+.mt-landing-body .mt-login-error-msg {
+  background: rgba(179, 25, 31, 0.08) !important;
+  border: 1px solid rgba(179, 25, 31, 0.18) !important;
+  color: var(--mt-red) !important;
+  padding: 12px 14px !important;
+  border-radius: var(--mt-radius-sm) !important;
+  font-size: 0.84rem !important;
+  font-weight: 600 !important;
+  line-height: 1.4 !important;
+}
+
+.mt-landing-body .mt-form-label {
+  display: block !important;
+  font-size: 0.78rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  font-weight: 700 !important;
+  color: var(--mt-text-2) !important;
+  margin-bottom: 6px !important;
+}
+
+.mt-landing-body .mt-form-input {
+  width: 100% !important;
+  border: 1.5px solid var(--mt-border) !important;
+  border-radius: var(--mt-radius-sm) !important;
+  padding: 0.85rem 1rem !important;
+  font-size: 0.9rem !important;
+  background: #f8fafc !important;
+  outline: none !important;
+  color: var(--mt-text) !important;
+  transition: border-color var(--mt-transition), box-shadow var(--mt-transition) !important;
+}
+
+.mt-landing-body .mt-form-input:focus {
+  border-color: rgba(27, 74, 120, 0.5) !important;
+  box-shadow: 0 0 0 4px rgba(27, 74, 120, 0.1) !important;
+}
+
+.mt-landing-body .mt-btn-login-submit-card {
+  width: 100% !important;
+  background: var(--mt-red) !important;
+  color: #ffffff !important;
+  border: 0 !important;
+  border-radius: var(--mt-radius-sm) !important;
+  padding: 0.95rem !important;
+  font-weight: 700 !important;
+  font-size: 0.92rem !important;
+  cursor: pointer !important;
+  box-shadow: 0 4px 12px rgba(179, 25, 31, 0.2) !important;
+  transition: background var(--mt-transition), transform var(--mt-transition), box-shadow var(--mt-transition) !important;
+}
+
+.mt-landing-body .mt-btn-login-submit-card:hover {
+  background: var(--mt-red-2) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 8px 18px rgba(179, 25, 31, 0.3) !important;
+}
+
+.mt-landing-body .mt-login-form-footer {
+  text-align: center !important;
+  margin-top: 10px !important;
+}
+
+.mt-landing-body .mt-passkey-label {
+  font-size: 0.78rem !important;
+  color: var(--mt-muted) !important;
+}
+
+.mt-landing-body .mt-passkey-link {
+  color: var(--mt-navy-2) !important;
+  font-weight: 700 !important;
+  text-decoration: none !important;
+}
+
+.mt-landing-body .mt-passkey-link:hover {
+  color: var(--mt-red) !important;
+}
+
+.mt-landing-body .mt-passcode-header-area {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  width: 100% !important;
+  margin-bottom: 20px !important;
+  padding: 0 8px !important;
+}
+
+.mt-landing-body .mt-passcode-label {
+  font-size: 1rem !important;
+  font-weight: 700 !important;
+  color: var(--mt-navy) !important;
+}
+
+.mt-landing-body .mt-forgot-link {
+  color: var(--mt-muted) !important;
+  font-size: 0.88rem !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+  transition: color var(--mt-transition) !important;
+}
+
+.mt-landing-body .mt-forgot-link:hover {
+  color: var(--mt-red) !important;
+}
+
+.mt-landing-body .mt-passcode-dots {
+  display: flex !important;
+  justify-content: center !important;
+  gap: 12px !important;
+  margin-bottom: 36px !important;
+}
+
+.mt-landing-body .mt-dot {
+  width: 14px !important;
+  height: 14px !important;
+  border-radius: 50% !important;
+  border: 1.5px solid var(--mt-border) !important;
+  background: #f8fafc !important;
+  transition: background var(--mt-transition), border-color var(--mt-transition) !important;
+}
+
+.mt-landing-body .mt-dot.filled {
+  background: var(--mt-red) !important;
+  border-color: var(--mt-red) !important;
+}
+
+.mt-landing-body .mt-keypad {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 16px 20px !important;
+  justify-items: center !important;
+  margin: 0 auto !important;
+  width: 100% !important;
+}
+
+.mt-landing-body .mt-key {
+  width: 60px !important;
+  height: 60px !important;
+  border-radius: 50% !important;
+  border: 0 !important;
+  background: #f1f5f9 !important;
+  color: var(--mt-navy) !important;
+  font-size: 1.35rem !important;
+  font-weight: 700 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  transition: background var(--mt-transition), transform var(--mt-transition) !important;
+}
+
+.mt-landing-body .mt-key:hover {
+  background: #e2e8f0 !important;
+  transform: scale(1.05) !important;
+}
+
+.mt-landing-body .mt-key:active {
+  transform: scale(0.95) !important;
+}
+
+.mt-landing-body .mt-key-back {
+  background: transparent !important;
+  color: var(--mt-muted) !important;
+}
+
+.mt-landing-body .mt-key-back:hover {
+  background: transparent !important;
+  color: var(--mt-red) !important;
+}
+
+.mt-landing-body .mt-key-empty {
+  width: 60px !important;
+  height: 60px !important;
+}
+

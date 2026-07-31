@@ -523,53 +523,42 @@ if (!in_array($landingMode, ['personal', 'business'], true)) {
         <?php endif; ?>
 
         <?php if ($view === 'login'): ?>
-            <section class="mx-auto max-w-lg">
-                <div class="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-700 rounded-3xl shadow-2xl overflow-hidden">
-                    <div class="p-8 lg:p-12 grid gap-6 lg:grid-cols-2 items-center">
-                        <div class="text-white">
-                            <div class="flex items-center gap-3 mb-4">
-                                <div class="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center text-xl font-bold">M</div>
-                                <div>
-                                    <p class="text-xs uppercase tracking-widest text-cyan-200 font-semibold">Meridian Financial</p>
-                                    <p class="text-[11px] text-slate-300">Institutional access portal</p>
-                                </div>
-                            </div>
-                            <h2 class="text-3xl font-extrabold leading-tight">Welcome back — secure access</h2>
-                            <p class="mt-3 text-slate-300 text-sm">Protected financial gateway with layered session controls for authorized personnel.</p>
-                        </div>
-
-                        <div class="bg-white rounded-2xl p-6 shadow-inner border border-slate-200">
-                            <div class="mb-4 text-center">
-                                <h3 class="text-lg font-bold text-slate-900">Identity Authentication</h3>
-                                <p class="mt-2 text-xs text-slate-500">Protected by end-to-end multi-factor session tokens. Enter corporate clearance credentials.</p>
-                            </div>
-
-                            <form method="POST" action="index.php" class="space-y-4">
-                                <?php if ($loginError): ?>
-                                    <div class="rounded-xl bg-rose-50 border border-rose-200 p-3 text-sm text-rose-700"><?php echo htmlspecialchars($loginError); ?></div>
-                                <?php endif; ?>
-
-                                <input type="hidden" name="action" value="login" />
-
-                                <label class="block text-xs font-medium text-slate-600">User Identifier / Email</label>
-                                <input name="email" type="email" required placeholder="name@domain.com" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-cyan-200" />
-
-                                <label class="block text-xs font-medium text-slate-600">Access Passphrase</label>
-                                <input name="password" type="password" required placeholder="••••••••" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-cyan-200" />
-
-                                <button type="submit" class="w-full btn-primary rounded-xl px-4 py-2 text-sm font-semibold">Authenticate &amp; Continue</button>
-
-                                <div class="mt-2 text-center">
-                                    <span class="text-xs text-slate-400">Alternative Verification: <span class="text-slate-500 font-medium">Sign on with Passkey</span></span>
-                                </div>
-                            </form>
-                        </div>
+            <div class="mt-login-backdrop">
+                <div class="mt-login-card">
+                    <a href="index.php" class="mt-login-close">&times;</a>
+                    <div class="mt-login-brand">
+                        <svg class="mt-logo-icon" width="36" height="36" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M17 2C8.71573 2 2 8.71573 2 17C2 25.2843 8.71573 32 17 32C25.2843 32 32 25.2843 32 17C32 8.71573 25.2843 2 17 2Z" fill="#B3191F"/>
+                            <path d="M10 24C12.5 19 15 15.5 24 13C20 16 16.5 19.5 15 24H10Z" fill="white"/>
+                            <path d="M14 10.5C15.5 12 18.5 14 24 13C21 11.5 18 10 14 10.5Z" fill="white"/>
+                        </svg>
+                        <h2 class="mt-login-bank-title">Meridian Bank<span class="mt-red-dot">.</span></h2>
                     </div>
+                    <h3 class="mt-login-card-subtitle">Identity Authentication</h3>
+                    <p class="mt-login-card-desc">Protected by end-to-end multi-factor session tokens. Enter your corporate clearance credentials below.</p>
+                    <form method="POST" action="index.php" class="mt-login-form">
+                        <?php if ($loginError): ?>
+                            <div class="mt-login-error-msg"><?php echo htmlspecialchars($loginError); ?></div>
+                        <?php endif; ?>
+                        <input type="hidden" name="action" value="login" />
+                        <div class="mt-form-group">
+                            <label class="mt-form-label">User Identifier / Email</label>
+                            <input name="email" type="email" required placeholder="name@domain.com" class="mt-form-input" />
+                        </div>
+                        <div class="mt-form-group">
+                            <label class="mt-form-label">Access Passphrase</label>
+                            <input name="password" type="password" required placeholder="••••••••" class="mt-form-input" />
+                        </div>
+                        <button type="submit" class="mt-btn-login-submit-card">Authenticate &amp; Continue</button>
+                        <div class="mt-login-form-footer">
+                            <span class="mt-passkey-label">Alternative Verification: <a href="#passkey" class="mt-passkey-link">Sign on with Passkey</a></span>
+                        </div>
+                    </form>
                 </div>
-            </section>
+            </div>
         <?php endif; ?>
 
-        <?php if ($view === 'dashboard'): ?>
+<?php if ($view === 'dashboard'): ?>
             <?php requireRole('customer'); ?>
             <section class="mx-auto max-w-6xl space-y-6">
                 <div class="grid gap-6 lg:grid-cols-2">
