@@ -429,7 +429,7 @@ if (!in_array($landingMode, ['personal', 'business'], true)) {
         background: var(--google-blue-700, #1967d2);
       }
     </style>
-</head>
+<link rel="stylesheet" href="assets/css/bank-theme.css?v=<?php echo time(); ?>"></head>
 <body class="min-h-screen bg-slate-50 text-slate-900 flex flex-col">
 
     <header class="bg-slate-950 text-white px-6 py-4 flex flex-wrap items-center justify-between gap-4 shadow-lg">

@@ -36,13 +36,13 @@
 }
 
 /* Defensive scoping reset */
-.mt-landing-body *,
-.mt-landing-body *::before,
-.mt-landing-body *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box !important;
 }
 
-.mt-landing-body {
+{
   margin: 0 !important;
   padding: 0 !important;
   font-family: var(--mt-font) !important;
@@ -54,13 +54,13 @@
 }
 
 /* Serif font typography wrapper */
-.mt-landing-body .mt-serif-title {
+.mt-serif-title {
   font-family: 'Lora', Georgia, 'Times New Roman', serif !important;
   font-weight: 700 !important;
   letter-spacing: -0.01em !important;
 }
 
-.mt-landing-body .mt-container {
+.mt-container {
   width: min(1180px, calc(100% - 32px)) !important;
   margin: 0 auto !important;
   padding: 0 !important;
@@ -70,7 +70,7 @@
    Header Bar (FDIC & Utility Menu)
    ========================================================================== */
 
-.mt-landing-body .mt-fdic-bar {
+.mt-fdic-bar {
   background: var(--mt-navy) !important;
   color: #ffffff !important;
   font-size: 0.76rem !important;
@@ -78,7 +78,7 @@
   border-bottom: 1.5px solid rgba(255, 255, 255, 0.08) !important;
 }
 
-.mt-landing-body .mt-fdic-bar-container {
+.mt-fdic-bar-container {
   min-height: 40px !important;
   display: flex !important;
   align-items: center !important;
@@ -86,27 +86,27 @@
   gap: 16px !important;
 }
 
-.mt-landing-body .mt-fdic-left {
+.mt-fdic-left {
   display: flex !important;
   align-items: center !important;
   gap: 8px !important;
 }
 
-.mt-landing-body .mt-fdic-logo-shield {
+.mt-fdic-logo-shield {
   color: var(--mt-gold) !important;
   flex-shrink: 0 !important;
 }
 
-.mt-landing-body .mt-fdic-text {
+.mt-fdic-text {
   opacity: 0.9 !important;
 }
 
-.mt-landing-body .mt-utility-nav {
+.mt-utility-nav {
   display: flex !important;
   gap: 20px !important;
 }
 
-.mt-landing-body .mt-utility-nav a {
+.mt-utility-nav a {
   color: rgba(255, 255, 255, 0.85) !important;
   text-decoration: none !important;
   font-weight: 600 !important;
@@ -116,15 +116,15 @@
   transition: color var(--mt-transition) !important;
 }
 
-.mt-landing-body .mt-utility-nav a:hover {
+.mt-utility-nav a:hover {
   color: #ffffff !important;
 }
 
-.mt-landing-body .mt-nav-util-icon {
+.mt-nav-util-icon {
   opacity: 0.75 !important;
 }
 
-.mt-landing-body .mt-caret {
+.mt-caret {
   display: inline-block !important;
   width: 0 !important;
   height: 0 !important;
@@ -139,7 +139,7 @@
    Main Branding Navigation Header
    ========================================================================== */
 
-.mt-landing-body .mt-main-header {
+.mt-main-header {
   position: sticky !important;
   top: 0 !important;
   z-index: 1000 !important;
@@ -148,7 +148,7 @@
   box-shadow: 0 2px 8px rgba(7, 29, 52, 0.03) !important;
 }
 
-.mt-landing-body .mt-header-container {
+.mt-header-container {
   min-height: 84px !important;
   display: flex !important;
   align-items: center !important;
@@ -156,13 +156,13 @@
   gap: 16px !important;
 }
 
-.mt-landing-body .mt-logo {
+.mt-logo {
   display: flex !important;
   align-items: center !important;
   gap: 12px !important;
 }
 
-.mt-landing-body .mt-logo h2 {
+.mt-logo h2 {
   margin: 0 !important;
   color: var(--mt-navy) !important;
   font-weight: 800 !important;
@@ -171,17 +171,17 @@
   text-transform: uppercase !important;
 }
 
-.mt-landing-body .mt-logo-icon {
+.mt-logo-icon {
   flex-shrink: 0 !important;
 }
 
-.mt-landing-body .mt-main-nav {
+.mt-main-nav {
   display: flex !important;
   align-items: center !important;
   gap: 26px !important;
 }
 
-.mt-landing-body .mt-nav-link {
+.mt-nav-link {
   color: var(--mt-text) !important;
   font-weight: 700 !important;
   font-size: 0.92rem !important;
@@ -191,12 +191,12 @@
   transition: color var(--mt-transition) !important;
 }
 
-.mt-landing-body .mt-nav-link:hover {
+.mt-nav-link:hover {
   color: var(--mt-red) !important;
 }
 
 /* Header Login CTA */
-.mt-landing-body .mt-btn-login-red {
+.mt-btn-login-red {
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -213,13 +213,13 @@
   transition: background var(--mt-transition), transform var(--mt-transition), box-shadow var(--mt-transition) !important;
 }
 
-.mt-landing-body .mt-btn-login-red:hover {
+.mt-btn-login-red:hover {
   background: var(--mt-red-2) !important;
   transform: translateY(-1px) !important;
   box-shadow: 0 6px 14px rgba(179, 25, 31, 0.22) !important;
 }
 
-.mt-landing-body .mt-caret-white {
+.mt-caret-white {
   display: inline-block !important;
   width: 0 !important;
   height: 0 !important;
@@ -234,7 +234,7 @@
    Hero Section Layout
    ========================================================================== */
 
-.mt-landing-body .mt-hero-section {
+.mt-hero-section {
   position: relative !important;
   overflow: hidden !important;
   background: 
@@ -244,7 +244,7 @@
   padding: 110px 0 !important;
 }
 
-.mt-landing-body .mt-hero-section::before {
+.mt-hero-section::before {
   content: "" !important;
   position: absolute !important;
   inset: 0 !important;
@@ -254,13 +254,13 @@
   pointer-events: none !important;
 }
 
-.mt-landing-body .mt-hero-container {
+.mt-hero-container {
   display: grid !important;
   grid-template-columns: 1.15fr 0.85fr !important;
   gap: 52px !important;
 }
 
-.mt-landing-body .mt-hero-content h1 {
+.mt-hero-content h1 {
   font-size: clamp(2.6rem, 4vw, 4vw) !important;
   line-height: 1.1 !important;
   font-weight: 800 !important;
@@ -268,17 +268,17 @@
   letter-spacing: -0.02em !important;
 }
 
-.mt-landing-body .mt-accent-dot {
+.mt-accent-dot {
   color: var(--mt-red) !important;
 }
 
-.mt-landing-body .mt-hero-subtitle {
+.mt-hero-subtitle {
   font-size: 1.2rem !important;
   color: rgba(255, 255, 255, 0.9) !important;
   margin-bottom: 34px !important;
 }
 
-.mt-landing-body .mt-btn-primary-red {
+.mt-btn-primary-red {
   display: inline-flex !important;
   align-items: center !important;
   background: var(--mt-red) !important;
@@ -293,7 +293,7 @@
   transition: background var(--mt-transition), transform var(--mt-transition), box-shadow var(--mt-transition) !important;
 }
 
-.mt-landing-body .mt-btn-primary-red:hover {
+.mt-btn-primary-red:hover {
   background: var(--mt-red-2) !important;
   transform: translateY(-1.5px) !important;
   box-shadow: 0 10px 22px rgba(179, 25, 31, 0.35) !important;
@@ -303,7 +303,7 @@
    Secure Online Banking Login Card
    ========================================================================== */
 
-.mt-landing-body .mt-login-panel {
+.mt-login-panel {
   background: #ffffff !important;
   border-radius: var(--mt-radius-xl) !important;
   box-shadow: var(--mt-shadow-lg) !important;
@@ -314,7 +314,7 @@
   justify-self: end !important;
 }
 
-.mt-landing-body .mt-login-panel-header {
+.mt-login-panel-header {
   background: linear-gradient(180deg, var(--mt-navy-2) 0%, var(--mt-navy) 100%) !important;
   color: #ffffff !important;
   padding: 24px !important;
@@ -323,7 +323,7 @@
   gap: 16px !important;
 }
 
-.mt-landing-body .mt-lock-icon-container {
+.mt-lock-icon-container {
   background: rgba(255, 255, 255, 0.12) !important;
   width: 38px !important;
   height: 38px !important;
@@ -335,18 +335,18 @@
   flex-shrink: 0 !important;
 }
 
-.mt-landing-body .mt-login-panel-header h3 {
+.mt-login-panel-header h3 {
   margin: 0 !important;
   font-size: 1.15rem !important;
   font-weight: 700 !important;
   letter-spacing: 0.01em !important;
 }
 
-.mt-landing-body .mt-login-panel-body {
+.mt-login-panel-body {
   padding: 24px !important;
 }
 
-.mt-landing-body select.mt-form-select {
+select.mt-form-select {
   width: 100% !important;
   border: 1.5px solid var(--mt-border) !important;
   border-radius: var(--mt-radius-sm) !important;
@@ -365,16 +365,16 @@
   transition: border-color var(--mt-transition), box-shadow var(--mt-transition) !important;
 }
 
-.mt-landing-body select.mt-form-select:focus {
+select.mt-form-select:focus {
   border-color: rgba(27, 74, 120, 0.5) !important;
   box-shadow: 0 0 0 4px rgba(27, 74, 120, 0.1) !important;
 }
 
-.mt-landing-body .mt-form-group {
+.mt-form-group {
   margin-bottom: 20px !important;
 }
 
-.mt-landing-body .mt-btn-login-submit {
+.mt-btn-login-submit {
   width: 100% !important;
   background: var(--mt-red) !important;
   color: #ffffff !important;
@@ -388,13 +388,13 @@
   transition: background var(--mt-transition), transform var(--mt-transition), box-shadow var(--mt-transition) !important;
 }
 
-.mt-landing-body .mt-btn-login-submit:hover {
+.mt-btn-login-submit:hover {
   background: var(--mt-red-2) !important;
   transform: translateY(-1px) !important;
   box-shadow: 0 8px 18px rgba(179, 25, 31, 0.3) !important;
 }
 
-.mt-landing-body .mt-login-panel-footer {
+.mt-login-panel-footer {
   margin-top: 20px !important;
   display: flex !important;
   flex-direction: column !important;
@@ -403,7 +403,7 @@
   padding-top: 16px !important;
 }
 
-.mt-landing-body .mt-panel-footer-link {
+.mt-panel-footer-link {
   color: var(--mt-navy-2) !important;
   font-weight: 600 !important;
   font-size: 0.88rem !important;
@@ -414,11 +414,11 @@
   transition: color var(--mt-transition) !important;
 }
 
-.mt-landing-body .mt-panel-footer-link:hover {
+.mt-panel-footer-link:hover {
   color: var(--mt-red) !important;
 }
 
-.mt-landing-body .mt-ext-arrow {
+.mt-ext-arrow {
   font-size: 0.95rem !important;
   line-height: 1 !important;
 }
@@ -427,20 +427,20 @@
    Horizontal Quick Actions Grid Bar (Dark Blue)
    ========================================================================== */
 
-.mt-landing-body .mt-action-bar {
+.mt-action-bar {
   background: var(--mt-navy) !important;
   color: #ffffff !important;
   padding: 26px 0 !important;
   border-bottom: 4px solid var(--mt-red) !important;
 }
 
-.mt-landing-body .mt-action-bar-grid {
+.mt-action-bar-grid {
   display: grid !important;
   grid-template-columns: repeat(5, 1fr) !important;
   align-items: center !important;
 }
 
-.mt-landing-body .mt-action-item {
+.mt-action-item {
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
@@ -451,7 +451,7 @@
   transition: color var(--mt-transition), transform var(--mt-transition) !important;
 }
 
-.mt-landing-body .mt-action-item:not(:last-child)::after {
+.mt-action-item:not(:last-child)::after {
   content: "" !important;
   position: absolute !important;
   right: 0 !important;
@@ -461,21 +461,21 @@
   background: rgba(255, 255, 255, 0.12) !important;
 }
 
-.mt-landing-body .mt-action-item svg {
+.mt-action-item svg {
   color: var(--mt-gold) !important;
   transition: transform var(--mt-transition) !important;
 }
 
-.mt-landing-body .mt-action-item:hover {
+.mt-action-item:hover {
   color: #ffffff !important;
   transform: translateY(-2px) !important;
 }
 
-.mt-landing-body .mt-action-item:hover svg {
+.mt-action-item:hover svg {
   transform: scale(1.08) !important;
 }
 
-.mt-landing-body .mt-action-item span {
+.mt-action-item span {
   font-weight: 600 !important;
   font-size: 0.88rem !important;
   letter-spacing: 0.01em !important;
@@ -485,12 +485,12 @@
    Featured Solutions designed for you Grid (4 Columns)
    ========================================================================== */
 
-.mt-landing-body .mt-solutions-section {
+.mt-solutions-section {
   background: var(--mt-surface-2) !important;
   padding: 86px 0 !important;
 }
 
-.mt-landing-body .mt-section-title {
+.mt-section-title {
   margin: 0 0 16px 0 !important;
   text-align: center !important;
   font-size: clamp(1.8rem, 2.5vw, 2.4rem) !important;
@@ -499,7 +499,7 @@
   font-weight: 800 !important;
 }
 
-.mt-landing-body .mt-accent-bar {
+.mt-accent-bar {
   width: 50px !important;
   height: 3.5px !important;
   background: var(--mt-red) !important;
@@ -507,13 +507,13 @@
   border-radius: 999px !important;
 }
 
-.mt-landing-body .mt-solutions-grid {
+.mt-solutions-grid {
   display: grid !important;
   grid-template-columns: repeat(4, 1fr) !important;
   gap: 24px !important;
 }
 
-.mt-landing-body .mt-solution-card {
+.mt-solution-card {
   background: #ffffff !important;
   border: 1px solid var(--mt-border) !important;
   border-radius: var(--mt-radius-lg) !important;
@@ -527,13 +527,13 @@
   transition: transform var(--mt-transition), box-shadow var(--mt-transition), border-color var(--mt-transition) !important;
 }
 
-.mt-landing-body .mt-solution-card:hover {
+.mt-solution-card:hover {
   transform: translateY(-6px) !important;
   box-shadow: var(--mt-shadow-md) !important;
   border-color: rgba(7, 29, 52, 0.15) !important;
 }
 
-.mt-landing-body .mt-card-icon-wrapper {
+.mt-card-icon-wrapper {
   background: var(--mt-bg) !important;
   width: 54px !important;
   height: 54px !important;
@@ -544,14 +544,14 @@
   color: var(--mt-navy-2) !important;
 }
 
-.mt-landing-body .mt-solution-card h3 {
+.mt-solution-card h3 {
   margin: 0 !important;
   font-size: 1.15rem !important;
   color: var(--mt-navy) !important;
   font-weight: 750 !important;
 }
 
-.mt-landing-body .mt-solution-card p {
+.mt-solution-card p {
   margin: 0 !important;
   color: var(--mt-text-2) !important;
   font-size: 0.94rem !important;
@@ -559,7 +559,7 @@
   flex-grow: 1 !important;
 }
 
-.mt-landing-body .mt-card-link {
+.mt-card-link {
   color: var(--mt-red) !important;
   font-weight: 700 !important;
   font-size: 0.85rem !important;
@@ -571,7 +571,7 @@
   transition: color var(--mt-transition) !important;
 }
 
-.mt-landing-body .mt-card-link:hover {
+.mt-card-link:hover {
   color: var(--mt-red-2) !important;
 }
 
@@ -579,39 +579,39 @@
    Split Value Section (Award crystal & values grid)
    ========================================================================== */
 
-.mt-landing-body .mt-entrepreneurial-section {
+.mt-entrepreneurial-section {
   background: #ffffff !important;
   padding: 92px 0 !important;
   border-top: 1px solid var(--mt-border) !important;
 }
 
-.mt-landing-body .mt-entrepreneurial-grid {
+.mt-entrepreneurial-grid {
   display: grid !important;
   grid-template-columns: 1.15fr 0.85fr !important;
   gap: 64px !important;
   align-items: center;
 }
 
-.mt-landing-body .mt-award-block {
+.mt-award-block {
   display: flex !important;
   flex-direction: column !important;
   align-items: flex-start !important;
   gap: 16px !important;
 }
 
-.mt-landing-body .mt-award-icon-box {
+.mt-award-icon-box {
   color: var(--mt-navy-2) !important;
   margin-bottom: 4px !important;
 }
 
-.mt-landing-body .mt-award-label {
+.mt-award-label {
   color: var(--mt-red) !important;
   font-weight: 800 !important;
   font-size: 0.82rem !important;
   letter-spacing: 0.15em !important;
 }
 
-.mt-landing-body .mt-award-title {
+.mt-award-title {
   font-size: clamp(2.1rem, 3.2vw, 2.8rem) !important;
   color: var(--mt-navy) !important;
   font-weight: 800 !important;
@@ -620,14 +620,14 @@
   letter-spacing: -0.03em !important;
 }
 
-.mt-landing-body .mt-award-description {
+.mt-award-description {
   color: var(--mt-text-2) !important;
   font-size: 1.05rem !important;
   line-height: 1.6 !important;
   margin: 0 0 12px 0 !important;
 }
 
-.mt-landing-body .mt-btn-watch {
+.mt-btn-watch {
   display: inline-flex !important;
   align-items: center !important;
   gap: 8px !important;
@@ -642,29 +642,29 @@
   transition: background var(--mt-transition), transform var(--mt-transition) !important;
 }
 
-.mt-landing-body .mt-btn-watch:hover {
+.mt-btn-watch:hover {
   background: var(--mt-navy-3) !important;
   transform: translateY(-1px) !important;
 }
 
-.mt-landing-body .mt-play-arrow {
+.mt-play-arrow {
   font-size: 0.75rem !important;
   line-height: 1 !important;
 }
 
-.mt-landing-body .mt-values-block {
+.mt-values-block {
   display: flex !important;
   flex-direction: column !important;
   gap: 32px !important;
 }
 
-.mt-landing-body .mt-value-item {
+.mt-value-item {
   display: flex !important;
   gap: 20px !important;
   align-items: flex-start !important;
 }
 
-.mt-landing-body .mt-value-icon {
+.mt-value-icon {
   background: rgba(179, 25, 31, 0.07) !important;
   width: 46px !important;
   height: 46px !important;
@@ -676,14 +676,14 @@
   color: var(--mt-red) !important;
 }
 
-.mt-landing-body .mt-value-text h4 {
+.mt-value-text h4 {
   margin: 0 0 6px 0 !important;
   font-size: 1.15rem !important;
   color: var(--mt-navy) !important;
   font-weight: 750 !important;
 }
 
-.mt-landing-body .mt-value-text p {
+.mt-value-text p {
   margin: 0 !important;
   color: var(--mt-text-2) !important;
   font-size: 0.95rem !important;
@@ -694,37 +694,37 @@
    Corporate Footer Elements
    ========================================================================== */
 
-.mt-landing-body .mt-footer {
+.mt-footer {
   background: linear-gradient(180deg, var(--mt-navy) 0%, #051628 100%) !important;
   color: rgba(255, 255, 255, 0.9) !important;
   padding: 60px 0 32px !important;
 }
 
-.mt-landing-body .mt-footer-container {
+.mt-footer-container {
   display: flex !important;
   flex-direction: column !important;
   gap: 48px !important;
 }
 
-.mt-landing-body .mt-footer-grid {
+.mt-footer-grid {
   display: grid !important;
   grid-template-columns: 1.2fr repeat(4, 0.95fr) !important;
   gap: 32px !important;
 }
 
-.mt-landing-body .mt-footer-brand {
+.mt-footer-brand {
   display: flex !important;
   flex-direction: column !important;
   gap: 18px !important;
 }
 
-.mt-landing-body .mt-footer-logo {
+.mt-footer-logo {
   display: flex !important;
   align-items: center !important;
   gap: 10px !important;
 }
 
-.mt-landing-body .mt-footer-logo h4 {
+.mt-footer-logo h4 {
   margin: 0 !important;
   font-size: 1.1rem !important;
   font-weight: 850 !important;
@@ -732,21 +732,21 @@
   text-transform: uppercase !important;
 }
 
-.mt-landing-body .mt-footer-disclaimer {
+.mt-footer-disclaimer {
   font-size: 0.82rem !important;
   color: rgba(255, 255, 255, 0.6) !important;
   line-height: 1.45 !important;
   margin: 0 !important;
 }
 
-.mt-landing-body .mt-badge-row {
+.mt-badge-row {
   display: flex !important;
   align-items: center !important;
   gap: 16px !important;
   flex-wrap: wrap !important;
 }
 
-.mt-landing-body .mt-member-fdic-badge {
+.mt-member-fdic-badge {
   border: 1.5px solid rgba(255, 255, 255, 0.24) !important;
   padding: 4px 10px !important;
   font-size: 0.72rem !important;
@@ -755,11 +755,11 @@
   border-radius: 4px !important;
 }
 
-.mt-landing-body .mt-bold-fdic {
+.mt-bold-fdic {
   font-weight: 900 !important;
 }
 
-.mt-landing-body .mt-lender-badge {
+.mt-lender-badge {
   display: flex !important;
   align-items: center !important;
   gap: 6px !important;
@@ -769,23 +769,23 @@
   color: rgba(255, 255, 255, 0.8) !important;
 }
 
-.mt-landing-body .mt-social-row {
+.mt-social-row {
   display: flex !important;
   gap: 14px !important;
   margin-top: 8px !important;
 }
 
-.mt-landing-body .mt-social-row a {
+.mt-social-row a {
   color: rgba(255, 255, 255, 0.55) !important;
   transition: color var(--mt-transition), transform var(--mt-transition) !important;
 }
 
-.mt-landing-body .mt-social-row a:hover {
+.mt-social-row a:hover {
   color: #ffffff !important;
   transform: translateY(-1.5px) !important;
 }
 
-.mt-landing-body .mt-footer-links-col h4 {
+.mt-footer-links-col h4 {
   font-size: 0.82rem !important;
   letter-spacing: 0.08em !important;
   color: var(--mt-gold) !important;
@@ -794,7 +794,7 @@
   text-transform: uppercase !important;
 }
 
-.mt-landing-body .mt-footer-links-col ul {
+.mt-footer-links-col ul {
   list-style: none !important;
   padding: 0 !important;
   margin: 0 !important;
@@ -803,29 +803,29 @@
   gap: 11px !important;
 }
 
-.mt-landing-body .mt-footer-links-col ul li a {
+.mt-footer-links-col ul li a {
   font-size: 0.88rem !important;
   color: rgba(255, 255, 255, 0.74) !important;
   text-decoration: none !important;
   transition: color var(--mt-transition) !important;
 }
 
-.mt-landing-body .mt-footer-links-col ul li a:hover {
+.mt-footer-links-col ul li a:hover {
   color: #ffffff !important;
 }
 
-.mt-landing-body .mt-bold-link {
+.mt-bold-link {
   font-weight: 700 !important;
   color: #ffffff !important;
 }
 
-.mt-landing-body .mt-contact-details {
+.mt-contact-details {
   display: flex !important;
   flex-direction: column !important;
   gap: 16px !important;
 }
 
-.mt-landing-body .mt-contact-item {
+.mt-contact-item {
   display: flex !important;
   gap: 12px !important;
   align-items: flex-start !important;
@@ -833,29 +833,29 @@
   color: rgba(255, 255, 255, 0.8) !important;
 }
 
-.mt-landing-body .mt-contact-item a {
+.mt-contact-item a {
   text-decoration: none !important;
   color: inherit !important;
 }
 
-.mt-landing-body .mt-contact-icon {
+.mt-contact-icon {
   color: var(--mt-gold) !important;
   flex-shrink: 0 !important;
   margin-top: 2px !important;
 }
 
-.mt-landing-body .mt-contact-item address {
+.mt-contact-item address {
   font-style: normal !important;
   line-height: 1.5 !important;
 }
 
 /* Capsule outline for domain centered at bottom of mockup */
-.mt-landing-body .mt-footer-center-domain {
+.mt-footer-center-domain {
   text-align: center !important;
   padding: 10px 0 !important;
 }
 
-.mt-landing-body .mt-domain-text {
+.mt-domain-text {
   font-size: 0.9rem !important;
   font-weight: 700 !important;
   letter-spacing: 0.1em !important;
@@ -867,13 +867,13 @@
   display: inline-block !important;
 }
 
-.mt-landing-body .mt-footer-divider {
+.mt-footer-divider {
   border: 0 !important;
   border-top: 1.5px solid rgba(255, 255, 255, 0.08) !important;
   margin: 0 !important;
 }
 
-.mt-landing-body .mt-footer-bottom {
+.mt-footer-bottom {
   display: flex !important;
   justify-content: space-between !important;
   align-items: center !important;
@@ -881,13 +881,13 @@
   flex-wrap: wrap !important;
 }
 
-.mt-landing-body .mt-copyright {
+.mt-copyright {
   font-size: 0.85rem !important;
   color: rgba(255, 255, 255, 0.5) !important;
   margin: 0 !important;
 }
 
-.mt-landing-body .mt-legal-notice {
+.mt-legal-notice {
   font-size: 0.74rem !important;
   color: rgba(255, 255, 255, 0.38) !important;
   max-width: 660px;
@@ -900,63 +900,63 @@
    ========================================================================== */
 
 @media (max-width: 1100px) {
-  .mt-landing-body .mt-hero-container,
-  .mt-landing-body .mt-entrepreneurial-grid {
+  .mt-hero-container,
+  .mt-entrepreneurial-grid {
     grid-template-columns: 1fr !important;
     gap: 44px !important;
   }
   
-  .mt-landing-body .mt-login-panel {
+  .mt-login-panel {
     justify-self: center !important;
   }
   
-  .mt-landing-body .mt-action-bar-grid {
+  .mt-action-bar-grid {
     grid-template-columns: repeat(3, 1fr) !important;
   }
   
-  .mt-landing-body .mt-solutions-grid {
+  .mt-solutions-grid {
     grid-template-columns: repeat(2, 1fr) !important;
   }
 
-  .mt-landing-body .mt-footer-grid {
+  .mt-footer-grid {
     grid-template-columns: 1fr repeat(2, 1fr) !important;
     gap: 40px !important;
   }
 }
 
 @media (max-width: 720px) {
-  .mt-landing-body .mt-fdic-bar-container {
+  .mt-fdic-bar-container {
     flex-direction: column !important;
     gap: 8px !important;
     text-align: center !important;
   }
 
-  .mt-landing-body .mt-header-container {
+  .mt-header-container {
     flex-direction: column !important;
     padding: 18px 0 !important;
     gap: 16px !important;
   }
   
-  .mt-landing-body .mt-action-bar-grid {
+  .mt-action-bar-grid {
     grid-template-columns: repeat(2, 1fr) !important;
     gap: 16px !important;
   }
 
-  .mt-landing-body .mt-action-item:not(:last-child)::after {
+  .mt-action-item:not(:last-child)::after {
     display: none !important;
   }
   
-  .mt-landing-body .mt-solutions-grid {
+  .mt-solutions-grid {
     grid-template-columns: 1fr !important;
   }
 
-  .mt-landing-body .mt-footer-grid {
+  .mt-footer-grid {
     grid-template-columns: 1fr !important;
   }
 }
 
 @media (max-width: 480px) {
-  .mt-landing-body .mt-action-bar-grid {
+  .mt-action-bar-grid {
     grid-template-columns: 1fr !important;
   }
 }
@@ -965,7 +965,7 @@
    Meridian Trust Bank - Isolated Login Backdrop & Mobile Passcode Keypad Styles
    ========================================================================== */
 
-.mt-landing-body .mt-login-backdrop {
+.mt-login-backdrop {
   position: fixed !important;
   inset: 0 !important;
   z-index: 99999 !important;
@@ -978,7 +978,7 @@
   padding: 16px !important;
 }
 
-.mt-landing-body .mt-login-card {
+.mt-login-card {
   background: #ffffff !important;
   width: 100% !important;
   max-width: 400px !important;
@@ -991,7 +991,7 @@
   flex-direction: column !important;
 }
 
-.mt-landing-body .mt-login-close {
+.mt-login-close {
   position: absolute !important;
   top: 16px !important;
   right: 20px !important;
@@ -1003,11 +1003,11 @@
   cursor: pointer !important;
 }
 
-.mt-landing-body .mt-login-close:hover {
+.mt-login-close:hover {
   color: var(--mt-red) !important;
 }
 
-.mt-landing-body .mt-login-brand {
+.mt-login-brand {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -1015,11 +1015,11 @@
   margin-bottom: 24px !important;
 }
 
-.mt-landing-body .mt-login-brand svg {
+.mt-login-brand svg {
   flex-shrink: 0 !important;
 }
 
-.mt-landing-body .mt-login-bank-title {
+.mt-login-bank-title {
   margin: 0 !important;
   color: var(--mt-navy) !important;
   font-family: "Lora", Georgia, "Times New Roman", serif !important;
@@ -1028,11 +1028,11 @@
   letter-spacing: -0.01em !important;
 }
 
-.mt-landing-body .mt-red-dot {
+.mt-red-dot {
   color: var(--mt-red) !important;
 }
 
-.mt-landing-body .mt-login-card-subtitle {
+.mt-login-card-subtitle {
   text-align: center !important;
   margin: 0 0 8px 0 !important;
   font-size: 1.15rem !important;
@@ -1040,7 +1040,7 @@
   font-weight: 750 !important;
 }
 
-.mt-landing-body .mt-login-card-desc {
+.mt-login-card-desc {
   text-align: center !important;
   margin: 0 0 24px 0 !important;
   font-size: 0.85rem !important;
@@ -1048,13 +1048,13 @@
   line-height: 1.45 !important;
 }
 
-.mt-landing-body .mt-login-form {
+.mt-login-form {
   display: flex !important;
   flex-direction: column !important;
   gap: 16px !important;
 }
 
-.mt-landing-body .mt-login-error-msg {
+.mt-login-error-msg {
   background: rgba(179, 25, 31, 0.08) !important;
   border: 1px solid rgba(179, 25, 31, 0.18) !important;
   color: var(--mt-red) !important;
@@ -1065,7 +1065,7 @@
   line-height: 1.4 !important;
 }
 
-.mt-landing-body .mt-form-label {
+.mt-form-label {
   display: block !important;
   font-size: 0.78rem !important;
   text-transform: uppercase !important;
@@ -1075,7 +1075,7 @@
   margin-bottom: 6px !important;
 }
 
-.mt-landing-body .mt-form-input {
+.mt-form-input {
   width: 100% !important;
   border: 1.5px solid var(--mt-border) !important;
   border-radius: var(--mt-radius-sm) !important;
@@ -1087,12 +1087,12 @@
   transition: border-color var(--mt-transition), box-shadow var(--mt-transition) !important;
 }
 
-.mt-landing-body .mt-form-input:focus {
+.mt-form-input:focus {
   border-color: rgba(27, 74, 120, 0.5) !important;
   box-shadow: 0 0 0 4px rgba(27, 74, 120, 0.1) !important;
 }
 
-.mt-landing-body .mt-btn-login-submit-card {
+.mt-btn-login-submit-card {
   width: 100% !important;
   background: var(--mt-red) !important;
   color: #ffffff !important;
@@ -1106,33 +1106,33 @@
   transition: background var(--mt-transition), transform var(--mt-transition), box-shadow var(--mt-transition) !important;
 }
 
-.mt-landing-body .mt-btn-login-submit-card:hover {
+.mt-btn-login-submit-card:hover {
   background: var(--mt-red-2) !important;
   transform: translateY(-1px) !important;
   box-shadow: 0 8px 18px rgba(179, 25, 31, 0.3) !important;
 }
 
-.mt-landing-body .mt-login-form-footer {
+.mt-login-form-footer {
   text-align: center !important;
   margin-top: 10px !important;
 }
 
-.mt-landing-body .mt-passkey-label {
+.mt-passkey-label {
   font-size: 0.78rem !important;
   color: var(--mt-muted) !important;
 }
 
-.mt-landing-body .mt-passkey-link {
+.mt-passkey-link {
   color: var(--mt-navy-2) !important;
   font-weight: 700 !important;
   text-decoration: none !important;
 }
 
-.mt-landing-body .mt-passkey-link:hover {
+.mt-passkey-link:hover {
   color: var(--mt-red) !important;
 }
 
-.mt-landing-body .mt-passcode-header-area {
+.mt-passcode-header-area {
   display: flex !important;
   justify-content: space-between !important;
   align-items: center !important;
@@ -1141,13 +1141,13 @@
   padding: 0 8px !important;
 }
 
-.mt-landing-body .mt-passcode-label {
+.mt-passcode-label {
   font-size: 1rem !important;
   font-weight: 700 !important;
   color: var(--mt-navy) !important;
 }
 
-.mt-landing-body .mt-forgot-link {
+.mt-forgot-link {
   color: var(--mt-muted) !important;
   font-size: 0.88rem !important;
   font-weight: 600 !important;
@@ -1155,18 +1155,18 @@
   transition: color var(--mt-transition) !important;
 }
 
-.mt-landing-body .mt-forgot-link:hover {
+.mt-forgot-link:hover {
   color: var(--mt-red) !important;
 }
 
-.mt-landing-body .mt-passcode-dots {
+.mt-passcode-dots {
   display: flex !important;
   justify-content: center !important;
   gap: 12px !important;
   margin-bottom: 36px !important;
 }
 
-.mt-landing-body .mt-dot {
+.mt-dot {
   width: 14px !important;
   height: 14px !important;
   border-radius: 50% !important;
@@ -1175,12 +1175,12 @@
   transition: background var(--mt-transition), border-color var(--mt-transition) !important;
 }
 
-.mt-landing-body .mt-dot.filled {
+.mt-dot.filled {
   background: var(--mt-red) !important;
   border-color: var(--mt-red) !important;
 }
 
-.mt-landing-body .mt-keypad {
+.mt-keypad {
   display: grid !important;
   grid-template-columns: repeat(3, 1fr) !important;
   gap: 16px 20px !important;
@@ -1189,7 +1189,7 @@
   width: 100% !important;
 }
 
-.mt-landing-body .mt-key {
+.mt-key {
   width: 60px !important;
   height: 60px !important;
   border-radius: 50% !important;
@@ -1205,26 +1205,26 @@
   transition: background var(--mt-transition), transform var(--mt-transition) !important;
 }
 
-.mt-landing-body .mt-key:hover {
+.mt-key:hover {
   background: #e2e8f0 !important;
   transform: scale(1.05) !important;
 }
 
-.mt-landing-body .mt-key:active {
+.mt-key:active {
   transform: scale(0.95) !important;
 }
 
-.mt-landing-body .mt-key-back {
+.mt-key-back {
   background: transparent !important;
   color: var(--mt-muted) !important;
 }
 
-.mt-landing-body .mt-key-back:hover {
+.mt-key-back:hover {
   background: transparent !important;
   color: var(--mt-red) !important;
 }
 
-.mt-landing-body .mt-key-empty {
+.mt-key-empty {
   width: 60px !important;
   height: 60px !important;
 }
