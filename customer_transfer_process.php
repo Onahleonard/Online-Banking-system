@@ -48,16 +48,16 @@ if(!isset($_SESSION['customer_login']))
     
     if($s_amount<=500)
     {
-        echo '<script>alert("Your account balance is less than Rs. 500.\n\nYou must maintain a minimum balance of Rs. 500 in order to proceed with the transfer.");';
+        echo '<script>alert("Your account balance is less than $500.\n\nYou must maintain a minimum balance of $500 in order to proceed with the transfer.");';
         echo 'window.location= "customer_transfer.php";</script>';
     }
     elseif($t_amount<100){
-         echo '<script>alert("You cannot transfer less than Rs. 100");';
+         echo '<script>alert("You cannot transfer less than $100");';
         echo 'window.location= "customer_transfer.php";</script>';
     }
     elseif($s_total<500)
     {
-        echo '<script>alert("You do not have enough balance in your account to proceed this transfer.\n\nYou must maintain a minimum of Rs. 500 in your account.");';
+        echo '<script>alert("You do not have enough balance in your account to proceed this transfer.\n\nYou must maintain a minimum of $500 in your account.");';
         echo 'window.location= "customer_transfer.php";</script>';
     }
     

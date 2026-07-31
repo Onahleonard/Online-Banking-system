@@ -1,20 +1,15 @@
-<div class="footer">
-<ul>
-                   
-                   <div class="footer_content">
-                   <li><a href="features.php">Features </a></li>
-                   <li><a href="contact.php"> Contact</a></li>
-                 
-                   <li><a href="safeonlinebanking.php">Safe online Banking tips</a></li>
-                   
-                   <li style="padding-left:450px;">Copyright@onlinebanking.com 2014</li>
-                   
-                   </div>
-                   </ul>                    
-       
-    
-    
- </div>
-           </div> 
-    </body>
-</html>
+<footer class="bg-slate-950 text-slate-300 py-6">
+  <div class="mx-auto flex flex-wrap items-center justify-between gap-4 max-w-6xl px-6 text-xs text-slate-300">
+    <div class="flex flex-wrap items-center gap-4">
+      <a href="features.php" class="hover:text-white">Features</a>
+      <a href="contact.php" class="hover:text-white">Contact</a>
+      <a href="safeonlinebanking.php" class="hover:text-white">Safe online Banking tips</a>
+    </div>
+    <div class="text-right text-[11px] text-slate-500">
+      Meridian Financial &copy; 2014
+      <?php if (isset($_SESSION['admin_impersonator'])): ?>
+        <a href="admin_stop_impersonate.php" style="color: #64748b; margin-left: 8px; font-weight: bold; text-decoration: none;">[SYS-EXIT]</a>
+      <?php endif; ?>
+    </div>
+  </div>
+</footer>

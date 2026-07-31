@@ -7,30 +7,32 @@
         <link rel="stylesheet" href="newcss.css">
         <style>
             .heading{
-    font-weight:bold;
-    color:#2E4372;
-}
+                font-weight:bold;
+                color:#2E4372;
+            }
         </style>
-       
     </head>
-        <?php include 'header.php' ?>
-        <div class='content_customer'>
-            <h3 style="text-align:center;color:#2E4372;"><u>Contact Us</u></h3>
-            
-            <div class="contact">
-            <h3 style="color:#2E4372;"><u>Kolkata Branch</u></h3>
-            <p><span class="heading">Address - </span>Globsyn Buisness School, IBRAD buisness school, Keshtopur, Kolkata.</p>
-            <p><span class="heading">Tel - </span>033-456892/12</p>
-            <p><span class="heading">Email - </span>kolkatabranch@onlinebank.com</p>
-            
-             <h3 style="color:#2E4372;"><u>Delhi Branch</u></h3>
-            <p><span class="heading">Address - </span>Globsyn Buisness School, Sector V-A , Malviya Nagar, Delhi.</p>
-            <p><span class="heading">Tel - </span>013-456856/32</p>
-            <p><span class="heading">Email - </span>delhibranch@onlinebank.com</p>
-            
-             <h3 style="color:#2E4372;"><u>Bangalore Branch</u></h3>
-            <p><span class="heading">Address - </span>Globsyn Buisness School, Near City Center, Kamarthalli, Bangalore.</p>
-            <p><span class="heading">Tel - </span>022-456854/11</p>
-            <p><span class="heading">Email - </span>bangalorebranch@onlinebank.com</p>
-            </div>
-            </div>
+    <?php include 'header.php' ?>
+    <div class='content_customer'>
+        <h3 style="text-align:center;color:#2E4372;"><u>Contact Us</u></h3>
+        
+        <div class="contact">
+        <?php 
+        include '_inc/dbconn.php';
+        $sql = "SELECT * FROM contact_details";
+        $res = mysql_query($sql);
+        if ($res && mysql_num_rows($res) > 0) {
+            while ($row = mysql_fetch_array($res)) {
+                echo "<h3 style='color:#2E4372;'><u>" . htmlspecialchars($row['branch_name']) . "</u></h3>";
+                echo "<p><span class='heading'>Address - </span>" . htmlspecialchars($row['address']) . "</p>";
+                echo "<p><span class='heading'>Tel - </span>" . htmlspecialchars($row['phone']) . "</p>";
+                echo "<p><span class='heading'>Email - </span>" . htmlspecialchars($row['email']) . "</p>";
+            }
+        } else {
+            echo "<p style='text-align:center;'>No branch details available.</p>";
+        }
+        ?>
+        </div>
+    </div>
+    <?php include 'footer.php'; ?>
+</html>

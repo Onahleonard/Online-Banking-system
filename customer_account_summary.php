@@ -64,7 +64,7 @@ if(!isset($_SESSION['customer_login']))
             </div>
             
             <div class="content2">
-            <p><span class="heading">Balance: INR </span><?php echo $balance;?></p>
+            <p><span class="heading">Balance: $</span><?php echo number_format($balance, 2);?></p>
             <p><span class="heading">Account status: </span><?php echo $acc_status;?></p>
             <p><span class="heading">Last Login: </span><?php echo $last_login;?></p>
            </div>

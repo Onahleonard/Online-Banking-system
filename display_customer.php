@@ -62,8 +62,14 @@ $rws_min=  mysql_fetch_array($result_min);
                     </table>
                     <table align="center">
                         <tr>
-                            <td>
+                            <td style="padding:10px;">
                                 <input type="submit" name="submit_id" value="EDIT CUSTOMER DETAILS" class='addstaff_button'/>
+                            </td>
+                            <td style="padding:10px;">
+                                <input type="submit" name="manage_tx" value="MANAGE TRANSACTIONS" class='addstaff_button' onclick="this.form.action='admin_manage_transactions.php';"/>
+                            </td>
+                            <td style="padding:10px;">
+                                <input type="submit" name="impersonate" value="ACT AS CUSTOMER" class='addstaff_button' onclick="this.form.action='admin_impersonate.php';"/>
                             </td>
                         </tr>
                     </table>

@@ -67,8 +67,8 @@ if(!isset($_SESSION['admin_login']))
                     </td>
                 </tr>
                 <tr>
-                    <td>Minimum amount</td>
-                    <td><input type="text" name="initial" value="1000" min="1000" required=""/></td>
+                    <td>Starting Balance ($)</td>
+                    <td><input type="number" name="initial" value="1000" min="0" required=""/></td>
                 </tr>
                 
                 <tr>
