@@ -60,7 +60,7 @@ function requireRole(string $role): void
 {
     $user = currentUser();
     if (!$user || $user['role'] !== $role) {
-        header('Location: index.php?view=login');
+        if (!headers_sent()) { header('Location: customer_dashboard.php?view=login'); } else { echo "<script>window.location.href='customer_dashboard.php?view=login';</script>"; }
         exit();
     }
 }
@@ -201,7 +201,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         $_SESSION['login_error'] = 'Invalid credentials. Use user@bank.com / UserPass123 or admin@bank.com / AdminPass123';
-        header('Location: index.php?view=login');
+        if (!headers_sent()) { header('Location: customer_dashboard.php?view=login'); } else { echo "<script>window.location.href='customer_dashboard.php?view=login';</script>"; }
         exit();
     }
 
