@@ -60,7 +60,7 @@ function requireRole(string $role): void
 {
     $user = currentUser();
     if (!$user || $user['role'] !== $role) {
-        header('Location: customer_dashboard.php?view=login');
+        header('Location: index.php?view=login');
         exit();
     }
 }
@@ -196,12 +196,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'label' => $users[$email]['label'],
             ];
             $redirect = $users[$email]['role'] === 'admin' ? 'admin' : 'dashboard';
-            header("Location: customer_dashboard.php?view=$redirect");
+            header("Location: index.php?view=$redirect");
             exit();
         }
 
         $_SESSION['login_error'] = 'Invalid credentials. Use user@bank.com / UserPass123 or admin@bank.com / AdminPass123';
-        header('Location: customer_dashboard.php?view=login');
+        header('Location: index.php?view=login');
         exit();
     }
 
@@ -280,33 +280,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 
-    <!-- Modernized corporate header -->
-    <header class="mt-portal-header">
-        <div class="mt-portal-header-container">
-            <div class="mt-logo">
-                <svg class="mt-logo-icon" width="28" height="28" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M17 2C8.71573 2 2 8.71573 2 17C2 25.2843 8.71573 32 17 32C25.2843 32 32 25.2843 32 17C32 8.71573 25.2843 2 17 2Z" fill="#B3191F"/>
-                    <path d="M10 24C12.5 19 15 15.5 24 13C20 16 16.5 19.5 15 24H10Z" fill="white"/>
-                </svg>
-                <h2 style="font-size:1.15rem; color:#ffffff; font-weight:800; letter-spacing:0.04em; text-transform:uppercase; margin:0;">Meridian Trust Bank</h2>
-            </div>
-            <div class="mt-portal-header-nav">
-                <?php if ($currentUser): ?>
-                    <span class="text-sm" style="color: #ffffff; font-weight:600; font-size:0.9rem; margin-right:16px;">Hi, <?php echo htmlspecialchars($displayName); ?></span>
-                    <form method="POST" action="customer_dashboard.php" class="m-0" style="display:inline;">
-                        <input type="hidden" name="action" value="logout" />
-                        <button type="submit" class="mt-btn-login-red" style="padding: 0.45rem 1.2rem; font-size:0.8rem;">Logout</button>
-                    </form>
-                <?php endif; ?>
-            </div>
-        </div>
-    </header>if ($action === 'admin_decision') {
+    if ($action === 'transfer') {
+        requireRole('customer');
+        $amount = floatval($_POST['amount'] ?? 0);
+        $recipient = trim(htmlspecialchars($_POST['recipient'] ?? ''));
+
+        if ($amount > 0 && $amount <= $_SESSION['mock_balance'] && $recipient !== '') {
+            createTransaction($recipient, $amount);
+            addFlash('Transfer queued successfully. Awaiting administrative approval.');
+        } else {
+            addFlash('Error: Enter a valid recipient and amount not exceeding your available balance.');
+        }
+
+        header('Location: index.php?view=dashboard');
+        exit();
+    }
+
+    if ($action === 'admin_decision') {
         requireRole('admin');
         $txId = intval($_POST['tx_id'] ?? 0);
         $decision = $_POST['decision'] === 'APPROVED' ? 'APPROVED' : 'REJECTED';
         updateTransactionStatus($txId, $decision);
         addFlash('Transaction status updated to ' . $decision . '.');
-        header('Location: customer_dashboard.php?view=admin');
+        header('Location: index.php?view=admin');
         exit();
     }
 
@@ -315,7 +311,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $newStatus = strtoupper(trim($_POST['status'] ?? 'ACTIVE')) === 'FROZEN' ? 'FROZEN' : 'ACTIVE';
         $_SESSION['account_status'] = $newStatus;
         addFlash('Account status set to ' . $newStatus . '.');
-        header('Location: customer_dashboard.php?view=admin');
+        header('Location: index.php?view=admin');
         exit();
     }
 
@@ -339,7 +335,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             addFlash('Injection failed: provide recipient and positive amount.');
         }
-        header('Location: customer_dashboard.php?view=admin');
+        header('Location: index.php?view=admin');
         exit();
     }
 }
@@ -502,7 +498,7 @@ if (!in_array($landingMode, ['personal', 'business'], true)) {
         background: var(--google-blue-700, #1967d2);
       }
     </style>
-<link rel="stylesheet" href="assets/css/bank-theme.css?v=<?php echo time(); ?>"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Lora:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet"></head>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Lora:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet"><link rel="stylesheet" href="assets/css/bank-theme.css?v=<?php echo time(); ?>"></head>
 <body class="min-h-screen bg-slate-50 text-slate-900 flex flex-col">
 
     <!-- Modernized corporate header -->
@@ -559,7 +555,7 @@ if (!in_array($landingMode, ['personal', 'business'], true)) {
                                     <span class="relative z-10 w-10 text-center text-[11px] font-semibold uppercase text-white" id="landingToggleLabel">Personal</span>
                                 </button>
                             </div>
-                            <a href="customer_dashboard.php?view=login" class="inline-flex items-center justify-center rounded-3xl bg-cyan-500 px-6 py-3 text-sm font-semibold text-slate-950 shadow-xl shadow-cyan-500/30 hover:bg-cyan-400 transition">Enter the Application Portal</a>
+                            <a href="index.php?view=login" class="inline-flex items-center justify-center rounded-3xl bg-cyan-500 px-6 py-3 text-sm font-semibold text-slate-950 shadow-xl shadow-cyan-500/30 hover:bg-cyan-400 transition">Enter the Application Portal</a>
                         </div>
                     </div>
 
@@ -595,42 +591,53 @@ if (!in_array($landingMode, ['personal', 'business'], true)) {
         <?php endif; ?>
 
         <?php if ($view === 'login'): ?>
-            <div class="mt-login-backdrop">
-                <div class="mt-login-card">
-                    <a href="index.php" class="mt-login-close">&times;</a>
-                    <div class="mt-login-brand">
-                        <svg class="mt-logo-icon" width="36" height="36" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M17 2C8.71573 2 2 8.71573 2 17C2 25.2843 8.71573 32 17 32C25.2843 32 32 25.2843 32 17C32 8.71573 25.2843 2 17 2Z" fill="#B3191F"/>
-                            <path d="M10 24C12.5 19 15 15.5 24 13C20 16 16.5 19.5 15 24H10Z" fill="white"/>
-                            <path d="M14 10.5C15.5 12 18.5 14 24 13C21 11.5 18 10 14 10.5Z" fill="white"/>
-                        </svg>
-                        <h2 class="mt-login-bank-title">Meridian Bank<span class="mt-red-dot">.</span></h2>
+            <section class="mx-auto max-w-lg">
+                <div class="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-700 rounded-3xl shadow-2xl overflow-hidden">
+                    <div class="p-8 lg:p-12 grid gap-6 lg:grid-cols-2 items-center">
+                        <div class="text-white">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center text-xl font-bold">M</div>
+                                <div>
+                                    <p class="text-xs uppercase tracking-widest text-cyan-200 font-semibold">Meridian Financial</p>
+                                    <p class="text-[11px] text-slate-300">Institutional access portal</p>
+                                </div>
+                            </div>
+                            <h2 class="text-3xl font-extrabold leading-tight">Welcome back — secure access</h2>
+                            <p class="mt-3 text-slate-300 text-sm">Protected financial gateway with layered session controls for authorized personnel.</p>
+                        </div>
+
+                        <div class="bg-white rounded-2xl p-6 shadow-inner border border-slate-200">
+                            <div class="mb-4 text-center">
+                                <h3 class="text-lg font-bold text-slate-900">Identity Authentication</h3>
+                                <p class="mt-2 text-xs text-slate-500">Protected by end-to-end multi-factor session tokens. Enter corporate clearance credentials.</p>
+                            </div>
+
+                            <form method="POST" action="index.php" class="space-y-4">
+                                <?php if ($loginError): ?>
+                                    <div class="rounded-xl bg-rose-50 border border-rose-200 p-3 text-sm text-rose-700"><?php echo htmlspecialchars($loginError); ?></div>
+                                <?php endif; ?>
+
+                                <input type="hidden" name="action" value="login" />
+
+                                <label class="block text-xs font-medium text-slate-600">User Identifier / Email</label>
+                                <input name="email" type="email" required placeholder="name@domain.com" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-cyan-200" />
+
+                                <label class="block text-xs font-medium text-slate-600">Access Passphrase</label>
+                                <input name="password" type="password" required placeholder="••••••••" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-cyan-200" />
+
+                                <button type="submit" class="w-full btn-primary rounded-xl px-4 py-2 text-sm font-semibold">Authenticate &amp; Continue</button>
+
+                                <div class="mt-2 text-center">
+                                    <span class="text-xs text-slate-400">Alternative Verification: <span class="text-slate-500 font-medium">Sign on with Passkey</span></span>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                    <h3 class="mt-login-card-subtitle">Identity Authentication</h3>
-                    <p class="mt-login-card-desc">Protected by end-to-end multi-factor session tokens. Enter your corporate clearance credentials below.</p>
-                    <form method="POST" action="customer_dashboard.php" class="mt-login-form">
-                        <?php if ($loginError): ?>
-                            <div class="mt-login-error-msg"><?php echo htmlspecialchars($loginError); ?></div>
-                        <?php endif; ?>
-                        <input type="hidden" name="action" value="login" />
-                        <div class="mt-form-group">
-                            <label class="mt-form-label">User Identifier / Email</label>
-                            <input name="email" type="email" required placeholder="name@domain.com" class="mt-form-input" />
-                        </div>
-                        <div class="mt-form-group">
-                            <label class="mt-form-label">Access Passphrase</label>
-                            <input name="password" type="password" required placeholder="••••••••" class="mt-form-input" />
-                        </div>
-                        <button type="submit" class="mt-btn-login-submit-card">Authenticate &amp; Continue</button>
-                        <div class="mt-login-form-footer">
-                            <span class="mt-passkey-label">Alternative Verification: <a href="#passkey" class="mt-passkey-link">Sign on with Passkey</a></span>
-                        </div>
-                    </form>
                 </div>
-            </div>
+            </section>
         <?php endif; ?>
 
-<?php if ($view === "dashboard"): ?>
+        <?php if ($view === "dashboard"): ?>
         <?php requireRole("customer");?>
         <div class="mt-portal-container">
             <!-- Account Overview Cards -->
@@ -648,6 +655,7 @@ if (!in_array($landingMode, ['personal', 'business'], true)) {
                         <div class="mt-balance-card mt-card-accent-gold">
                             <span class="mt-balance-tag">Corporate Checking</span>
                             <h3 class="mt-balance-acc-name">Corporate Checking Account</h3>
+                            <span class="mt-balance-tag" style="opacity:0.8; font-weight:700;">Account: MTB-008-505-1234</span>
                             <div class="mt-balance-row">
                                 <span class="mt-balance-amount mt-serif-title" id="currentBalanceChecking" data-original="$<?php echo number_format($checking_balance, 2); ?>">$<?php echo number_format($checking_balance, 2); ?></span>
                                 <button type="button" data-target="currentBalanceChecking" class="balance-toggle mt-btn-hide">[Hide]</button>
@@ -659,6 +667,7 @@ if (!in_array($landingMode, ['personal', 'business'], true)) {
                         <div class="mt-balance-card">
                             <span class="mt-balance-tag">Premium Savings</span>
                             <h3 class="mt-balance-acc-name">Savings Account</h3>
+                            <span class="mt-balance-tag" style="opacity:0.8; font-weight:700;">Account: MTB-008-505-5678</span>
                             <div class="mt-balance-row">
                                 <span class="mt-balance-amount mt-serif-title" id="currentBalanceSavings" data-original="$<?php echo number_format($savings_balance, 2); ?> USD">$<?php echo number_format($savings_balance, 2); ?> USD</span>
                                 <button type="button" data-target="currentBalanceSavings" class="balance-toggle mt-btn-hide">[Hide]</button>
@@ -683,8 +692,17 @@ if (!in_array($landingMode, ['personal', 'business'], true)) {
                         <input type="hidden" name="action" value="transfer" />
 
                         <div class="mt-form-group">
+                            <label class="mt-form-label">Settlement Routing Type</label>
+                            <select name="transfer_type" class="mt-form-select" id="mt-transfer-type" onchange="toggleTransferFields()">
+                                <option value="external">External Clearinghouse Settlement</option>
+                                <option value="internal_checking_to_savings">Internal: Checking &rarr; Savings</option>
+                                <option value="internal_savings_to_checking">Internal: Savings &rarr; Checking</option>
+                            </select>
+                        </div>
+
+                        <div class="mt-form-group">
                             <label class="mt-form-label">Beneficiary Account Number</label>
-                            <input name="recipient" type="text" required placeholder="e.g. 001234567890" class="mt-form-input" />
+                            <input name="recipient" type="text" placeholder="e.g. 001234567890" class="mt-form-input" />
                         </div>
 
                         <div class="mt-form-group">
@@ -736,7 +754,7 @@ if (!in_array($landingMode, ['personal', 'business'], true)) {
                                     </div>
                                     <div class="mt-ledger-action-area">
                                         <p class="mt-ledger-amount mt-serif-title">$<?php echo number_format($tx["amount"], 2); ?></p>
-                                        <button data-txid="<?php echo $tx["id"]; ?>" data-recipient="<?php echo htmlspecialchars($tx["recipient"]); ?>" data-amount="2" data-date="<?php echo htmlspecialchars($tx["date"]); ?>" class="download-receipt mt-ledger-link">Download Receipt &rarr;</button>
+                                        <button data-txid="<?php echo $tx["id"]; ?>" data-recipient="<?php echo htmlspecialchars($tx["recipient"]); ?>" data-amount="<?php echo number_format($tx["amount"], 2); ?>" data-date="<?php echo htmlspecialchars($tx["date"]); ?>" class="download-receipt mt-ledger-link">Download Receipt &rarr;</button>
                                     </div>
                                 </div>
                                 <?php endif; ?>
@@ -758,7 +776,7 @@ if (!in_array($landingMode, ['personal', 'business'], true)) {
                                     </div>
                                     <div class="mt-ledger-action-area">
                                         <p class="mt-ledger-amount mt-serif-title">$<?php echo number_format($tx["amount"], 2); ?></p>
-                                        <button data-txid="<?php echo $tx["id"]; ?>" data-recipient="<?php echo htmlspecialchars($tx["recipient"]); ?>" data-amount="2" data-date="<?php echo htmlspecialchars($tx["date"]); ?>" class="view-voucher mt-ledger-link">View Voucher &rarr;</button>
+                                        <button data-txid="<?php echo $tx["id"]; ?>" data-recipient="<?php echo htmlspecialchars($tx["recipient"]); ?>" data-amount="<?php echo number_format($tx["amount"], 2); ?>" data-date="<?php echo htmlspecialchars($tx["date"]); ?>" class="view-voucher mt-ledger-link">View Voucher &rarr;</button>
                                     </div>
                                 </div>
                                 <?php endif; ?>
@@ -768,9 +786,23 @@ if (!in_array($landingMode, ['personal', 'business'], true)) {
                 </div>
             </div>
         </div>
-    <?php endif; ?>
-
-<?php if ($view === 'admin'): ?>
+<script>
+function toggleTransferFields() {
+    const type = document.getElementById("mt-transfer-type").value;
+    const recipientInput = document.getElementsByName("recipient")[0].closest(".mt-form-group");
+    const routingInput = document.getElementsByName("routing")[0].closest(".mt-form-group");
+    if (type !== "external") {
+        recipientInput.style.display = "none";
+        routingInput.style.display = "none";
+        document.getElementsByName("recipient")[0].removeAttribute("required");
+    } else {
+        recipientInput.style.display = "block";
+        routingInput.style.display = "block";
+        document.getElementsByName("recipient")[0].setAttribute("required", "required");
+    }
+}
+</script>
+    <?php endif; ?><?php if ($view === 'admin'): ?>
             <?php requireRole('admin'); ?>
             <section class="mx-auto max-w-6xl space-y-6">
                 <div class="rounded-[2rem] bg-white p-8 shadow-lg border border-slate-200">
@@ -783,7 +815,7 @@ if (!in_array($landingMode, ['personal', 'business'], true)) {
                     </div>
 
                     <div class="mt-6 grid gap-4 sm:grid-cols-2">
-                        <form method="POST" action="customer_dashboard.php" class="p-4 rounded-lg border bg-white">
+                        <form method="POST" action="index.php" class="p-4 rounded-lg border bg-white">
                             <input type="hidden" name="action" value="set_account_status" />
                             <p class="text-xs text-slate-500">Account Status</p>
                             <div class="mt-2 flex items-center gap-3">
@@ -796,7 +828,7 @@ if (!in_array($landingMode, ['personal', 'business'], true)) {
                             <p class="mt-2 text-xs text-slate-500">Current: <strong><?php echo htmlspecialchars($_SESSION['account_status']); ?></strong></p>
                         </form>
 
-                        <form method="POST" action="customer_dashboard.php" class="p-4 rounded-lg border bg-white">
+                        <form method="POST" action="index.php" class="p-4 rounded-lg border bg-white">
                             <input type="hidden" name="action" value="admin_inject" />
                             <p class="text-xs text-slate-500">Retroactive Ledger Injection</p>
                             <label class="block text-xs mt-2">Recipient</label>
@@ -839,7 +871,7 @@ if (!in_array($landingMode, ['personal', 'business'], true)) {
                                         </td>
                                         <td class="py-4 text-right">
                                             <?php if ($tx['status'] === 'PENDING'): ?>
-                                                <form method="POST" action="customer_dashboard.php" class="inline-flex flex-wrap items-center justify-end gap-2">
+                                                <form method="POST" action="index.php" class="inline-flex flex-wrap items-center justify-end gap-2">
                                                     <input type="hidden" name="action" value="admin_decision" />
                                                     <input type="hidden" name="tx_id" value="<?php echo $tx['id']; ?>" />
                                                     <button type="submit" name="decision" value="APPROVED" class="rounded-full bg-emerald-600 px-4 py-2 text-xs font-semibold text-white hover:bg-emerald-500 transition">Approve</button>
@@ -1008,7 +1040,7 @@ if (!in_array($landingMode, ['personal', 'business'], true)) {
             tableBody.innerHTML = data.transactions.map(tx => {
                 const statusClass = tx.status === 'APPROVED' ? 'bg-emerald-100 text-emerald-700' : (tx.status === 'REJECTED' ? 'bg-rose-100 text-rose-700' : 'bg-amber-100 text-amber-700');
                 const actions = tx.status === 'PENDING'
-                    ? `<form method="POST" action="customer_dashboard.php" class="inline-flex flex-wrap items-center justify-end gap-2">` +
+                    ? `<form method="POST" action="index.php" class="inline-flex flex-wrap items-center justify-end gap-2">` +
                       `<input type="hidden" name="action" value="admin_decision" />` +
                       `<input type="hidden" name="tx_id" value="${tx.id}" />` +
                       `<button type="submit" name="decision" value="APPROVED" class="rounded-full bg-emerald-600 px-4 py-2 text-xs font-semibold text-white hover:bg-emerald-500 transition">Approve</button>` +
@@ -1109,5 +1141,55 @@ if (!in_array($landingMode, ['personal', 'business'], true)) {
             }
         });
     </script>
-</body>
+
+
+<!-- Monochrome Clearinghouse Receipt Modal Overlay -->
+<div class="mt-receipt-modal" id="mtReceiptModal" onclick="closeReceiptModal(event)">
+    <div class="mt-receipt-card" onclick="event.stopPropagation()">
+        <div class="mt-receipt-header">
+            <h3>OFFICIAL CLEARINGHOUSE RECORD</h3>
+            <p>MERIDIAN TRUST SYSTEM &bull; FEDERAL RESERVE WIRE NETWORK</p>
+        </div>
+        <div class="mt-receipt-divider"></div>
+        <div class="mt-receipt-body">
+            <div class="mt-receipt-row"><span>RECORD TYPE</span><strong id="rcptType">TRANSACTION VOUCHER</strong></div>
+            <div class="mt-receipt-row"><span>TRANSACTION ID</span><strong id="rcptId">000000</strong></div>
+            <div class="mt-receipt-row"><span>VALUE DATE</span><strong id="rcptDate">00/00/0000</strong></div>
+            <div class="mt-receipt-row"><span>SENDER ROUTING</span><strong>MTB-US-3304-CLEARED</strong></div>
+            <div class="mt-receipt-row"><span>BENEFICIARY</span><strong id="rcptRecipient">RECIPIENT</strong></div>
+            <div class="mt-receipt-row"><span>CLEARING STATUS</span><span class="mt-rcpt-status">APPROVED / SETTLED</span></div>
+            <div class="mt-receipt-divider-thin"></div>
+            <div class="mt-receipt-row mt-receipt-total"><span>SETTLED AMOUNT</span><span id="rcptAmount">$0.00 USD</span></div>
+        </div>
+        <div class="mt-receipt-footer">
+            <p>This is a certified electronic ledger record of Meridian Trust Bank. No physical signature required. Deposits backing clearing are FDIC insured.</p>
+            <button type="button" class="mt-btn-print-voucher" onclick="window.print()">PRINT VOUCHER</button>
+        </div>
+    </div>
+</div>
+
+<script>
+function openReceiptModal(id, recipient, amount, date) {
+    document.getElementById("rcptId").innerText = id;
+    document.getElementById("rcptRecipient").innerText = recipient;
+    document.getElementById("rcptAmount").innerText = "$" + amount + " USD";
+    document.getElementById("rcptDate").innerText = date;
+    document.getElementById("mtReceiptModal").classList.add("active");
+}
+function closeReceiptModal(e) {
+    document.getElementById("mtReceiptModal").classList.remove("active");
+}
+document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll(".download-receipt, .view-voucher").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+            e.preventDefault();
+            const id = btn.getAttribute("data-txid") || Math.floor(100000 + Math.random() * 900000);
+            const recipient = btn.getAttribute("data-recipient");
+            const amount = btn.getAttribute("data-amount");
+            const date = btn.getAttribute("data-date");
+            openReceiptModal(id, recipient, amount, date);
+        });
+    });
+});
+</script></body>
 </html>
