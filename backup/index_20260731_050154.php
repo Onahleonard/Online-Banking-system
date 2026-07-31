@@ -35,7 +35,7 @@ session_start();
         </nav>
 
         <div class="header-buttons">
-            <a href="login.php" class="btn-login">Sign In</a>
+            <a href="customer_dashboard.php?view=login" class="btn-login">Sign In</a>
             <a href="#open-account" class="btn-open">Open Account</a>
         </div>
     </div>
@@ -53,7 +53,7 @@ session_start();
             </p>
 
             <div class="hero-buttons">
-                <a href="login.php" class="btn-primary">Online Banking Login</a>
+                <a href="customer_dashboard.php?view=login" class="btn-primary">Online Banking Login</a>
                 <a href="#services" class="btn-secondary">Explore Services</a>
             </div>
 
@@ -71,7 +71,7 @@ session_start();
                 </p>
 
                 <div class="quick-actions">
-                    <a href="login.php">Customer Login <span>→</span></a>
+                    <a href="customer_dashboard.php?view=login">Customer Login <span>→</span></a>
                     <a href="#personal">Personal Banking <span>→</span></a>
                     <a href="#business">Business Banking <span>→</span></a>
                     <a href="#commercial">Commercial Banking <span>→</span></a>

@@ -26,7 +26,7 @@ session_start();
         <a href="#">Security</a>
         <a href="#">Contact</a>
 
-        <a href="login.php" class="mt-btn-primary">
+        <a href="customer_dashboard.php?view=login" class="mt-btn-primary">
             Customer Login
         </a>
     </nav>
@@ -42,7 +42,7 @@ session_start();
         designed around you.
     </p>
 
-    <a href="login.php" class="mt-btn-primary">
+    <a href="customer_dashboard.php?view=login" class="mt-btn-primary">
         Online Banking Login
     </a>
 
