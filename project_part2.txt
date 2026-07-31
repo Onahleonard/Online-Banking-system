@@ -1,0 +1,1047 @@
+        <link rel="stylesheet" href="newcss.css">
+        <style>
+            .displaystaff_content table, th, td {
+                padding: 6px;
+                border: 1px solid #2E4372;
+                border-collapse: collapse;
+                text-align: center;
+            }
+            .tx_form {
+                margin: 20px auto;
+                width: 50%;
+                border: 1px solid #2E4372;
+                padding: 15px;
+                border-radius: 8px;
+            }
+            .tx_form td {
+                padding: 5px;
+                text-align: left;
+            }
+            .msg {
+                text-align: center;
+                color: green;
+                font-weight: bold;
+                margin: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <?php include 'header.php'; ?>
+        <div class="displaystaff_content">
+            <?php include 'admin_navbar.php'; ?>
+            
+            <h3 style="text-align:center;color:#2E4372;"><u>Manage Transactions for <?php echo htmlspecialchars($cust_name); ?></u></h3>
+            <p style="text-align:center;">Account No: <?php echo $customer_id; ?> | Email: <?php echo htmlspecialchars($customer['email']); ?></p>
+            
+            <?php if (!empty($msg)) echo "<div class='msg'>$msg</div>"; ?>
+            
+            <!-- Transaction form -->
+            <form method="POST" class="tx_form">
+                <input type="hidden" name="customer_id" value="<?php echo $customer_id; ?>">
+                <table align="center" style="border:none; width: 100%;">
+                    <tr>
+                        <td><strong>Transaction Date:</strong></td>
+                        <td><input type="date" name="tx_date" value="<?php echo date('Y-m-d'); ?>" required></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Type:</strong></td>
+                        <td>
+                            <input type="radio" name="tx_type" value="credit" checked> Credit (Deposit)
+                            <input type="radio" name="tx_type" value="debit"> Debit (Withdrawal)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Amount ($):</strong></td>
+                        <td><input type="number" name="tx_amount" step="0.01" min="0.01" required></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Narration:</strong></td>
+                        <td><input type="text" name="tx_narration" required placeholder="e.g. Wire Transfer, Cash Deposit"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align:center; padding-top:10px;">
+                            <input type="submit" name="add_tx" value="ADD TRANSACTION" class="addstaff_button">
+                        </td>
+                    </tr>
+                </table>
+            </form>
+            
+            <h3 style="text-align:center;color:#2E4372; margin-top:30px;"><u>Transaction History</u></h3>
+            <table align="center" style="width:90%; margin-bottom: 30px;">
+                <tr>
+                    <th>Id</th>
+                    <th>Date</th>
+                    <th>Narration</th>
+                    <th>Credit ($)</th>
+                    <th>Debit ($)</th>
+                    <th>Balance ($)</th>
+                </tr>
+                <?php while ($row = mysql_fetch_array($tx_res)) { ?>
+                    <tr>
+                        <td><?php echo $row[0]; ?></td>
+                        <td><?php echo $row[1]; ?></td>
+                        <td><?php echo htmlspecialchars($row[8]); ?></td>
+                        <td><?php echo $row[5] > 0 ? '$'.number_format($row[5], 2) : '-'; ?></td>
+                        <td><?php echo $row[6] > 0 ? '$'.number_format($row[6], 2) : '-'; ?></td>
+                        <td><strong>$<?php echo number_format($row[7], 2); ?></strong></td>
+                    </tr>
+                <?php } ?>
+            </table>
+        </div>
+        <?php include 'footer.php'; ?>
+    </body>
+</html>
+
+        </div>
+    </div>
+</body>
+</html>
+
+==================== C:\xampp\htdocs\Online-Banking-system\admin_navbar.php ====================
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+</head>
+<body class='bg-light'>
+    <div class='container mt-5'>
+        <div class='card p-4 shadow-sm'>
+<div class='admin_nav'>
+               <ul>
+                   <li id='caption'><b><u>Admin</u></b></li>
+                   
+                   <li><a href="admin_hompage.php">Admin Home</a></li>
+                   <li><a href="change_password.php">Change password</a></li>
+                   <li><a href="admin_edit_contact.php">Edit contact details</a></li>
+                 
+                   <li><a href="admin_logout.php">Logout</a></li>
+                   </ul>
+               </div>
+
+        </div>
+    </div>
+</body>
+</html>
+
+==================== C:\xampp\htdocs\Online-Banking-system\admin_navbar_old.php ====================
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+</head>
+<body class='bg-light'>
+    <div class='container mt-5'>
+        <div class='card p-4 shadow-sm'>
+<div class='admin_nav'>
+               <ul>
+                   <li id='caption'><b><u>Admin</u></b></li>
+                   
+                   <li><a href="admin_hompage.php">Admin Home</a></li>
+                   <li><a href="change_password.php">Change password</a></li>
+                   <li><a href="admin_edit_contact.php">Edit contact details</a></li>
+                 
+                   <li><a href="admin_logout.php">Logout</a></li>
+                   </ul>
+               </div>
+
+        </div>
+    </div>
+</body>
+</html>
+
+==================== C:\xampp\htdocs\Online-Banking-system\admin_stop_impersonate.php ====================
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+</head>
+<body class='bg-light'>
+    <div class='container mt-5'>
+        <div class='card p-4 shadow-sm'>
+<?php
+session_start();
+if (isset($_SESSION['admin_impersonator'])) {
+    unset($_SESSION['customer_login']);
+    unset($_SESSION['cust_id']);
+    unset($_SESSION['login_id']);
+    unset($_SESSION['name']);
+    unset($_SESSION['admin_impersonator']);
+}
+header('location:display_customer.php');
+exit();
+?>
+
+        </div>
+    </div>
+</body>
+</html>
+
+==================== C:\xampp\htdocs\Online-Banking-system\alter_customer.php ====================
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+</head>
+<body class='bg-light'>
+    <div class='container mt-5'>
+        <div class='card p-4 shadow-sm'>
+<?php 
+session_start();
+        
+if(!isset($_SESSION['admin_login'])) 
+    header('location:adminlogin.php');   
+?>
+
+<?php
+include '_inc/dbconn.php';
+$name=  mysql_real_escape_string($_REQUEST['edit_name']);
+$gender=  mysql_real_escape_string($_REQUEST['edit_gender']);
+$dob=  mysql_real_escape_string($_REQUEST['edit_dob']);
+$id=  mysql_real_escape_string($_REQUEST['current_id']);
+$type=  mysql_real_escape_string($_REQUEST['edit_account']);
+$nominee=  mysql_real_escape_string($_REQUEST['edit_nominee']);
+$address=  mysql_real_escape_string($_REQUEST['edit_address']);
+$mobile=  mysql_real_escape_string($_REQUEST['edit_mobile']);
+
+$sql="UPDATE customer SET  name='$name', dob='$dob', nominee='$nominee', account='$type', 
+     address='$address', 
+        mobile='$mobile', gender='$gender' WHERE id='$id'";
+mysql_query($sql) or die(mysql_error());
+header('location:admin_hompage.php');
+?>
+
+        </div>
+    </div>
+</body>
+</html>
+
+==================== C:\xampp\htdocs\Online-Banking-system\alter_staff.php ====================
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+</head>
+<body class='bg-light'>
+    <div class='container mt-5'>
+        <div class='card p-4 shadow-sm'>
+<?php 
+session_start();
+        
+if(!isset($_SESSION['admin_login'])) 
+    header('location:adminlogin.php');   
+?>
+<?php
+include '_inc/dbconn.php';
+$name=  mysql_real_escape_string($_REQUEST['edit_name']);
+$gender=  mysql_real_escape_string($_REQUEST['edit_gender']);
+$dob=  mysql_real_escape_string($_REQUEST['edit_dob']);
+$id=  mysql_real_escape_string($_REQUEST['current_id']);
+$status=  mysql_real_escape_string($_REQUEST['edit_status']);
+$dept=  mysql_real_escape_string($_REQUEST['edit_dept']);
+$doj=  mysql_real_escape_string($_REQUEST['edit_doj']);
+$address=  mysql_real_escape_string($_REQUEST['edit_address']);
+$mobile=  mysql_real_escape_string($_REQUEST['edit_mobile']);
+
+$sql="UPDATE staff SET  name='$name', dob='$dob', relationship='$status', 
+    department='$dept', doj='$doj', address='$address', 
+        mobile='$mobile', gender='$gender' WHERE id='$id'";
+mysql_query($sql) or die(mysql_error());
+header('location:admin_hompage.php');
+?>
+
+        </div>
+    </div>
+</body>
+</html>
+
+==================== C:\xampp\htdocs\Online-Banking-system\change_password.php ====================
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+</head>
+<body class='bg-light'>
+    <div class='container mt-5'>
+        <div class='card p-4 shadow-sm'>
+<?php 
+session_start();
+include '_inc/dbconn.php';
+        
+if(!isset($_SESSION['admin_login'])) 
+    header('location:adminlogin.php');   
+?>
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Change Password</title>
+        
+        <link rel="stylesheet" href="newcss.css">
+    </head>
+        <?php include 'header.php' ?>
+        <div class='content'>
+           <?php include 'admin_navbar.php'?>
+            <div class='admin_change_pwd'>
+            <form action="" method="POST">
+                <table align="center">
+                    <tr>
+                        <td>Enter old password</td>
+                        <td><input type="password" name="old_password" required=""/></td>
+                    </tr>
+                    <tr>
+                        <td>Enter new password</td>
+                        <td><input type="password" name="new_password" required=""/></td>
+                    </tr>
+                    <tr>
+                        <td>Enter password again</td>
+                        <td><input type="password" name="again_password" required=""/></td>
+                    </tr>
+                    <tr>
+                        
+                        <td colspan="2" align='center' style='padding-top:20px'><input type="submit" name="change_password" value="Change Password" class="addstaff_button"/></td>
+                    </tr>
+                </table>
+            </form>
+                </div>
+            </div>
+            <?php
+            if(isset($_REQUEST['change_password'])){
+            $sql="SELECT * FROM admin WHERE id='1'";
+            $result=mysql_query($sql);
+            $rws=  mysql_fetch_array($result);
+            $old=  mysql_real_escape_string($_REQUEST['old_password']);
+            $new=  mysql_real_escape_string($_REQUEST['new_password']);
+            $again=  mysql_real_escape_string($_REQUEST['again_password']);
+            if($rws[9]==$old && $new==$again){
+                $sql1="UPDATE admin SET pwd='$new' WHERE id='1'";
+                mysql_query($sql1) or die(mysql_error());
+                header('location:admin_hompage.php');
+            }
+            else{
+                
+                header('location:change_password.php');
+            }
+            }
+            ?>
+            
+        </div>
+        <?php include 'footer.php';?>
+
+        </div>
+    </div>
+</body>
+</html>
+
+==================== C:\xampp\htdocs\Online-Banking-system\change_password_customer.php ====================
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+</head>
+<body class='bg-light'>
+    <div class='container mt-5'>
+        <div class='card p-4 shadow-sm'>
+<?php 
+session_start();
+include '_inc/dbconn.php';
+        
+if(!isset($_SESSION['customer_login'])) 
+    header('location:index.php');   
+?>
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Change Password</title>
+        
+        <link rel="stylesheet" href="newcss.css">
+        <style>
+        .content_customer table,th,td {
+    padding:6px;
+    border: 1px solid #2E4372;
+   border-collapse: collapse;
+   text-align: center;
+}
+</style>
+    </head>
+        <?php include 'header.php' ?>
+        <div class='content_customer'>
+           <?php include 'customer_navbar.php'?>
+            <div class="customer_top_nav">
+             <div class="text">Welcome <?php echo $_SESSION['name']?></div>
+            </div>
+
+    <br><br><br><br>
+    <h3 style="text-align:center;color:#2E4372;"><u>Change Password</u></h3>
+            <form action="" method="POST">
+                <table align="center">
+                    <tr>
+                        <td>Enter old password:</td>
+                        <td><input type="password" name="old_password" required=""/></td>
+                    </tr>
+                    <tr>
+                        <td>Enter new password:</td>
+                        <td><input type="password" name="new_password" required=""/></td>
+                    </tr>
+                    <tr>
+                        <td>Enter password again:</td>
+                        <td><input type="password" name="again_password" required=""/></td>
+                    </tr>
+                    </table>
+                    
+                       <table align="center"><tr>
+                        <td><input type="submit" name="change_password" value="Change Password" class="addstaff_button"/></td>
+                    </tr>
+                </table>
+            </form>
+            <?php
+            $change=$_SESSION['login_id'];
+            if(isset($_REQUEST['change_password'])){
+            $sql="SELECT * FROM customer WHERE id='$change'";
+            $result=mysql_query($sql);
+            $rws=  mysql_fetch_array($result);
+            
+            $salt="@g26jQsG&nh*&#8v";
+            $old=  sha1($_REQUEST['old_password'].$salt);
+            $new=  sha1($_REQUEST['new_password'].$salt);
+            $again=sha1($_REQUEST['again_password'].$salt);
+            
+            if($rws[9]==$old && $new==$again){
+                $sql1="UPDATE customer SET password='$new' WHERE id='$change'";
+                mysql_query($sql1) or die(mysql_error());
+                header('location:customer_account_summary.php');
+            }
+            else{
+                
+                header('location:change_account_summary.php');
+            }
+            }
+            ?>
+            
+        </div>
+        <?php include 'footer.php';?>
+
+        </div>
+    </div>
+</body>
+</html>
+
+==================== C:\xampp\htdocs\Online-Banking-system\change_password_staff.php ====================
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+</head>
+<body class='bg-light'>
+    <div class='container mt-5'>
+        <div class='card p-4 shadow-sm'>
+<?php 
+session_start();
+include '_inc/dbconn.php';
+        
+if(!isset($_SESSION['staff_login'])) 
+    header('location:staff_login.php');   
+?>
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Change Password</title>
+        <style>
+            .displaystaff_content table,th,td {
+    padding:6px;
+    border: 1px solid #2E4372;
+   border-collapse: collapse;
+   text-align: center;
+}
+
+        </style>
+        <link rel="stylesheet" href="newcss.css">
+    </head>
+        <?php include 'header.php' ?>
+        <div class='content'>
+           <?php include 'staff_navbar.php'?>
+            <div class="displaystaff_content">
+                
+                <h3 style="text-align:center;color:#2E4372;"><u>Change Password</u></h3>
+            <form action="" method="POST">
+                <table align="center">
+                    <tr>
+                        <td>Enter old password</td>
+                        <td><input type="password" name="old_password" required=""/></td>
+                    </tr>
+                    <tr>
+                        <td>Enter new password</td>
+                        <td><input type="password" name="new_password" required=""/></td>
+                    </tr>
+                    <tr>
+                        <td>Enter password again</td>
+                        <td><input type="password" name="again_password" required=""/></td>
+                    </tr></table>
+                    
+                        <table align="center"><tr>
+                        <td><input type="submit" name="change_password" value="Change Password" class='addstaff_button'/></td>
+                    </tr>
+                </table>
+            </form>
+            <?php
+            $user=$_SESSION['login_id'];
+            if(isset($_REQUEST['change_password'])){
+            $sql="SELECT * FROM staff WHERE email='$user'";
+            $result=mysql_query($sql);
+            $rws=  mysql_fetch_array($result);
+            $old=  mysql_real_escape_string($_REQUEST['old_password']);
+            $new=  mysql_real_escape_string($_REQUEST['new_password']);
+            $again=  mysql_real_escape_string($_REQUEST['again_password']);
+            if($rws[9]==$old && $new==$again){
+                $sql1="UPDATE staff SET pwd='$new' WHERE email='$user'";
+                mysql_query($sql1) or die(mysql_error());
+                header('location:staff_homepage.php');
+            }
+            else{
+                /*RASHID give the pop up window about something went wrong try again*/
+                header('location:change_password_staff.php');
+            }
+            }
+            ?>
+            
+        </div>
+        <?php include 'footer.php';?>
+
+        </div>
+    </div>
+</body>
+</html>
+
+==================== C:\xampp\htdocs\Online-Banking-system\check_columns.php ====================
+<?php
+require_once "db.php";
+$query = "DESCRIBE admin";
+$result = $conn->query($query);
+echo "<pre>";
+while($row = $result->fetch_assoc()) {
+    print_r($row);
+}
+echo "</pre>";
+?>
+
+==================== C:\xampp\htdocs\Online-Banking-system\contact.php ====================
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+</head>
+<body class='bg-light'>
+    <div class='container mt-5'>
+        <div class='card p-4 shadow-sm'>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Contact Us</title>
+        
+        <link rel="stylesheet" href="newcss.css">
+        <style>
+            .heading{
+                font-weight:bold;
+                color:#2E4372;
+            }
+        </style>
+    </head>
+    <?php include 'header.php' ?>
+    <div class='content_customer'>
+        <h3 style="text-align:center;color:#2E4372;"><u>Contact Us</u></h3>
+        
+        <div class="contact">
+        <?php 
+        include '_inc/dbconn.php';
+        $sql = "SELECT * FROM contact_details";
+        $res = mysql_query($sql);
+        if ($res && mysql_num_rows($res) > 0) {
+            while ($row = mysql_fetch_array($res)) {
+                echo "<h3 style='color:#2E4372;'><u>" . htmlspecialchars($row['branch_name']) . "</u></h3>";
+                echo "<p><span class='heading'>Address - </span>" . htmlspecialchars($row['address']) . "</p>";
+                echo "<p><span class='heading'>Tel - </span>" . htmlspecialchars($row['phone']) . "</p>";
+                echo "<p><span class='heading'>Email - </span>" . htmlspecialchars($row['email']) . "</p>";
+            }
+        } else {
+            echo "<p style='text-align:center;'>No branch details available.</p>";
+        }
+        ?>
+        </div>
+    </div>
+    <?php include 'footer.php'; ?>
+</html>
+
+        </div>
+    </div>
+</body>
+</html>
+
+==================== C:\xampp\htdocs\Online-Banking-system\customer_account_statement.php ====================
+<?php
+// Preserve existing authentication and session checks
+session_start();
+if (!isset($_SESSION['customer_id'])) {
+    header("Location: login.php");
+    exit();
+}
+
+include 'db.php';
+$customer_id = $_SESSION['customer_id'];
+
+// Fetch transaction history
+$stmt_query = "SELECT * FROM transactions WHERE customer_id = '$customer_id' ORDER BY transaction_date DESC";
+$stmt_result = mysqli_query($conn, $stmt_query);
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Statement - Meridian Online Banking</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="newcss.css">
+</head>
+<body>
+
+    <?php include 'customer_navbar.php'; ?>
+
+    <main class="bank-container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="h3 fw-bold mb-1">Account Statement</h1>
+                <p class="text-muted small mb-0">View complete historical account statement and activity.</p>
+            </div>
+            <button onclick="window.print()" class="btn btn-outline-secondary btn-sm rounded-pill px-3">
+                Print Statement
+            </button>
+        </div>
+
+        <div class="bank-card">
+            <div class="bank-table-responsive">
+                <table class="bank-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Account No</th>
+                            <th>Description</th>
+                            <th>Type</th>
+                            <th class="text-end">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if ($stmt_result && mysqli_num_rows($stmt_result) > 0): ?>
+                            <?php while ($row = mysqli_fetch_assoc($stmt_result)): ?>
+                                <tr>
+                                    <td><?php echo date('M d, Y', strtotime($row['transaction_date'])); ?></td>
+                                    <td>•••• <?php echo substr($row['account_no'] ?? '0000', -4); ?></td>
+                                    <td class="fw-medium"><?php echo htmlspecialchars($row['description']); ?></td>
+                                    <td><span class="badge bg-light text-dark border"><?php echo htmlspecialchars($row['type']); ?></span></td>
+                                    <td class="text-end <?php echo strtolower($row['type']) === 'credit' ? 'text-credit' : 'text-debit'; ?>">
+                                        <?php echo strtolower($row['type']) === 'credit' ? '+' : '-'; ?> $<?php echo number_format($row['amount'], 2); ?>
+                                    </td>
+                                </tr>
+                            <?php endwhile; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td colspan="5" class="text-center text-muted py-4">No statement history found.</td>
+                            </tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.querySelector('.nav-stmt')?.classList.add('active');
+    </script>
+</body>
+</html>
+
+==================== C:\xampp\htdocs\Online-Banking-system\customer_account_statement_date.php ====================
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+</head>
+<body class='bg-light'>
+    <div class='container mt-5'>
+        <div class='card p-4 shadow-sm'>
+<?php 
+session_start();
+        
+if(!isset($_SESSION['customer_login'])) 
+    header('location:index.php');   
+?>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Account Statement</title>
+        
+        <link rel="stylesheet" href="newcss.css">
+        <style>
+            .content_customer table,th,td {
+    padding:6px;
+    border: 1px solid #2E4372;
+   border-collapse: collapse;
+   text-align: center;
+}
+
+        </style>
+    </head>
+        <?php include 'header.php' ?>
+<div class='content_customer'>
+
+           <?php include 'customer_navbar.php'?>
+    <p><b>Welcome <?php echo $_SESSION['name']?></b></p>
+    
+
+
+    
+    <h3 style="text-align:center;color:#2E4372;"><u>Account summary by Date</u></h3>
+  
+    
+            
+    <table align="center">
+                        
+                        <th>Id</th>
+                        <th>Transaction Date</th>
+                        <th>Narration</th>
+                        <th>Credit</th>
+                        <th>Debit</th>
+                        <th>Balance Amount</th>
+                        
+                        <?php if(isset($_REQUEST['summary_date'])) {
+                         $date1=$_REQUEST['date1'];
+                         $date2=$_REQUEST['date2'];
+                         
+                         include '_inc/dbconn.php';
+                         $sender_id=$_SESSION["login_id"];
+                         $sql="SELECT * FROM passbook".$sender_id." WHERE transactiondate BETWEEN '$date1' AND '$date2'";
+                         $result=  mysql_query($sql) or die(mysql_error());
+                        while($rws=  mysql_fetch_array($result)){
+                            
+                            echo "<tr>";
+                            echo "<td>".$rws[0]."</td>";
+                            echo "<td>".$rws[1]."</td>";
+                            echo "<td>".$rws[8]."</td>";
+                            echo "<td>".$rws[5]."</td>";
+                            echo "<td>".$rws[6]."</td>";
+                            echo "<td>".$rws[7]."</td>";
+                           
+                            echo "</tr>";
+                        }
+                        } ?>
+</table>
+    </div>
+        <?php include 'footer.php'?>
+
+        </div>
+    </div>
+</body>
+</html>
+
+==================== C:\xampp\htdocs\Online-Banking-system\customer_issue_atm.php ====================
+<?php
+session_start();
+if (!isset($_SESSION['customer_id'])) {
+    header("Location: login.php");
+    exit();
+}
+
+include 'db.php';
+$customer_id = $_SESSION['customer_id'];
+$message = "";
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['request_card'])) {
+    $card_type = mysqli_real_escape_string($conn, $_POST['card_type']);
+    $account_no = mysqli_real_escape_string($conn, $_POST['account_no']);
+
+    $req_sql = "INSERT INTO atm_requests (customer_id, account_no, card_type, request_date, status) VALUES ('$customer_id', '$account_no', '$card_type', NOW(), 'Pending')";
+    if (mysqli_query($conn, $req_sql)) {
+        $message = "Your debit card request has been submitted successfully.";
+    }
+}
+
+$accounts_query = mysqli_query($conn, "SELECT * FROM bank_accounts WHERE customer_id = '$customer_id'");
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Management - Meridian Online Banking</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="newcss.css">
+</head>
+<body>
+
+    <?php include 'customer_navbar.php'; ?>
+
+    <main class="bank-container" style="max-width: 650px;">
+        <div class="mb-4">
+            <h1 class="h3 fw-bold mb-1">Issue / Request Debit Card</h1>
+            <p class="text-muted">Order a new physical debit or ATM card for your account.</p>
+        </div>
+
+        <?php if ($message): ?>
+            <div class="alert alert-success border-0 shadow-sm mb-4" role="alert">
+                <?php echo htmlspecialchars($message); ?>
+            </div>
+        <?php endif; ?>
+
+        <div class="bank-card">
+            <form action="customer_issue_atm.php" method="POST">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Select Account</label>
+                    <select name="account_no" class="bank-form-control" required>
+                        <option value="">Choose account</option>
+                        <?php 
+                        if ($accounts_query && mysqli_num_rows($accounts_query) > 0) {
+                            while ($acc = mysqli_fetch_assoc($accounts_query)) {
+                                echo "<option value='".$acc['account_no']."'>".ucfirst($acc['account_type'])." (•••• ".substr($acc['account_no'], -4).")</option>";
+                            }
+                        }
+                        ?>
+                    </select>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">Card Type</label>
+                    <select name="card_type" class="bank-form-control" required>
+                        <option value="Visa Debit">Visa Debit</option>
+                        <option value="Mastercard Debit">Mastercard Debit</option>
+                    </select>
+                </div>
+
+                <button type="submit" name="request_card" class="bank-btn-primary w-100">
+                    Request Card
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.querySelector('.nav-atm')?.classList.add('active');
+    </script>
+</body>
+</html>
+
+==================== C:\xampp\htdocs\Online-Banking-system\customer_issue_atm_process.php ====================
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+</head>
+<body class='bg-light'>
+    <div class='container mt-5'>
+        <div class='card p-4 shadow-sm'>
+<?php 
+session_start();
+        
+if(!isset($_SESSION['customer_login'])) 
+    header('location:index.php');   
+?>
+<?php
+include '_inc/dbconn.php';
+$name=$_SESSION['name'];
+$account_no=$_SESSION['login_id'];
+$option=$_REQUEST['atm'];
+
+$atm_status=$cheque_book_status="NOT REQUESTED";
+if($option=='ATM')
+    $atm_status="PENDING";
+else
+    $cheque_book_status="PENDING";
+    
+
+    $sql="SELECT * FROM cheque_book WHERE account_no='$account_no'";
+    $result=mysql_query($sql) or die(mysql_error());
+    $rws=mysql_fetch_array($result);
+    $c_status=$rws[3];
+    $c_id=$rws[2];
+    
+    $sql="SELECT * FROM atm WHERE account_no='$account_no'";
+    $result=  mysql_query($sql) or die(mysql_error());
+    $rws=  mysql_fetch_array($result);
+    $a_status=$rws[3];
+    $a_id=$rws[2];
+    
+    
+    if(($option=='ATM' && (($a_status=='PENDING')||($a_status=='ISSUED'))) || ($option=='CHEQUE' && (($c_status=='PENDING')||($c_status=='ISSUED'))))           
+    {
+        echo '<script>alert("You have already made a request!");';
+   echo 'window.location= "customer_issue_atm.php";</script>';
+}
+  
+elseif($option=='ATM'){
+$sql="insert into atm values('','$name','$account_no','$atm_status')";
+mysql_query($sql) or die(mysql_error());
+
+echo '<script>alert("Request succesfull. You will recieve confirmation from branch very soon.");';
+echo 'window.location= "customer_issue_atm.php";</script>';
+}
+else {
+$sql="insert into cheque_book values('','$name','$account_no','$cheque_book_status')";
+mysql_query($sql) or die(mysql_error());
+
+echo '<script>alert("Request succesfull. You will recieve confirmation from branch very soon.");';
+echo 'window.location= "customer_issue_atm.php";</script>';
+}
+
+
+?>
+
+        </div>
+    </div>
+</body>
+</html>
+
+==================== C:\xampp\htdocs\Online-Banking-system\customer_logout.php ====================
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+</head>
+<body class='bg-light'>
+    <div class='container mt-5'>
+        <div class='card p-4 shadow-sm'>
+<?php 
+session_start();
+
+include '_inc/dbconn.php';
+
+$date=date('Y-m-d h:i:s');
+$id=$_SESSION['login_id'];
+$sql="UPDATE customer SET lastlogin='$date' WHERE id='$id'";
+mysql_query($sql) or die(mysql_error());
+
+session_destroy();
+header('location:index.php');
+?>
+
+        </div>
+    </div>
+</body>
+</html>
+
+==================== C:\xampp\htdocs\Online-Banking-system\customer_mini_statement.php ====================
+<?php
+session_start();
+if (!isset($_SESSION['customer_id'])) {
+    header("Location: login.php");
+    exit();
+}
+
+include 'db.php';
+$customer_id = $_SESSION['customer_id'];
+
+// Fetch latest 10 transactions
+$mini_query = "SELECT * FROM transactions WHERE customer_id = '$customer_id' ORDER BY transaction_date DESC LIMIT 10";
+$mini_result = mysqli_query($conn, $mini_query);
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Statement - Meridian Online Banking</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="newcss.css">
+</head>
+<body>
+
+    <?php include 'customer_navbar.php'; ?>
+
+    <main class="bank-container" style="max-width: 800px;">
+        <div class="mb-4">
+            <h1 class="h3 fw-bold mb-1">Mini Statement</h1>
+            <p class="text-muted">Summary of your 10 most recent posted transactions.</p>
+        </div>
+
+        <div class="bank-card">
+            <div class="bank-table-responsive">
+                <table class="bank-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th class="text-end">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if ($mini_result && mysqli_num_rows($mini_result) > 0): ?>
+                            <?php while ($row = mysqli_fetch_assoc($mini_result)): ?>
+                                <tr>
+                                    <td><?php echo date('M d, Y', strtotime($row['transaction_date'])); ?></td>
+                                    <td class="fw-medium"><?php echo htmlspecialchars($row['description']); ?></td>
+                                    <td class="text-end <?php echo strtolower($row['type']) === 'credit' ? 'text-credit' : 'text-debit'; ?>">
+                                        <?php echo strtolower($row['type']) === 'credit' ? '+' : '-'; ?> $<?php echo number_format($row['amount'], 2); ?>
+                                    </td>
+                                </tr>
+                            <?php endwhile; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td colspan="3" class="text-center text-muted py-4">No recent transactions.</td>
+                            </tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+==================== C:\xampp\htdocs\Online-Banking-system\customer_navbar.php ====================
+<nav class="navbar navbar-expand-lg bank-navbar sticky-top">
+    <div class="container-fluid max-width-1200 px-3">
+        <a class="navbar-brand text-white fw-bold d-flex align-items-center gap-2" href="dashboard.php">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 14v3M12 14v3M16 14v3"/></svg>
+            <span>MERIDIAN ONLINE</span>
+        </a>
+        <button class="navbar-toggler border-0 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#bankNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="bankNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                <li class="nav-item">
+                    <a class="nav-link nav-dash" href="dashboard.php">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-transfer" href="customer_transfer.php">Transfers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-stmt" href="customer_account_statement.php">Statements</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-atm" href="customer_issue_atm.php">Cards</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-profile" href="customer_personal_details.php">Profile & Settings</a>
+                </li>
+            </ul>
+            <div class="d-flex align-items-center gap-3">
+                <a href="logout.php" class="btn btn-outline-light btn-sm px-3 rounded-pill">Sign Out</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+==================== C:\xampp\htdocs\Online-Banking-system\customer_personal_details.php ====================
+<?php
+// Preserve existing authentication and session checks
+session_start();
+if (!isset($_SESSION['customer_id'])) {
+    header("Location: login.php");
+    exit();

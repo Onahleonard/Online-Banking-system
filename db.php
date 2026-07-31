@@ -1,12 +1,4 @@
-<?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "bank_db";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+﻿<?php
+// Unified Database Connection Gateway
+require_once __DIR__ . '/_inc/dbconn.php';
 ?>

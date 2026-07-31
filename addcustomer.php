@@ -1,113 +1,112 @@
-<!DOCTYPE html>
-<html lang='en'>
-<head>
-    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
-</head>
-<body class='bg-light'>
-    <div class='container mt-5'>
-        <div class='card p-4 shadow-sm'>
-<?php 
+﻿<?php
 session_start();
-        
-if(!isset($_SESSION['admin_login'])) 
-    header('location:adminlogin.php');   
+if (!isset($_SESSION['admin_login'])) {
+    header('location:adminlogin.php');
+    exit();
+}
 ?>
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Add Customer</title>
-        
-        <link rel="stylesheet" href="newcss.css">
-    </head>
-<?php include 'header.php'; ?>
-<div class='content_addstaff'>
-    <?php include 'admin_navbar.php'?>
-            <div class='addstaff'>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Customer - Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="newcss.css">
+</head>
+<body class="bg-light">
 
-<form action="add_customer.php" method="POST">
-            <table align="center">
-                <tr><td colspan='2' align='center' style='color:#2E4372;'><h3><u>Add Customer</u></h3></td></tr>
-                <tr>
-                    <td> Customer's name</td>
-                    <td><input type="text" name="customer_name" required=""/></td>
-                </tr>
-                <tr>
-                    <td>Gender</td>
-                    <td>
-                        M<input type="radio" name="customer_gender" value="M" checked/>
-                        F<input type="radio" name="customer_gender" value="F" />
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        DOB
-                    </td>
-                    <td>
-                        <input type="date" name="customer_dob" required=""/>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Nominee</td>
-                    <td><input type="text" name="customer_nominee" required=""/></td>
-                </tr>
-                <tr>
-                    <td>
-                        Branch
-                    </td>
-                    <td>
-                        <select name="branch">
-                            <option>KOLKATA</option>
-                            <option>DELHI</option>
-                            <option>BANGALORE</option>
-                            
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Account type</td>
-                    <td>
-                        <select name="customer_account">
-                            <option>savings</option>
-                            <option>current</option>
-                            
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Starting Balance ($)</td>
-                    <td><input type="number" name="initial" value="1000" min="0" required=""/></td>
-                </tr>
-                
-                <tr>
-                    <td>Address:</td>
-                    <td><textarea name="customer_address" required=""></textarea></td>
-                </tr>
-                <tr>
-                    <td>Mobile</td>
-                    <td><input type="text" name="customer_mobile" required=""/></td>
-                </tr>
+    <?php include 'header.php'; ?>
 
-                <tr>
-                    <td>Email id</td>
-                    <td><input type="email" name="customer_email" required=""/></td>
-                </tr>
-                <tr>
-                    <td>Password</td>
-                    <td><input type="password" name="customer_pwd" required=""/></td>
-                </tr>
-                <tr>
-                    <td colspan="2" align='center' style='padding-top:20px'><input type="submit" name="add_customer" value="Add Customer" class="addstaff_button"/></td>
-                </tr>
-            </table>
+    <div class="container my-4">
+        <div class="row">
+            <div class="col-md-3 mb-4">
+                <?php include 'admin_navbar.php'; ?>
             </div>
-    </div>
-        </form>
-<?php include 'footer.php';?>
-    </body>
-</html>
+            <div class="col-md-9">
+                <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
+                    <h1 class="h4 fw-bold text-dark mb-4 border-bottom pb-2">Add New Customer</h1>
 
+                    <form action="add_customer.php" method="POST">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Customer Name</label>
+                                <input type="text" name="customer_name" class="form-control" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Gender</label>
+                                <div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="customer_gender" value="M" checked>
+                                        <label class="form-check-label">Male</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="customer_gender" value="F">
+                                        <label class="form-check-label">Female</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Date of Birth</label>
+                                <input type="date" name="customer_dob" class="form-control" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Nominee Name</label>
+                                <input type="text" name="customer_nominee" class="form-control" required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Branch</label>
+                                <select name="branch" class="form-select">
+                                    <option value="KOLKATA">Kolkata</option>
+                                    <option value="DELHI">Delhi</option>
+                                    <option value="BANGALORE">Bangalore</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Account Type</label>
+                                <select name="customer_account" class="form-select">
+                                    <option value="savings">Savings</option>
+                                    <option value="current">Current</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Opening Balance ($)</label>
+                                <input type="number" name="initial" class="form-control" value="1000" min="0" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Mobile Number</label>
+                                <input type="text" name="customer_mobile" class="form-control" required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Email Address</label>
+                                <input type="email" name="customer_email" class="form-control" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Password</label>
+                                <input type="password" name="customer_pwd" class="form-control" required>
+                            </div>
+
+                            <div class="col-12">
+                                <label class="form-label fw-semibold">Address</label>
+                                <textarea name="customer_address" class="form-control" rows="2" required></textarea>
+                            </div>
+
+                            <div class="col-12 mt-4">
+                                <button type="submit" name="add_customer" class="btn btn-primary rounded-pill px-4">Create Customer Account</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
+
+    <?php include 'footer.php'; ?>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

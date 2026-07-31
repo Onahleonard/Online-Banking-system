@@ -1,68 +1,52 @@
-<!DOCTYPE html>
-<html lang='en'>
-<head>
-    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
-</head>
-<body class='bg-light'>
-    <div class='container mt-5'>
-        <div class='card p-4 shadow-sm'>
-<?php 
+﻿<?php
 session_start();
-        
-if(!isset($_SESSION['customer_login'])) 
-    header('location:index.php');   
-?>
-<?php
+if (!isset($_SESSION['customer_login']) || !isset($_SESSION['login_id'])) {
+    header('location:login.php');
+    exit();
+}
+
 include '_inc/dbconn.php';
-$name=$_SESSION['name'];
-$account_no=$_SESSION['login_id'];
-$option=$_REQUEST['atm'];
 
-$atm_status=$cheque_book_status="NOT REQUESTED";
-if($option=='ATM')
-    $atm_status="PENDING";
-else
-    $cheque_book_status="PENDING";
-    
+$name = mysql_real_escape_string($_SESSION['name']);
+$account_no = mysql_real_escape_string($_SESSION['login_id']);
+$option = isset($_REQUEST['atm']) ? $_REQUEST['atm'] : '';
 
-    $sql="SELECT * FROM cheque_book WHERE account_no='$account_no'";
-    $result=mysql_query($sql) or die(mysql_error());
-    $rws=mysql_fetch_array($result);
-    $c_status=$rws[3];
-    $c_id=$rws[2];
-    
-    $sql="SELECT * FROM atm WHERE account_no='$account_no'";
-    $result=  mysql_query($sql) or die(mysql_error());
-    $rws=  mysql_fetch_array($result);
-    $a_status=$rws[3];
-    $a_id=$rws[2];
-    
-    
-    if(($option=='ATM' && (($a_status=='PENDING')||($a_status=='ISSUED'))) || ($option=='CHEQUE' && (($c_status=='PENDING')||($c_status=='ISSUED'))))           
-    {
-        echo '<script>alert("You have already made a request!");';
-   echo 'window.location= "customer_issue_atm.php";</script>';
+if ($option === 'ATM') {
+    // Check pending/issued status
+    $sql = "SELECT * FROM atm WHERE account_no='$account_no'";
+    $result = mysql_query($sql);
+    if ($result && $rws = mysql_fetch_array($result)) {
+        if ($rws['atm_status'] === 'PENDING' || $rws['atm_status'] === 'ISSUED') {
+            echo '<script>alert("You already have an active or pending ATM request!"); window.location="customer_issue_atm.php";</script>';
+            exit();
+        }
+    }
+
+    $sql_insert = "INSERT INTO atm VALUES('', '$name', '$account_no', 'PENDING')";
+    mysql_query($sql_insert) or die(mysql_error());
+
+    echo '<script>alert("ATM Card request submitted successfully. Awaiting branch approval."); window.location="customer_issue_atm.php";</script>';
+    exit();
+
+} elseif ($option === 'CHEQUE') {
+    // Check pending/issued status
+    $sql = "SELECT * FROM cheque_book WHERE account_no='$account_no'";
+    $result = mysql_query($sql);
+    if ($result && $rws = mysql_fetch_array($result)) {
+        if ($rws['cheque_book_status'] === 'PENDING' || $rws['cheque_book_status'] === 'ISSUED') {
+            echo '<script>alert("You already have an active or pending Cheque Book request!"); window.location="customer_issue_atm.php";</script>';
+            exit();
+        }
+    }
+
+    $sql_insert = "INSERT INTO cheque_book VALUES('', '$name', '$account_no', 'PENDING')";
+    mysql_query($sql_insert) or die(mysql_error());
+
+    echo '<script>alert("Cheque Book request submitted successfully. Awaiting branch approval."); window.location="customer_issue_atm.php";</script>';
+    exit();
+
+} else {
+    header('location:customer_issue_atm.php');
+    exit();
 }
-  
-elseif($option=='ATM'){
-$sql="insert into atm values('','$name','$account_no','$atm_status')";
-mysql_query($sql) or die(mysql_error());
-
-echo '<script>alert("Request succesfull. You will recieve confirmation from branch very soon.");';
-echo 'window.location= "customer_issue_atm.php";</script>';
-}
-else {
-$sql="insert into cheque_book values('','$name','$account_no','$cheque_book_status')";
-mysql_query($sql) or die(mysql_error());
-
-echo '<script>alert("Request succesfull. You will recieve confirmation from branch very soon.");';
-echo 'window.location= "customer_issue_atm.php";</script>';
-}
-
-
 ?>
-
-        </div>
-    </div>
-</body>
-</html>

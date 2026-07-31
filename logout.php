@@ -1,15 +1,16 @@
-<!DOCTYPE html>
-<html lang='en'>
-<head>
-    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
-</head>
-<body class='bg-light'>
-    <div class='container mt-5'>
-        <div class='card p-4 shadow-sm'>
-<?php
+﻿<?php
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+
+include '_inc/dbconn.php';
+
+if (isset($_SESSION['login_id'])) {
+    $date = date('Y-m-d H:i:s');
+    $id = mysql_real_escape_string($_SESSION['login_id']);
+    mysql_query("UPDATE customer SET lastlogin='$date' WHERE id='$id'");
+}
+
 $_SESSION = array();
 
 if (ini_get("session.use_cookies")) {
@@ -22,10 +23,5 @@ if (ini_get("session.use_cookies")) {
 
 session_destroy();
 header("location:index.php");
-exit;
+exit();
 ?>
-
-        </div>
-    </div>
-</body>
-</html>

@@ -1,69 +1,63 @@
-<!DOCTYPE html>
-<html lang='en'>
-<head>
-    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
-</head>
-<body class='bg-light'>
-    <div class='container mt-5'>
-        <div class='card p-4 shadow-sm'>
-<?php 
+﻿<?php
 session_start();
-        
-if(!isset($_SESSION['customer_login'])) 
-    header('location:index.php');   
+if (!isset($_SESSION['customer_login'])) {
+    header('location:login.php');
+    exit();
+}
 ?>
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Add Beneficiary</title>
-        
-        <link rel="stylesheet" href="newcss.css">
-        <style>
-            .content_customer table,th,td {
-    padding:6px;
-    border: 1px solid #2E4372;
-   border-collapse: collapse;
-   text-align: center;
-}
-.content_customer td{
-    
-    
-}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Beneficiary - Meridian Online Banking</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="newcss.css">
+</head>
+<body class="bg-light">
 
-        </style>
-    </head>
-        <?php include 'header.php' ?>
-<div class='content_customer'>
-            
-           <?php include 'customer_navbar.php'?>
-    <div class="customer_top_nav">
-             <div class="text">Welcome <?php echo $_SESSION['name']?></div>
-            </div>
-    <br><br>
-    <form action='add_beneficiary_process.php' method='post'>
-        <br><br>
-        <h3 style="text-align:center;color:#2E4372;"><u>Add Beneficiary</u></h3>
-        <table align="center">
-            
-            <tr><td><span class="heading">Payee Name: </span></td><td><input type='text' name='name' required></td></tr>
-            <tr><td><span class="heading">Account No: </span></td><td><input type='text' name='account_no' required></td></tr>
-            <tr><td><span class="heading">Select Branch: </span></td><td><select name='branch_select' required>
-                        
-                        <option value='KOLKATA'>Kolkata</option>
-                        <option value='DELHI'>Delhi</option>
-                        <option value='BANGALORE'>Bangalore</option>
-                        </select></td></tr>
-            <tr><td><span class="heading">Ifsc Code: </span></td><td><input type='text' name='ifsc_code' required></td></tr> </table>
-           <table align="center"> <tr><td><input type='submit' name='submitBtn' value='Add Beneficiary' class="addstaff_button">
-        </table>
-        
-        </form>
-    
-    <?php include 'footer.php'?>
-           
+    <?php include 'customer_navbar.php'; ?>
 
+    <main class="container my-5" style="max-width: 600px;">
+        <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
+            <h1 class="h4 fw-bold text-dark mb-2">Add New Beneficiary</h1>
+            <p class="text-muted small mb-4">Register a payee for future fund transfers. Requests require staff approval.</p>
+
+            <form action="add_beneficiary_process.php" method="POST">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Payee Name</label>
+                    <input type="text" name="name" class="form-control" required placeholder="Full Name as per bank account">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Account Number</label>
+                    <input type="text" name="account_no" class="form-control" required placeholder="Customer Account ID">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Select Branch</label>
+                    <select name="branch_select" class="form-select" required>
+                        <option value="KOLKATA">Kolkata</option>
+                        <option value="DELHI">Delhi</option>
+                        <option value="BANGALORE">Bangalore</option>
+                    </select>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">IFSC Code</label>
+                    <input type="text" name="ifsc_code" class="form-control" required placeholder="e.g. K421A">
+                </div>
+
+                <button type="submit" name="submitBtn" class="btn btn-primary w-100 py-2 rounded-pill fw-semibold">Submit Beneficiary Request</button>
+            </form>
         </div>
-    </div>
+    </main>
+
+    <?php include 'footer.php'; ?>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.querySelector('.nav-payee')?.classList.add('active');
+    </script>
 </body>
 </html>

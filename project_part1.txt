@@ -1,0 +1,1047 @@
+
+==================== C:\xampp\htdocs\Online-Banking-system\account_summary.php ====================
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+</head>
+<body class='bg-light'>
+    <div class='container mt-5'>
+        <div class='card p-4 shadow-sm'>
+<?php 
+session_start();
+        
+if(!isset($_SESSION['customer_login'])) 
+    header('location:index.php');   
+?>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+        
+        <link rel="stylesheet" href="newcss.css">
+    </head>
+        <?php include 'header.php' ?>
+        <div class='content_customer'>
+            
+           <?php include 'customer_navbar.php'?>
+            
+            <?php
+                $cust_id=$_SESSION['cust_id'];
+                include '_inc/dbconn.php';
+                $sql="SELECT * FROM customer WHERE email='$cust_id'";
+                $result=  mysql_query($sql) or die(mysql_error());
+                $rws=  mysql_fetch_array($result);
+                
+                
+                $name= $rws[1];
+                $account_no= $rws[0];
+                $branch=$rws[10];
+                $branch_code= $rws[11];
+                $last_login= $rws[12];
+                $acc_status=$rws[13];
+                $address=$rws[6];
+                $acc_type=$rws[5];
+                
+                $gender=$rws[2];
+                $mobile=$rws[7];
+                $email=$rws[8];
+                
+                $_SESSION['login_id']=$account_no;
+                $_SESSION['name']=$name;
+                
+                $sql="SELECT * FROM passbook".$_SESSION['login_id'] ;
+                $result=  mysql_query($sql) or die(mysql_error());
+                $rws=  mysql_fetch_array($result);
+                
+                $balance=$rws[6];
+                                
+?>
+            <p>Name: <?php echo $name;?></p>
+            <p>gender: <?php if($gender=='M') echo "Male"; else echo "Female";?></p>
+            <p>Mobile: <?php echo $mobile;?></p>
+            <p>Email: <?php echo $email;?></p>
+            <br>
+            <p>Account No: <?php echo $account_no;?></p>
+            <p>Branch: <?php echo $branch;?></p>
+            <p>Branch Code: <?php echo $branch_code;?></p>
+            <p>Last Login: <?php echo $last_login;?></p>
+            <br>
+            <p>Account status: <?php echo $acc_status;?></p>
+            <p>Account Type: <?php echo $acc_type;?></p>
+            <p>Address: <?php echo $address;?></p>
+            
+        </div>
+               <?php include 'footer.php';?>
+            
+    </body>
+</html>
+
+        </div>
+    </div>
+</body>
+</html>
+
+==================== C:\xampp\htdocs\Online-Banking-system\addcustomer.php ====================
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+</head>
+<body class='bg-light'>
+    <div class='container mt-5'>
+        <div class='card p-4 shadow-sm'>
+<?php 
+session_start();
+        
+if(!isset($_SESSION['admin_login'])) 
+    header('location:adminlogin.php');   
+?>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Add Customer</title>
+        
+        <link rel="stylesheet" href="newcss.css">
+    </head>
+<?php include 'header.php'; ?>
+<div class='content_addstaff'>
+    <?php include 'admin_navbar.php'?>
+            <div class='addstaff'>
+
+<form action="add_customer.php" method="POST">
+            <table align="center">
+                <tr><td colspan='2' align='center' style='color:#2E4372;'><h3><u>Add Customer</u></h3></td></tr>
+                <tr>
+                    <td> Customer's name</td>
+                    <td><input type="text" name="customer_name" required=""/></td>
+                </tr>
+                <tr>
+                    <td>Gender</td>
+                    <td>
+                        M<input type="radio" name="customer_gender" value="M" checked/>
+                        F<input type="radio" name="customer_gender" value="F" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        DOB
+                    </td>
+                    <td>
+                        <input type="date" name="customer_dob" required=""/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Nominee</td>
+                    <td><input type="text" name="customer_nominee" required=""/></td>
+                </tr>
+                <tr>
+                    <td>
+                        Branch
+                    </td>
+                    <td>
+                        <select name="branch">
+                            <option>KOLKATA</option>
+                            <option>DELHI</option>
+                            <option>BANGALORE</option>
+                            
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Account type</td>
+                    <td>
+                        <select name="customer_account">
+                            <option>savings</option>
+                            <option>current</option>
+                            
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Starting Balance ($)</td>
+                    <td><input type="number" name="initial" value="1000" min="0" required=""/></td>
+                </tr>
+                
+                <tr>
+                    <td>Address:</td>
+                    <td><textarea name="customer_address" required=""></textarea></td>
+                </tr>
+                <tr>
+                    <td>Mobile</td>
+                    <td><input type="text" name="customer_mobile" required=""/></td>
+                </tr>
+
+                <tr>
+                    <td>Email id</td>
+                    <td><input type="email" name="customer_email" required=""/></td>
+                </tr>
+                <tr>
+                    <td>Password</td>
+                    <td><input type="password" name="customer_pwd" required=""/></td>
+                </tr>
+                <tr>
+                    <td colspan="2" align='center' style='padding-top:20px'><input type="submit" name="add_customer" value="Add Customer" class="addstaff_button"/></td>
+                </tr>
+            </table>
+            </div>
+    </div>
+        </form>
+<?php include 'footer.php';?>
+    </body>
+</html>
+
+        </div>
+    </div>
+</body>
+</html>
+
+==================== C:\xampp\htdocs\Online-Banking-system\addstaff.php ====================
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+</head>
+<body class='bg-light'>
+    <div class='container mt-5'>
+        <div class='card p-4 shadow-sm'>
+<?php 
+session_start();
+        
+if(!isset($_SESSION['admin_login'])) 
+    header('location:adminlogin.php');   
+?>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Add Staff</title>
+        
+        <link rel="stylesheet" href="newcss.css">
+    </head>
+
+<?php include 'header.php'; ?>
+    
+        <div class='content_addstaff'>
+            <?php include 'admin_navbar.php'?>
+            <div class='addstaff'>
+        <form action="add_staff.php" method="POST">
+             <table align='center'>
+                 <tr><td colspan='2' align='center' style='color:#2E4372;'><h3><u>Add Staff</u></h3></td></tr>
+                <tr>
+                    <td> Staff's name</td>
+                    <td><input type="text" name="staff_name" required=""/></td>
+                </tr>
+                <tr>
+                    <td>gender</td>
+                    <td>
+                        M<input type="radio" name="staff_gender" value="M" checked/>
+                        F<input type="radio" name="staff_gender" value="F" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        DOB
+                    </td>
+                    <td>
+                        <input type="date" name="staff_dob" required=""/>
+                    </td>
+                </tr>
+               
+                <tr>
+                    <td>Relationship</td>
+                    <td>
+                        <select name="staff_status">
+                            <option>unmarried</option>
+                            <option>married</option>
+                            <option>divorced</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Department</td>
+                    <td>
+                        <select name="staff_dept">
+                            <option>revenue</option>
+                            <option>developer</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        DOJ
+                    </td>
+                    <td>
+                        <input type="date" name="staff_doj" required=""/>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>Address:</td>
+                    <td><textarea name="staff_address" required=""></textarea></td>
+                </tr>
+                <tr>
+                    <td>Mobile</td>
+                    <td><input type="text" name="staff_mobile" required=""/></td>
+                </tr>
+
+                <tr>
+                    <td>Email id</td>
+                    <td><input type="email" name="staff_email" required=""/></td>
+                </tr>
+                <tr>
+                    <td>Password</td>
+                    <td><input type="password" name="staff_pwd" required=""/></td>
+                </tr>
+                
+                <tr >
+                    <td colspan="2" align='center' style='padding-top:20px' ><input type="submit" name="add_staff" value="ADD STAFF MEMBER" class='addstaff_button'/></td>
+                </tr>
+                </table>
+        </form>
+                </div>
+        </div>
+<?php include 'footer.php';?>
+    </body>
+</html>
+
+        </div>
+    </div>
+</body>
+</html>
+
+==================== C:\xampp\htdocs\Online-Banking-system\add_beneficiary.php ====================
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+</head>
+<body class='bg-light'>
+    <div class='container mt-5'>
+        <div class='card p-4 shadow-sm'>
+<?php 
+session_start();
+        
+if(!isset($_SESSION['customer_login'])) 
+    header('location:index.php');   
+?>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Add Beneficiary</title>
+        
+        <link rel="stylesheet" href="newcss.css">
+        <style>
+            .content_customer table,th,td {
+    padding:6px;
+    border: 1px solid #2E4372;
+   border-collapse: collapse;
+   text-align: center;
+}
+.content_customer td{
+    
+    
+}
+
+        </style>
+    </head>
+        <?php include 'header.php' ?>
+<div class='content_customer'>
+            
+           <?php include 'customer_navbar.php'?>
+    <div class="customer_top_nav">
+             <div class="text">Welcome <?php echo $_SESSION['name']?></div>
+            </div>
+    <br><br>
+    <form action='add_beneficiary_process.php' method='post'>
+        <br><br>
+        <h3 style="text-align:center;color:#2E4372;"><u>Add Beneficiary</u></h3>
+        <table align="center">
+            
+            <tr><td><span class="heading">Payee Name: </span></td><td><input type='text' name='name' required></td></tr>
+            <tr><td><span class="heading">Account No: </span></td><td><input type='text' name='account_no' required></td></tr>
+            <tr><td><span class="heading">Select Branch: </span></td><td><select name='branch_select' required>
+                        
+                        <option value='KOLKATA'>Kolkata</option>
+                        <option value='DELHI'>Delhi</option>
+                        <option value='BANGALORE'>Bangalore</option>
+                        </select></td></tr>
+            <tr><td><span class="heading">Ifsc Code: </span></td><td><input type='text' name='ifsc_code' required></td></tr> </table>
+           <table align="center"> <tr><td><input type='submit' name='submitBtn' value='Add Beneficiary' class="addstaff_button">
+        </table>
+        
+        </form>
+    
+    <?php include 'footer.php'?>
+           
+
+        </div>
+    </div>
+</body>
+</html>
+
+==================== C:\xampp\htdocs\Online-Banking-system\add_beneficiary_process.php ====================
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+</head>
+<body class='bg-light'>
+    <div class='container mt-5'>
+        <div class='card p-4 shadow-sm'>
+<?php 
+session_start();
+        
+if(!isset($_SESSION['customer_login'])) 
+    header('location:index.php');   
+?>
+<?php
+                $sender_id=$_SESSION["login_id"];
+                $sender_name=$_SESSION["name"];
+                
+                $Payee_name=$_REQUEST['name'];
+                $acc_no=$_REQUEST['account_no'];
+                $branch=$_REQUEST['branch_select'];
+                $ifsc=$_REQUEST['ifsc_code'];
+                
+                
+                include '_inc/dbconn.php';
+                $sql1="SELECT * FROM beneficiary1 WHERE sender_id='$sender_id' AND reciever_id='$acc_no'";
+                $result1=  mysql_query($sql1);
+                $rws1=  mysql_fetch_array($result1);
+                $s1=$rws1[1];
+                $s2=$rws1[3];
+                
+                
+                $sql="SELECT * FROM customer WHERE id='$acc_no'";
+                
+                $result=  mysql_query($sql) or die(mysql_error());
+                $rws=  mysql_fetch_array($result) ;
+                
+                if($sender_id==$rws[0]) //can't send request to himself
+                {
+                echo '<script>alert("You cant add yourself as a beneficiery!");';
+                     echo 'window.location= "add_beneficiary.php";</script>';
+                }
+                
+                elseif($s1==$sender_id && $s2==$acc_no)
+                {
+                    echo '<script>alert("You cant add a beneficiery twice!");';
+                     echo 'window.location= "add_beneficiary.php";</script>';
+                }
+                
+                elseif($rws[1]!=$Payee_name && $rws[0]!=$acc_no && $rws[11]!=$branch && $rws[12]!=$ifsc)
+                {
+                echo '<script>alert("Beneficiary Not Found!\nPlease enter correct details");';
+                     echo 'window.location= "add_beneficiary.php";</script>';
+                }
+                
+                
+                else{
+                     
+                    $status="PENDING";
+                $sql="insert into beneficiary1 values('','$sender_id','$sender_name','$acc_no','$Payee_name','$status')";
+                mysql_query($sql) or die(mysql_error());
+                header("location:display_beneficiary.php");
+                }
+                
+
+        </div>
+    </div>
+</body>
+</html>
+
+==================== C:\xampp\htdocs\Online-Banking-system\add_customer.php ====================
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+</head>
+<body class='bg-light'>
+    <div class='container mt-5'>
+        <div class='card p-4 shadow-sm'>
+<?php 
+session_start();
+        
+if(!isset($_SESSION['admin_login'])) 
+    header('location:adminlogin.php');   
+?>
+    <?php
+include '_inc/dbconn.php';
+$name=  mysql_real_escape_string($_REQUEST['customer_name']);
+$gender=  mysql_real_escape_string($_REQUEST['customer_gender']);
+$dob=  mysql_real_escape_string($_REQUEST['customer_dob']);
+$nominee=  mysql_real_escape_string($_REQUEST['customer_nominee']);
+$type=  mysql_real_escape_string($_REQUEST['customer_account']);
+$credit=  mysql_real_escape_string($_REQUEST['initial']);
+$address=  mysql_real_escape_string($_REQUEST['customer_address']);
+$mobile=  mysql_real_escape_string($_REQUEST['customer_mobile']);
+$email= mysql_real_escape_string($_REQUEST['customer_email']);
+
+//salting of password
+$salt="@g26jQsG&nh*&#8v";
+$password=  sha1($_REQUEST['customer_pwd'].$salt);
+
+$branch=  mysql_real_escape_string($_REQUEST['branch']);
+$date=date("Y-m-d");
+switch($branch){
+case 'KOLKATA': $ifsc="K421A";
+    break;
+case 'DELHI': $ifsc="D30AC";
+    break;
+case 'BANGALORE': $ifsc="B6A9E";
+    break;
+}
+
+$sql3="SELECT MAX(id) from customer";
+$result=mysql_query($sql3) or die(mysql_error());
+$rws=  mysql_fetch_array($result);
+$id=$rws[0]+1;
+$sql1="CREATE TABLE passbook".$id." 
+    (transactionid int(5) AUTO_INCREMENT, transactiondate date, name VARCHAR(255), branch VARCHAR(255), ifsc VARCHAR(255), credit int(10), debit int(10), 
+    amount float(10,2), narration VARCHAR(255), PRIMARY KEY (transactionid))";
+
+$sql="insert into customer values('','$name','$gender','$dob','$nominee','$type','$address','$mobile',
+    '$email','$password','$branch','$ifsc','','ACTIVE')";
+mysql_query($sql) or die("Email already exists!");
+mysql_query($sql1) or die(mysql_error());
+$sql4="insert into passbook".$id." values('','$date','$name','$branch','$ifsc','$credit','0','$credit','Account Open')";
+mysql_query($sql4) or die(mysql_error());
+header('location:admin_hompage.php');
+?>
+
+        </div>
+    </div>
+</body>
+</html>
+
+==================== C:\xampp\htdocs\Online-Banking-system\add_staff.php ====================
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+</head>
+<body class='bg-light'>
+    <div class='container mt-5'>
+        <div class='card p-4 shadow-sm'>
+<?php 
+session_start();
+        
+if(!isset($_SESSION['admin_login'])) 
+    header('location:adminlogin.php');   
+?>
+<?php
+include '_inc/dbconn.php';
+$name=  mysql_real_escape_string($_REQUEST['staff_name']);
+$gender=  mysql_real_escape_string($_REQUEST['staff_gender']);
+$dob=  mysql_real_escape_string($_REQUEST['staff_dob']);
+$status=  mysql_real_escape_string($_REQUEST['staff_status']);
+$dept=  mysql_real_escape_string($_REQUEST['staff_dept']);
+$doj=  mysql_real_escape_string($_REQUEST['staff_doj']);
+$address=  mysql_real_escape_string($_REQUEST['staff_address']);
+$mobile=  mysql_real_escape_string($_REQUEST['staff_mobile']);
+$email= mysql_real_escape_string($_REQUEST['staff_email']);
+$password=  mysql_real_escape_string($_REQUEST['staff_pwd']);
+
+$sql="insert into staff values('','$name','$dob','$status','$dept','$doj','$address','$mobile',
+    '$email','$password','$gender','')";
+mysql_query($sql) or die("the email-id is already registered");
+header('location:admin_hompage.php');
+?>
+
+        </div>
+    </div>
+</body>
+</html>
+
+==================== C:\xampp\htdocs\Online-Banking-system\adminlogin.php ====================
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+</head>
+<body class='bg-light'>
+    <div class='container mt-5'>
+        <div class='card p-4 shadow-sm'>
+<?php 
+session_start();
+        
+if(isset($_SESSION['admin_login'])) 
+    header('location:admin_homepage.php');   
+?>
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <noscript><meta http-equiv="refresh" content="0;url=no-js.php"></noscript>  
+        <meta charset="UTF-8">
+        <title>Admin Login - Online Banking</title>
+        
+        <link rel="stylesheet" href="newcss.css">
+    </head>
+<?php
+include 'header.php'; ?>
+
+<div class='content'>
+<div class="user_login">
+    <form action='' method='POST'>
+        <table align="center">
+            <tr><td><span class="caption">Admin Login</span></td></tr>
+            <tr><td colspan="2"><hr></td></tr>
+            <tr><td>Username:</td></tr>
+            <tr><td><input type="text" name="uname" required></td></tr>
+            <tr><td>Password:</td></tr>
+            <tr><td><input type="password" name="pwd" required></td></tr>
+            <tr><td class="button1"><input type="submit" name="submitBtn" value="Log In" class="button"></td></tr>
+        </table>
+    </form>
+            </div>
+        </div>
+          
+<?php include 'footer.php';
+?>
+<?php 
+include '_inc/dbconn.php';
+if(!isset($_SESSION['admin_login'])){
+if(isset($_REQUEST['submitBtn'])){
+    $sql="SELECT * FROM admin WHERE id='1'";
+    $result=mysql_query($sql);
+    $rws=  mysql_fetch_array($result);
+    $username=  mysql_real_escape_string($_REQUEST['uname']);
+    $password=  mysql_real_escape_string($_REQUEST['pwd']);
+    if($username==$rws[8] && $password==$rws[9]) {
+        
+        $_SESSION['admin_login']=1;
+    header('location:admin_hompage.php'); }
+    else
+        header('location:adminlogin.php');      
+}
+}
+else {
+    header('location:admin_hompage.php');
+}
+?>
+
+        </div>
+    </div>
+</body>
+</html>
+
+==================== C:\xampp\htdocs\Online-Banking-system\adminlogin_old.php ====================
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+</head>
+<body class='bg-light'>
+    <div class='container mt-5'>
+        <div class='card p-4 shadow-sm'>
+<?php 
+session_start();
+        
+if(isset($_SESSION['admin_login'])) 
+    header('location:admin_homepage.php');   
+?>
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <noscript><meta http-equiv="refresh" content="0;url=no-js.php"></noscript>  
+        <meta charset="UTF-8">
+        <title>Admin Login - Online Banking</title>
+        
+        <link rel="stylesheet" href="newcss.css">
+    </head>
+<?php
+include 'header.php'; ?>
+
+<div class='content'>
+<div class="user_login">
+    <form action='' method='POST'>
+        <table align="center">
+            <tr><td><span class="caption">Admin Login</span></td></tr>
+            <tr><td colspan="2"><hr></td></tr>
+            <tr><td>Username:</td></tr>
+            <tr><td><input type="text" name="uname" required></td></tr>
+            <tr><td>Password:</td></tr>
+            <tr><td><input type="password" name="pwd" required></td></tr>
+            <tr><td class="button1"><input type="submit" name="submitBtn" value="Log In" class="button"></td></tr>
+        </table>
+    </form>
+            </div>
+        </div>
+          
+<?php include 'footer.php';
+?>
+<?php 
+include '_inc/dbconn.php';
+if(!isset($_SESSION['admin_login'])){
+if(isset($_REQUEST['submitBtn'])){
+    $sql="SELECT * FROM admin WHERE id='1'";
+    $result=mysql_query($sql);
+    $rws=  mysql_fetch_array($result);
+    $username=  mysql_real_escape_string($_REQUEST['uname']);
+    $password=  mysql_real_escape_string($_REQUEST['pwd']);
+    if($username==$rws[8] && $password==$rws[9]) {
+        
+        $_SESSION['admin_login']=1;
+    header('location:admin_hompage.php'); }
+    else
+        header('location:adminlogin.php');      
+}
+}
+else {
+    header('location:admin_hompage.php');
+}
+?>
+
+        </div>
+    </div>
+</body>
+</html>
+
+==================== C:\xampp\htdocs\Online-Banking-system\admin_edit_contact.php ====================
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+</head>
+<body class='bg-light'>
+    <div class='container mt-5'>
+        <div class='card p-4 shadow-sm'>
+<?php
+session_start();
+if(!isset($_SESSION['admin_login'])) {
+    header('location:adminlogin.php');
+    exit();
+}
+
+include '_inc/dbconn.php';
+
+$msg = '';
+if (isset($_POST['save_contact'])) {
+    foreach ($_POST['branches'] as $id => $branch_data) {
+        $id_escaped = mysql_real_escape_string($id);
+        $name = mysql_real_escape_string($branch_data['name']);
+        $address = mysql_real_escape_string($branch_data['address']);
+        $phone = mysql_real_escape_string($branch_data['phone']);
+        $email = mysql_real_escape_string($branch_data['email']);
+        
+        mysql_query("UPDATE contact_details SET branch_name='$name', address='$address', phone='$phone', email='$email' WHERE id='$id_escaped'") or die(mysql_error());
+    }
+    $msg = "Support contact details updated successfully!";
+}
+
+$sql = "SELECT * FROM contact_details";
+$res = mysql_query($sql);
+?>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Edit Contact details</title>
+        <link rel="stylesheet" href="newcss.css">
+        <style>
+            .contact_box {
+                margin: 20px auto;
+                width: 60%;
+                border: 1px solid #2E4372;
+                padding: 15px;
+                border-radius: 8px;
+                background-color: #fcfcfc;
+            }
+            .contact_box table {
+                width: 100%;
+            }
+            .contact_box td {
+                padding: 5px;
+            }
+            .msg {
+                text-align: center;
+                color: green;
+                font-weight: bold;
+                margin: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <?php include 'header.php'; ?>
+        <div class="displaystaff_content">
+            <?php include 'admin_navbar.php'; ?>
+            
+            <h3 style="text-align:center;color:#2E4372;"><u>Edit Support Contact Details</u></h3>
+            
+            <?php if (!empty($msg)) echo "<div class='msg'>$msg</div>"; ?>
+            
+            <form method="POST" action="">
+                <?php 
+                while ($row = mysql_fetch_array($res)) {
+                    $id = $row['id'];
+                ?>
+                    <div class="contact_box">
+                        <h4 style="color:#2E4372; border-bottom:1px solid #2E4372; padding-bottom:5px; margin-top:5px;">
+                            Branch ID #<?php echo $id; ?>
+                        </h4>
+                        <table>
+                            <tr>
+                                <td style="width:25%;"><strong>Branch Name:</strong></td>
+                                <td><input type="text" name="branches[<?php echo $id; ?>][name]" value="<?php echo htmlspecialchars($row['branch_name']); ?>" required style="width:90%;"></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Address:</strong></td>
+                                <td><textarea name="branches[<?php echo $id; ?>][address]" required style="width:90%; height:50px;"><?php echo htmlspecialchars($row['address']); ?></textarea></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Phone/Tel:</strong></td>
+                                <td><input type="text" name="branches[<?php echo $id; ?>][phone]" value="<?php echo htmlspecialchars($row['phone']); ?>" required style="width:90%;"></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Email:</strong></td>
+                                <td><input type="email" name="branches[<?php echo $id; ?>][email]" value="<?php echo htmlspecialchars($row['email']); ?>" required style="width:90%;"></td>
+                            </tr>
+                        </table>
+                    </div>
+                <?php } ?>
+                
+                <table align="center" style="margin-bottom: 30px;">
+                    <tr>
+                        <td>
+                            <input type="submit" name="save_contact" value="SAVE ALL CHANGES" class="addstaff_button">
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <?php include 'footer.php'; ?>
+    </body>
+</html>
+
+        </div>
+    </div>
+</body>
+</html>
+
+==================== C:\xampp\htdocs\Online-Banking-system\admin_hompage.php ====================
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="newcss.css">
+</head>
+<body>
+    <?php include "header.php"; ?>
+    <div class="container mt-5">
+        <div class="card p-4 shadow-sm">
+            <h1>Admin Dashboard</h1>
+            <p>Welcome to the secure administrative panel.</p>
+        </div>
+    </div>
+</body>
+</html>
+
+==================== C:\xampp\htdocs\Online-Banking-system\admin_hompage_old.php ====================
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+</head>
+<body class='bg-light'>
+    <div class='container mt-5'>
+        <div class='card p-4 shadow-sm'>
+<?php 
+session_start();
+        
+if(!isset($_SESSION['admin_login'])) 
+    header('location:adminlogin.php');   
+?>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Admin Homepage</title>
+        
+        <link rel="stylesheet" href="newcss.css">
+    </head>
+        <?php include 'header.php' ?>
+        <div class='content'>
+            
+           <?php include 'admin_navbar.php'?>
+            <div class='admin_staff'>
+               
+                <ul>
+                    <li><b><u>Staff</u></b></li>
+       <li> <a href="addstaff.php">Add staff member</a></li>
+        <li><a href="display_staff.php">Edit staff member</a></li>
+        <li> <a href="delete_staff.php">Delete staff</a></li>
+        </ul>
+        </div>
+            <div class='admin_customer'>
+                <ul>
+                   <li><b><u> Customer</u></b></li>
+        <li><a href="addcustomer.php">Add Customer</a></li>
+       <li> <a href="display_customer.php">Edit customer</a></li>
+       <li> <a href="delete_customer.php">Delete customer</a></li>
+        </div>
+        </div>
+        <?php include 'footer.php';?>
+    </body>
+</html>
+
+        </div>
+    </div>
+</body>
+</html>
+
+==================== C:\xampp\htdocs\Online-Banking-system\admin_impersonate.php ====================
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+</head>
+<body class='bg-light'>
+    <div class='container mt-5'>
+        <div class='card p-4 shadow-sm'>
+<?php
+session_start();
+if (!isset($_SESSION['admin_login'])) {
+    header('location:adminlogin.php');
+    exit();
+}
+
+include '_inc/dbconn.php';
+
+$customer_id = isset($_REQUEST['customer_id']) ? mysql_real_escape_string($_REQUEST['customer_id']) : '';
+if (empty($customer_id)) {
+    echo "<script>alert('Please select a customer first!'); window.location='display_customer.php';</script>";
+    exit();
+}
+
+$sql = "SELECT * FROM customer WHERE id='$customer_id'";
+$res = mysql_query($sql);
+if ($res && mysql_num_rows($res) > 0) {
+    $row = mysql_fetch_array($res);
+    
+    // Save admin impersonating flag
+    $_SESSION['admin_impersonator'] = true;
+    
+    // Set customer credentials in session
+    $_SESSION['customer_login'] = 1;
+    $_SESSION['cust_id'] = $row['email'];
+    $_SESSION['login_id'] = $row['id'];
+    $_SESSION['name'] = $row['name'];
+    
+    header('location:customer_account_summary.php');
+    exit();
+} else {
+    echo "<script>alert('Customer not found!'); window.location='display_customer.php';</script>";
+    exit();
+}
+?>
+
+        </div>
+    </div>
+</body>
+</html>
+
+==================== C:\xampp\htdocs\Online-Banking-system\admin_logout.php ====================
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+</head>
+<body class='bg-light'>
+    <div class='container mt-5'>
+        <div class='card p-4 shadow-sm'>
+<?php 
+session_start();
+session_destroy();
+header('location:adminlogin.php');   
+?>
+
+        </div>
+    </div>
+</body>
+</html>
+
+==================== C:\xampp\htdocs\Online-Banking-system\admin_manage_transactions.php ====================
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+</head>
+<body class='bg-light'>
+    <div class='container mt-5'>
+        <div class='card p-4 shadow-sm'>
+<?php 
+session_start();
+if(!isset($_SESSION['admin_login'])) {
+    header('location:adminlogin.php');
+    exit();
+}
+
+include '_inc/dbconn.php';
+
+$customer_id = isset($_REQUEST['customer_id']) ? mysql_real_escape_string($_REQUEST['customer_id']) : '';
+if (empty($customer_id)) {
+    header('location:display_customer.php');
+    exit();
+}
+
+// Fetch customer details
+$cust_sql = "SELECT * FROM customer WHERE id='$customer_id'";
+$cust_res = mysql_query($cust_sql);
+if (mysql_num_rows($cust_res) == 0) {
+    echo "<script>alert('Customer not found!'); window.location='display_customer.php';</script>";
+    exit();
+}
+$customer = mysql_fetch_array($cust_res);
+$cust_name = $customer['name'];
+$cust_branch = $customer['branch'];
+$cust_ifsc = $customer['ifsc'];
+
+// Handle transaction addition
+$msg = '';
+if (isset($_POST['add_tx'])) {
+    $tx_date = mysql_real_escape_string($_POST['tx_date']);
+    $tx_type = mysql_real_escape_string($_POST['tx_type']);
+    $tx_amount = floatval($_POST['tx_amount']);
+    $tx_narration = mysql_real_escape_string($_POST['tx_narration']);
+    
+    // Fetch last balance
+    $bal_sql = "SELECT amount FROM passbook".$customer_id." ORDER BY transactionid DESC LIMIT 1";
+    $bal_res = mysql_query($bal_sql);
+    $last_bal = 0;
+    if ($bal_row = mysql_fetch_array($bal_res)) {
+        $last_bal = floatval($bal_row['amount']);
+    }
+    
+    $credit = 0;
+    $debit = 0;
+    if ($tx_type === 'credit') {
+        $credit = $tx_amount;
+        $new_bal = $last_bal + $tx_amount;
+    } else {
+        $debit = $tx_amount;
+        $new_bal = $last_bal - $tx_amount;
+    }
+    
+    $insert_sql = "INSERT INTO passbook".$customer_id." VALUES ('', '$tx_date', '$cust_name', '$cust_branch', '$cust_ifsc', '$credit', '$debit', '$new_bal', '$tx_narration')";
+    if (mysql_query($insert_sql)) {
+        $msg = "Transaction successfully added!";
+    } else {
+        $msg = "Error adding transaction: " . mysql_error();
+    }
+}
+
+// Fetch all transactions
+$tx_sql = "SELECT * FROM passbook".$customer_id." ORDER BY transactionid DESC";
+$tx_res = mysql_query($tx_sql);
+?>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Manage Transactions - <?php echo htmlspecialchars($cust_name); ?></title>

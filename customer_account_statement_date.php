@@ -1,82 +1,99 @@
-<!DOCTYPE html>
-<html lang='en'>
-<head>
-    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
-</head>
-<body class='bg-light'>
-    <div class='container mt-5'>
-        <div class='card p-4 shadow-sm'>
-<?php 
+﻿<?php
 session_start();
-        
-if(!isset($_SESSION['customer_login'])) 
-    header('location:index.php');   
-?>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Account Statement</title>
-        
-        <link rel="stylesheet" href="newcss.css">
-        <style>
-            .content_customer table,th,td {
-    padding:6px;
-    border: 1px solid #2E4372;
-   border-collapse: collapse;
-   text-align: center;
+if (!isset($_SESSION['customer_login']) || !isset($_SESSION['login_id'])) {
+    header('location:login.php');
+    exit();
 }
 
-        </style>
-    </head>
-        <?php include 'header.php' ?>
-<div class='content_customer'>
+include '_inc/dbconn.php';
 
-           <?php include 'customer_navbar.php'?>
-    <p><b>Welcome <?php echo $_SESSION['name']?></b></p>
-    
+$account_no = mysql_real_escape_string($_SESSION['login_id']);
+$date1 = isset($_REQUEST['date1']) ? mysql_real_escape_string($_REQUEST['date1']) : '';
+$date2 = isset($_REQUEST['date2']) ? mysql_real_escape_string($_REQUEST['date2']) : '';
 
+$result = false;
+if (!empty($date1) && !empty($date2)) {
+    $sql = "SELECT * FROM passbook" . $account_no . " WHERE transactiondate BETWEEN '$date1' AND '$date2' ORDER BY transactionid DESC";
+    $result = mysql_query($sql);
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statement by Date - Meridian Online Banking</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="newcss.css">
+</head>
+<body class="bg-light">
 
-    
-    <h3 style="text-align:center;color:#2E4372;"><u>Account summary by Date</u></h3>
-  
-    
-            
-    <table align="center">
-                        
-                        <th>Id</th>
-                        <th>Transaction Date</th>
-                        <th>Narration</th>
-                        <th>Credit</th>
-                        <th>Debit</th>
-                        <th>Balance Amount</th>
-                        
-                        <?php if(isset($_REQUEST['summary_date'])) {
-                         $date1=$_REQUEST['date1'];
-                         $date2=$_REQUEST['date2'];
-                         
-                         include '_inc/dbconn.php';
-                         $sender_id=$_SESSION["login_id"];
-                         $sql="SELECT * FROM passbook".$sender_id." WHERE transactiondate BETWEEN '$date1' AND '$date2'";
-                         $result=  mysql_query($sql) or die(mysql_error());
-                        while($rws=  mysql_fetch_array($result)){
-                            
-                            echo "<tr>";
-                            echo "<td>".$rws[0]."</td>";
-                            echo "<td>".$rws[1]."</td>";
-                            echo "<td>".$rws[8]."</td>";
-                            echo "<td>".$rws[5]."</td>";
-                            echo "<td>".$rws[6]."</td>";
-                            echo "<td>".$rws[7]."</td>";
-                           
-                            echo "</tr>";
-                        }
-                        } ?>
-</table>
-    </div>
-        <?php include 'footer.php'?>
+    <?php include 'customer_navbar.php'; ?>
 
+    <main class="container my-5 max-width-1200">
+        <div class="card border-0 shadow-sm rounded-4 p-4 bg-white mb-4">
+            <h1 class="h4 fw-bold text-dark mb-3">Filter Statement by Date Range</h1>
+
+            <form action="" method="GET" class="row g-3 align-items-end mb-2">
+                <div class="col-md-4">
+                    <label class="form-label fw-semibold small">Start Date</label>
+                    <input type="date" name="date1" class="form-control" value="<?php echo htmlspecialchars($date1); ?>" required>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label fw-semibold small">End Date</label>
+                    <input type="date" name="date2" class="form-control" value="<?php echo htmlspecialchars($date2); ?>" required>
+                </div>
+                <div class="col-md-4">
+                    <button type="submit" name="summary_date" class="btn btn-primary rounded-pill px-4 w-100">Fetch Passbook Entries</button>
+                </div>
+            </form>
         </div>
-    </div>
+
+        <?php if (!empty($date1) && !empty($date2)): ?>
+            <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h3 class="h5 fw-bold text-dark mb-0">Filtered Transactions (<?php echo htmlspecialchars($date1); ?> to <?php echo htmlspecialchars($date2); ?>)</h3>
+                    <button onclick="window.print()" class="btn btn-outline-secondary btn-sm rounded-pill px-3">Print</button>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table align-middle">
+                        <thead class="table-light small">
+                            <tr>
+                                <th>Txn ID</th>
+                                <th>Date</th>
+                                <th>Narration</th>
+                                <th>Credit ($)</th>
+                                <th>Debit ($)</th>
+                                <th class="text-end">Balance Amount ($)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if ($result && mysql_num_rows($result) > 0): ?>
+                                <?php while ($row = mysql_fetch_array($result)): ?>
+                                    <tr>
+                                        <td><?php echo $row[0]; ?></td>
+                                        <td><?php echo $row[1]; ?></td>
+                                        <td class="fw-medium"><?php echo htmlspecialchars($row[8]); ?></td>
+                                        <td class="text-success fw-semibold"><?php echo floatval($row[5]) > 0 ? '+$' . number_format($row[5], 2) : '-'; ?></td>
+                                        <td class="text-danger fw-semibold"><?php echo floatval($row[6]) > 0 ? '-$' . number_format($row[6], 2) : '-'; ?></td>
+                                        <td class="text-end fw-bold">$<?php echo number_format($row[7], 2); ?></td>
+                                    </tr>
+                                <?php endwhile; ?>
+                            <?php else: ?>
+                                <tr>
+                                    <td colspan="6" class="text-center text-muted py-4">No records found within the selected date range.</td>
+                                </tr>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        <?php endif; ?>
+    </main>
+
+    <?php include 'footer.php'; ?>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

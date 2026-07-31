@@ -58,14 +58,13 @@ $date = date("Y-m-d");
 $r_total = $r_amount + $t_amount;
 
 // Insert credit record into receiver passbook
-$sql_reciever = "INSERT INTO passbook" . $reciever_id . " VALUES(NULL, '$date', '$r_name', '$r_branch', '$r_ifsc', '$t_amount', '0', '$r_total', 'BY $s_name')";
+$sql_reciever = "INSERT INTO passbook" . $reciever_id . " VALUES('', '$date', '$r_name', '$r_branch', '$r_ifsc', '$t_amount', '0', '$r_total', 'BY $s_name')";
 mysql_query($sql_reciever) or die(mysql_error());
 
 // Insert debit record into sender passbook
-$sql_sender = "INSERT INTO passbook" . $sender_id . " VALUES(NULL, '$date', '$s_name', '$s_branch', '$s_ifsc', '0', '$t_amount', '$s_total', 'TO $r_name')";
+$sql_sender = "INSERT INTO passbook" . $sender_id . " VALUES('', '$date', '$s_name', '$s_branch', '$s_ifsc', '0', '$t_amount', '$s_total', 'TO $r_name')";
 mysql_query($sql_sender) or die(mysql_error());
 
 echo '<script>alert("Transfer of $' . number_format($t_amount, 2) . ' completed successfully."); window.location="dashboard.php";</script>';
 exit();
 ?>
-

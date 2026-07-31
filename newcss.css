@@ -1,474 +1,202 @@
+:root {
+    --bank-primary: #003B70;
+    --bank-primary-hover: #002B52;
+    --bank-secondary: #0076CE;
+    --bank-accent: #00A3E0;
+    --bank-bg: #F4F6F9;
+    --bank-surface: #FFFFFF;
+    --bank-text-main: #1D252C;
+    --bank-text-muted: #62707C;
+    --bank-border: #E1E6EB;
+    --bank-success: #108043;
+    --bank-danger: #C5221F;
+    --bank-card-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    --bank-radius: 12px;
+    --bank-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 body {
-    background-color:#F9F6F4;
-    background-color:#F5FAFA;
-    
-    font-family:verdana;
-}
-.wrapper{
-    
-    width:95%;
-    margin:0px auto;
-    
-}
-.header{
-    float:left;
-    height:130px;
-    width:100%;
-    margin-top:0px;
-    background-color:blue;
-    
-}
-.user_login{
-    float:left;
-    height:220px;
-    width:21.5%;
-    border:1px solid dodgerblue;
-    border-radius:5px;
-    background: linear-gradient(to bottom, rgba(224,243,250,1) 49%,rgba(184,226,246,1) 100%,rgba(182,223,253,1) 100%); 
-}
-.user_login hr{
-    width:250px;
-    color:#2E4372;
+    background-color: var(--bank-bg);
+    color: var(--bank-text-main);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
 }
 
-.user_login td{
-    padding:3px;
-    padding-left:8px;
-    font-size:15px;
-    font-family:verdana;
-}
-.user_login .caption{
-    font-size:20px;
-    color:#2E4372;
-    font-weight:bold;
-}
-.user_login .button1{
-    padding-top:8px;
-}
-.user_login .button{
-    background: linear-gradient(to bottom, rgba(207,231,250,1) 0%,rgba(99,147,193,1) 98%,rgba(99,147,193,1) 100%); /* W3C */
-    font-size:18px;
-    color:#2E4372;
-    border:1;
-    font-weight: bold;
-    cursor:pointer;
-    
+/* Card Swiper & Financial Cards */
+.account-swiper {
+    display: flex;
+    gap: 1.5rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 1rem;
+    -webkit-overflow-scrolling: touch;
 }
 
-.image{
-    margin-left:10px;
-    width:76.5%;
-    height:350px;
-    float:right;
-   border:1px;
-   border-radius:10px;
-   position:relative;
-}
-.image .text{
-     position:absolute;
-    top:10px;
-    left:10px;
-    width:100%;
-    
-}
-.image .text h3{
-color:white;
-
-}
-.navbar ul {
-  list-style-type:none;  
-  
-
-background: linear-gradient(to bottom, rgba(208,228,247,1) 0%,rgba(115,177,231,1) 24%,rgba(10,119,213,1) 50%,rgba(83,159,225,1) 79%,rgba(135,188,234,1) 100%);
-  margin-bottom:13px;
-  padding:0px;
-}
-.navbar li {
-  display:inline-block;
-  font-size:18px;
-}
-.navbar a{
-  text-decoration:none; 
-  background: linear-gradient(to bottom, rgba(208,228,247,1) 0%,rgba(115,177,231,1) 24%,rgba(10,119,213,1) 50%,rgba(83,159,225,1) 79%,rgba(135,188,234,1) 100%);
-  color:white;
-  padding:5px;
-  display:inline-block;
-}
-.navbar a:link, a:visited {
-    display: block;
-    width: 150px;
-    font-weight: bold;
-    color: white;
-    background: linear-gradient(to bottom, rgba(208,228,247,1) 0%,rgba(115,177,231,1) 24%,rgba(10,119,213,1) 50%,rgba(83,159,225,1) 79%,rgba(135,188,234,1) 100%);
-    text-align: center;
-    text-decoration: none;
-    
+.account-swiper::-webkit-scrollbar {
+    height: 6px;
 }
 
-.navbar a:hover, a:active {
-    background:#29526D;
-    color: white;
-}
-.left_panel{
-    margin-top: 15px;
-    float:left;
-    height:510px;
-    width:21.5%;
-    border:1px solid dodgerblue;
-    border-radius:5px;
-    background: linear-gradient(to bottom, rgba(224,243,250,1) 49%,rgba(184,226,246,1) 100%,rgba(182,223,253,1) 100%); 
-}
-.left_panel p,h3{
-    padding:6px;
-}
-.left_panel li{
-    padding:5px;
-}
-.right_panel{
-    margin-left:10px;
-    margin-top:15px;
-    background: linear-gradient(to bottom, rgba(224,243,250,1) 49%,rgba(184,226,246,1) 100%,rgba(182,223,253,1) 100%); 
-
-    width:76.5%;
-    height:382px;
-    float:right;
-   border:1px solid dodgerblue;
-   border-radius:5px;
-}
-.right_panel p,h3{
-    padding:6px;
-}
-.right_panel li{
-    padding:8px;
-}
-.footer{
-    float:left;
-    height:35px;
-    width:100%;
-    margin-top:10px;
-    background: #8CA6DE;
-    border-radius:5px;    
-}
-.footer ul {
-    list-style-type: none;
-    float:left;
-   
-}
-.footer li {
-float:left;
-font-size:15px;
-font-family:verdana;
-}
-.footer li{
-    text-decoration: none;
-    color:black;
-    padding-left:25px;
-}
-.footer a{
-    text-decoration: none;
-    color:black;
-    padding-left:25px;
+.account-swiper::-webkit-scrollbar-thumb {
+    background: var(--bank-border);
+    border-radius: 10px;
 }
 
-.footer a:hover{
-    font-weight: bold;
-}
-.footer_content{
-    text-align:center;
-}
-
-.content .user_login{
-    margin-top:60px;
-   margin-left:40%;
-    height:250px;
-    width:300px;
-    border:1px solid dodgerblue;
-    border-radius:5px;
-    background: linear-gradient(to bottom, rgba(224,243,250,1) 49%,rgba(184,226,246,1) 100%,rgba(182,223,253,1) 100%); 
-}
-.content{
-    height:400px;
-    width:100%;
-    border:1px solid dodgerblue;
-    border-radius:5px;
-    background: linear-gradient(to bottom, rgba(254,255,255,1) 0%,rgba(221,241,249,1) 97%,rgba(160,216,239,1) 100%); /* W3C */
+.financial-card {
+    flex: 0 0 320px;
+    scroll-snap-align: start;
+    background: linear-gradient(135deg, var(--bank-primary) 0%, var(--bank-secondary) 100%);
+    color: #FFFFFF;
+    border-radius: var(--bank-radius);
+    padding: 1.5rem;
+    box-shadow: var(--bank-card-shadow);
+    transition: var(--bank-transition);
+    position: relative;
 }
 
-.content .user_login .button{
-    font-size:22px;
-    color:#2E4372;
-    border:1;
-    font-weight: bold;
-    cursor:pointer;
-    margin-top:10px;
-}
-.admin_change_pwd{
-    margin-left:15%;
-    margin-top:5%;
-    float:left;
-    height:200px;
-    width:400px;
-    border:1px solid dodgerblue;
-    border-radius:5px;
-    background: linear-gradient(to bottom, rgba(224,243,250,1) 49%,rgba(184,226,246,1) 100%,rgba(182,223,253,1) 100%); 
-}
-.admin_change_pwd td{
-    font-size:17px;
-    padding-top:10px;
-    padding-bottom:10px;
- 
+.financial-card.savings {
+    background: linear-gradient(135deg, #1D252C 0%, #344050 100%);
 }
 
-.content .admin_staff{
-   margin-left:15%;
-    margin-top:5%;
-    float:left;
-    height:180px;
-    width:200px;
-    border:1px solid dodgerblue;
-    border-radius:5px;
-    background: linear-gradient(to bottom, rgba(224,243,250,1) 49%,rgba(184,226,246,1) 100%,rgba(182,223,253,1) 100%); 
-}
-.content .admin_customer{
-    margin-left:5%;
-    margin-top:5%;
-    float:left;
-    height:180px;
-    width:200px;
-    border:1px solid dodgerblue;
-    border-radius:5px;
-    background: linear-gradient(to bottom, rgba(224,243,250,1) 49%,rgba(184,226,246,1) 100%,rgba(182,223,253,1) 100%); 
-}
-.content .admin_staff li{
-    
-    font-size:15px;
-    padding-top:5px;
-    padding-bottom:10px;
- list-style-type:none;
-}
-.content .admin_customer li{
-    
-    font-size:15px;
-    padding-top:5px;
-    padding-bottom:10px;
-    list-style-type:none;
- 
-}
-.content a{
-    text-decoration:none;
-}
-.content a:link,a:visited {
-    color:blue;
-}
-.content a:hover {
-    font-weight:bold;
-}
-.admin_nav{
-    float:left;
-    height:95%;
-    width:200px;
-    background: linear-gradient(to bottom, rgba(224,243,250,1) 49%,rgba(184,226,246,1) 100%,rgba(182,223,253,1) 100%); 
-    border:1px solid dodgerblue;
-    border-radius:5px;
-    margin:5px;
-}
-.admin_nav li{
-    
-    text-align:left;
-    padding-top:5px;
-    padding-bottom:20px;
-    padding-left:0px;
-    list-style-type:square;
-}
-.admin_nav a{
-    text-decoration:none;
-}
-.admin_nav a:hover {
-    font-weight:bold;
-}
-.admin_nav a:visited {
-    color:blue;
-}
-.admin_nav li#caption{
-list-style-type:none;
-
+.financial-card .account-type {
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    opacity: 0.8;
 }
 
-.addstaff{
-    
-    height:95%;
-    width:400px;
-    background: linear-gradient(to bottom, rgba(224,243,250,1) 49%,rgba(184,226,246,1) 100%,rgba(182,223,253,1) 100%); 
-    border:1px solid dodgerblue;
-    border-radius:5px;
-    margin:5px;
-    margin:auto;
-    margin-top:10px;
+.financial-card .account-number {
+    font-family: monospace;
+    letter-spacing: 0.1em;
+    margin: 0.75rem 0;
 }
-.addstaff td{
-    padding:7px;
-}
-.content_addstaff{
-    height:610px;
-    width:100%;
-    border:1px solid dodgerblue;
-    border-radius:5px;
-    background: linear-gradient(to bottom, rgba(254,255,255,1) 0%,rgba(221,241,249,1) 97%,rgba(160,216,239,1) 100%); /* W3C */
-}
-.addstaff_button{
-    background: linear-gradient(to bottom, rgba(207,231,250,1) 0%,rgba(99,147,193,1) 98%,rgba(99,147,193,1) 100%); /* W3C */
-    font-size:18px;
-    color:#2E4372;
-    font-weight: bold;
-    cursor:pointer;
-    
-}
-.displaystaff_content{
-    height:400px;
-    width:100%;
-    border:1px solid dodgerblue;
-    border-radius:5px;
-    background: linear-gradient(to bottom, rgba(254,255,255,1) 0%,rgba(221,241,249,1) 97%,rgba(160,216,239,1) 100%); /* W3C */
 
+.financial-card .balance-amount {
+    font-size: 1.75rem;
+    font-weight: 700;
 }
-.displaystaff_content table{
-    margin-top:30px;
-}
-.customer_nav{
-    float:left;
-    height:95%;
-    width:240px;
-    background: linear-gradient(to bottom, rgba(224,243,250,1) 49%,rgba(184,226,246,1) 100%,rgba(182,223,253,1) 100%); 
-    border:1px solid dodgerblue;
-    border-radius:5px;
-    margin:5px;
-}
-.customer_nav li{
-    
-    text-align:left;
-    padding-top:5px;
-    padding-bottom:5px;
-    padding-left:0px;
-    list-style-type:square;
-}
-.customer_nav a{
-    text-decoration:none;
-}
-.customer_nav a:hover {
-    font-weight:bold;
-}
-.customer_nav a:visited {
-    color:blue;
-}
-.customer_nav li#caption{
-list-style-type:none;
 
+.financial-card .available-label {
+    font-size: 0.75rem;
+    opacity: 0.7;
 }
-.content_customer{
-    height:630px;
-    width:100%;
-    border:1px solid dodgerblue;
-    border-radius:5px;
-    background: linear-gradient(to bottom, rgba(254,255,255,1) 0%,rgba(221,241,249,1) 97%,rgba(160,216,239,1) 100%); /* W3C */
+
+/* Banking Component Wrappers */
+.bank-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
 }
-.content_customer table{
-    margin-top:50px;
+
+.bank-card {
+    background: var(--bank-surface);
+    border-radius: var(--bank-radius);
+    border: 1px solid var(--bank-border);
+    box-shadow: var(--bank-card-shadow);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
 }
-.customer_top_nav{
-    
-    height:30px;
-    width:1000px;
-    float:left;
-    margin-top:5px;
-    border:1px solid dodgerblue;
-    border-radius:5px;
-    background: linear-gradient(to bottom, rgba(254,255,255,1) 0%,rgba(221,241,249,1) 97%,rgba(160,216,239,1) 100%); /* W3C */
+
+/* Form Styles */
+.bank-form-control {
+    border: 1px solid var(--bank-border);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    width: 100%;
+    transition: var(--bank-transition);
 }
-.customer_top_nav .text{
-    margin-left:39%;
-   margin-top:3px;
-    font-weight:bold;
-    color:#2E4372;
+
+.bank-form-control:focus {
+    outline: none;
+    border-color: var(--bank-secondary);
+    box-shadow: 0 0 0 3px rgba(0, 118, 206, 0.15);
 }
-.customer_body{
-    height:95%;
-    width:1000px;
-    float:left;
-    margin-top:5px;
-    border-radius:5px;
+
+.bank-btn-primary {
+    background-color: var(--bank-primary);
+    color: #FFFFFF;
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--bank-transition);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
 }
-.customer_body p{
-    
-    text-align:left;
-    margin-left:10px;
+
+.bank-btn-primary:hover {
+    background-color: var(--bank-primary-hover);
+    color: #FFFFFF;
 }
-.customer_body .heading{
-    font-weight:bold;
-    color:#2E4372;
+
+/* Responsive Table */
+.bank-table-responsive {
+    width: 100%;
+    overflow-x: auto;
 }
-.heading{
-    font-weight:bold;
-    color:#2E4372;
+
+.bank-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
 }
-.content1{
-    margin-left:15%;
-    margin-top:5%;
-    float:left;
-    height:180px;
-    width:230px;
-    border:1px solid dodgerblue;
-    border-radius:5px;
-    background: linear-gradient(to bottom, rgba(224,243,250,1) 49%,rgba(184,226,246,1) 100%,rgba(182,223,253,1) 100%); 
+
+.bank-table th {
+    background-color: var(--bank-bg);
+    color: var(--bank-text-muted);
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    text-align: left;
+    padding: 1rem;
+    border-bottom: 2px solid var(--bank-border);
 }
-.content2{
-    margin-left:15%;
-    margin-top:5%;
-    float:left;
-    height:180px;
-    width:330px;
-    border:1px solid dodgerblue;
-    border-radius:5px;
-    background: linear-gradient(to bottom, rgba(224,243,250,1) 49%,rgba(184,226,246,1) 100%,rgba(182,223,253,1) 100%); 
+
+.bank-table td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--bank-border);
+    color: var(--bank-text-main);
 }
-.content1 p{
-    padding-top:10px;
+
+.bank-table tr:hover {
+    background-color: rgba(0, 0, 0, 0.01);
 }
-.content2 p{
-    padding-top:10px;
+
+.text-credit {
+    color: var(--bank-success);
+    font-weight: 600;
 }
-.content3{
-    margin-left:15%;
-    margin-top:5%;
-    float:left;
-    height:270px;
-    width:250px;
-    border:1px solid dodgerblue;
-    border-radius:5px;
-    background: linear-gradient(to bottom, rgba(224,243,250,1) 49%,rgba(184,226,246,1) 100%,rgba(182,223,253,1) 100%); 
+
+.text-debit {
+    color: var(--bank-danger);
+    font-weight: 600;
 }
-.content3 p{
-    padding-top:10px;
+
+/* Navigation Overrides */
+.bank-navbar {
+    background-color: var(--bank-primary);
+    padding: 1rem 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
-.content4{
-    margin-left:15%;
-    margin-top:5%;
-    float:left;
-    height:270px;
-    width:250px;
-    border:1px solid dodgerblue;
-    border-radius:5px;
-    background: linear-gradient(to bottom, rgba(224,243,250,1) 49%,rgba(184,226,246,1) 100%,rgba(182,223,253,1) 100%); 
+
+.bank-navbar .nav-link {
+    color: rgba(255, 255, 255, 0.85);
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    transition: var(--bank-transition);
 }
-.content4 p{
-    padding-top:10px;
+
+.bank-navbar .nav-link:hover,
+.bank-navbar .nav-link.active {
+    color: #FFFFFF;
 }
-.contact{
-    height:85%;
-    width:95%;
-    margin-left:30px;
-    border-radius:5px;
-    
-}
-.contact li{
-    padding:7px;
+
+@media (max-width: 768px) {
+    .financial-card {
+        flex: 0 0 85%;
+    }
 }

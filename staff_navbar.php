@@ -1,33 +1,23 @@
-<!DOCTYPE html>
-<html lang='en'>
-<head>
-    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
-</head>
-<body class='bg-light'>
-    <div class='container mt-5'>
-        <div class='card p-4 shadow-sm'>
-<div class='customer_nav'>
-               <ul>
-                   <li id='caption'><b><u>Staff</u></b></li>
-                   
-                   <li><a href="staff_homepage.php">Staff Home</a></li>
-                   <li><a href="staff_beneficiary.php">Beneficiary Requests</a></li>
-                   <li><a href="staff_atm_approve.php">ATM approval Requests</a></li>
-                   <li><a href="staff_cheque_approve.php">Cheque Book approval Requests</a></li>
-                 </ul>
-                
-        
-   <ul>
-        <li id='caption'><b><u>Profile</u></b></li>
-        
-        <li><a href="change_password_staff.php">Change password</a></li>
-        <li><a href="staff_logout.php">Logout</a></li>
-                    </ul>
-    
-    
-               </div>
-
-        </div>
-    </div>
-</body>
-</html>
+﻿<div class="card border-0 shadow-sm rounded-4 p-3 bg-white">
+    <div class="fw-bold text-dark mb-2 pb-2 border-bottom">Staff Portal Menu</div>
+    <ul class="nav nav-pills flex-column gap-1">
+        <li class="nav-item">
+            <a href="staff_homepage.php" class="nav-link text-dark">Staff Home</a>
+        </li>
+        <li class="nav-item">
+            <a href="staff_beneficiary.php" class="nav-link text-dark">Beneficiary Requests</a>
+        </li>
+        <li class="nav-item">
+            <a href="staff_atm_approve.php" class="nav-link text-dark">ATM Approvals</a>
+        </li>
+        <li class="nav-item">
+            <a href="staff_cheque_approve.php" class="nav-link text-dark">Cheque Approvals</a>
+        </li>
+        <li class="nav-item">
+            <a href="change_password_staff.php" class="nav-link text-dark">Change Password</a>
+        </li>
+        <li class="nav-item mt-2 pt-2 border-top">
+            <a href="staff_logout.php" class="nav-link text-danger fw-semibold">Sign Out</a>
+        </li>
+    </ul>
+</div>

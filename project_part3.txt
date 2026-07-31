@@ -1,0 +1,1047 @@
+}
+
+include 'db.php';
+$customer_id = $_SESSION['customer_id'];
+$message = "";
+
+// Preserve profile update logic
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
+    $phone = mysqli_real_escape_string($conn, $_POST['phone']);
+    $address = mysqli_real_escape_string($conn, $_POST['address']);
+
+    $update_sql = "UPDATE customer SET email='$email', phone='$phone', address='$address' WHERE customer_id='$customer_id'";
+    if (mysqli_query($conn, $update_sql)) {
+        $message = "Profile details updated successfully.";
+    }
+}
+
+// Fetch current details
+$cust_query = "SELECT * FROM customer WHERE customer_id = '$customer_id'";
+$cust_result = mysqli_query($conn, $cust_query);
+$customer = mysqli_fetch_assoc($cust_result);
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Profile - Meridian Online Banking</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="newcss.css">
+</head>
+<body>
+
+    <?php include 'customer_navbar.php'; ?>
+
+    <main class="bank-container" style="max-width: 800px;">
+        <div class="mb-4">
+            <h1 class="h3 fw-bold mb-1">Profile & Settings</h1>
+            <p class="text-muted">Manage your personal details and contact preferences.</p>
+        </div>
+
+        <?php if ($message): ?>
+            <div class="alert alert-success border-0 shadow-sm mb-4" role="alert">
+                <?php echo htmlspecialchars($message); ?>
+            </div>
+        <?php endif; ?>
+
+        <div class="bank-card">
+            <form action="customer_personal_details.php" method="POST">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">First Name</label>
+                        <input type="text" class="bank-form-control bg-light" value="<?php echo htmlspecialchars($customer['first_name'] ?? ''); ?>" readonly>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Last Name</label>
+                        <input type="text" class="bank-form-control bg-light" value="<?php echo htmlspecialchars($customer['last_name'] ?? ''); ?>" readonly>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Email Address</label>
+                        <input type="email" name="email" class="bank-form-control" value="<?php echo htmlspecialchars($customer['email'] ?? ''); ?>" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Phone Number</label>
+                        <input type="text" name="phone" class="bank-form-control" value="<?php echo htmlspecialchars($customer['phone'] ?? ''); ?>" required>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label fw-semibold">Residential Address</label>
+                        <textarea name="address" class="bank-form-control" rows="3" required><?php echo htmlspecialchars($customer['address'] ?? ''); ?></textarea>
+                    </div>
+                </div>
+
+                <div class="mt-4 text-end">
+                    <button type="submit" name="update_profile" class="bank-btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.querySelector('.nav-profile')?.classList.add('active');
+    </script>
+</body>
+</html>
+
+==================== C:\xampp\htdocs\Online-Banking-system\customer_transfer.php ====================
+<?php
+// Preserve existing authentication and session checks
+session_start();
+if (!isset($_SESSION['customer_id'])) {
+    header("Location: login.php");
+    exit();
+}
+
+include 'db.php';
+$customer_id = $_SESSION['customer_id'];
+
+$message = "";
+$error = "";
+
+// Preserve existing backend transfer logic
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_transfer'])) {
+    $from_account = mysqli_real_escape_string($conn, $_POST['from_account']);
+    $to_account = mysqli_real_escape_string($conn, $_POST['to_account']);
+    $amount = floatval($_POST['amount']);
+    $description = mysqli_real_escape_string($conn, $_POST['description']);
+
+    if ($amount <= 0) {
+        $error = "Please enter a valid transfer amount.";
+    } else {
+        // Fetch source balance
+        $bal_check = mysqli_query($conn, "SELECT balance FROM bank_accounts WHERE account_no = '$from_account' AND customer_id = '$customer_id'");
+        if ($bal_row = mysqli_fetch_assoc($bal_check)) {
+            if ($bal_row['balance'] < $amount) {
+                $error = "Insufficient funds for this transfer.";
+            } else {
+                // Execute transfer transaction
+                mysqli_autocommit($conn, FALSE);
+                $deduct = mysqli_query($conn, "UPDATE bank_accounts SET balance = balance - $amount WHERE account_no = '$from_account'");
+                $add = mysqli_query($conn, "UPDATE bank_accounts SET balance = balance + $amount WHERE account_no = '$to_account'");
+                $log_txn = mysqli_query($conn, "INSERT INTO transactions (customer_id, account_no, amount, type, description, transaction_date) VALUES ('$customer_id', '$from_account', '$amount', 'Debit', '$description', NOW())");
+
+                if ($deduct && $add && $log_txn) {
+                    mysqli_commit($conn);
+                    $message = "Transfer completed successfully!";
+                } else {
+                    mysqli_rollback($conn);
+                    $error = "Transfer failed. Please try again.";
+                }
+                mysqli_autocommit($conn, TRUE);
+            }
+        } else {
+            $error = "Invalid source account selected.";
+        }
+    }
+}
+
+// Fetch user accounts for dropdowns
+$accounts_query = mysqli_query($conn, "SELECT * FROM bank_accounts WHERE customer_id = '$customer_id'");
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fund Transfer - Meridian Online Banking</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="newcss.css">
+</head>
+<body>
+
+    <?php include 'customer_navbar.php'; ?>
+
+    <main class="bank-container" style="max-width: 720px;">
+        <div class="mb-4">
+            <h1 class="h3 fw-bold mb-1">Move Money</h1>
+            <p class="text-muted">Transfer funds between internal accounts or external recipients.</p>
+        </div>
+
+        <?php if ($message): ?>
+            <div class="alert alert-success border-0 shadow-sm mb-4" role="alert">
+                <?php echo htmlspecialchars($message); ?>
+            </div>
+        <?php endif; ?>
+
+        <?php if ($error): ?>
+            <div class="alert alert-danger border-0 shadow-sm mb-4" role="alert">
+                <?php echo htmlspecialchars($error); ?>
+            </div>
+        <?php endif; ?>
+
+        <div class="bank-card">
+            <form action="customer_transfer.php" method="POST">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">From Account</label>
+                    <select name="from_account" class="bank-form-control" required>
+                        <option value="">Select Source Account</option>
+                        <?php 
+                        if ($accounts_query && mysqli_num_rows($accounts_query) > 0) {
+                            mysqli_data_seek($accounts_query, 0);
+                            while ($acc = mysqli_fetch_assoc($accounts_query)) {
+                                echo "<option value='".$acc['account_no']."'>".ucfirst($acc['account_type'])." (•••• ".substr($acc['account_no'], -4).") - $".number_format($acc['balance'], 2)."</option>";
+                            }
+                        }
+                        ?>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">To Account / Recipient Account Number</label>
+                    <input type="text" name="to_account" class="bank-form-control" placeholder="Enter recipient account number" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Amount ($)</label>
+                    <input type="number" step="0.01" name="amount" class="bank-form-control" placeholder="0.00" required>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">Memo / Description</label>
+                    <input type="text" name="description" class="bank-form-control" placeholder="e.g. Rent, Savings transfer">
+                </div>
+
+                <button type="submit" name="submit_transfer" class="bank-btn-primary w-100">
+                    Complete Transfer
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.querySelector('.nav-transfer')?.classList.add('active');
+    </script>
+</body>
+</html>
+
+==================== C:\xampp\htdocs\Online-Banking-system\customer_transfer_process.php ====================
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+</head>
+<body class='bg-light'>
+    <div class='container mt-5'>
+        <div class='card p-4 shadow-sm'>
+<?php 
+session_start();
+        
+if(!isset($_SESSION['customer_login'])) 
+    header('location:index.php');   
+?>
+<?php
+     $t_amount=$_REQUEST['t_val'];
+     $sender_id=$_SESSION["login_id"];
+     $reciever_id=$_REQUEST['transfer'];
+     
+     //select last transaction id in reciever's passbook.
+     include '_inc/dbconn.php';
+     $sql="SELECT MAX(transactionid) from passbook".$reciever_id;
+     $result=mysql_query($sql) or die(mysql_error());
+     $rws=  mysql_fetch_array($result);
+     $r_last_tid=$rws[0];
+    
+    //select the details in the last row of reciever's passbook.
+    $sql="SELECT * from passbook".$reciever_id." WHERE transactionid='$r_last_tid'";
+    $result=mysql_query($sql) or die(mysql_error());
+    while($rws= mysql_fetch_array($result)){
+    $r_amount=$rws[7];
+    $r_name=$rws[2];
+    $r_branch=$rws[3];
+    $r_ifsc=$rws[4];
+    }
+    
+   //select the last transaction id in the sender's passbook
+     $sql="SELECT MAX(transactionid) from passbook".$sender_id;
+     $result=mysql_query($sql) or die(mysql_error());
+     $rws=  mysql_fetch_array($result);
+     $s_last_tid=$rws[0];
+    
+    //select the details in the last row of sender's passbook.
+    $sql="SELECT * from passbook".$sender_id." WHERE transactionid='$s_last_tid'";
+    $result=mysql_query($sql) or die(mysql_error());
+    while($rws= mysql_fetch_array($result)) {
+    $s_amount=$rws[7];
+    $s_name=$rws[2];
+    $s_branch=$rws[3];
+    $s_ifsc=$rws[4];
+    }
+    
+    $date=date("Y-m-d");
+    
+    $s_total=$s_amount-$t_amount; //sender's final balance.
+    
+    if($s_amount<=500)
+    {
+        echo '<script>alert("Your account balance is less than $500.\n\nYou must maintain a minimum balance of $500 in order to proceed with the transfer.");';
+        echo 'window.location= "customer_transfer.php";</script>';
+    }
+    elseif($t_amount<100){
+         echo '<script>alert("You cannot transfer less than $100");';
+        echo 'window.location= "customer_transfer.php";</script>';
+    }
+    elseif($s_total<500)
+    {
+        echo '<script>alert("You do not have enough balance in your account to proceed this transfer.\n\nYou must maintain a minimum of $500 in your account.");';
+        echo 'window.location= "customer_transfer.php";</script>';
+    }
+    
+    else{ 
+        //insert statement into reciever passbook.
+        $r_total=$r_amount+$t_amount;
+        $sql1="insert into passbook".$reciever_id." values('','$date','$r_name','$r_branch','$r_ifsc','$t_amount','0','$r_total','BY $s_name')";
+        mysql_query($sql1) or die(mysql_error());
+        
+        //insert statement into sender passbook.
+        $s_total=$s_amount-$t_amount;
+        $sql2="insert into passbook".$sender_id." values('','$date','$s_name','$s_branch','$s_ifsc','0','$t_amount','$s_total','TO $r_name')";
+         mysql_query($sql2) or die(mysql_error());
+        
+        echo '<script>alert("Transfer Successful.");';
+        echo 'window.location= "customer_transfer.php";</script>';
+    }
+?>
+
+        </div>
+    </div>
+</body>
+</html>
+
+==================== C:\xampp\htdocs\Online-Banking-system\dashboard.php ====================
+<?php
+// Preserve existing authentication and session checks
+session_start();
+if (!isset($_SESSION['customer_id'])) {
+    header("Location: login.php");
+    exit();
+}
+
+include 'db.php';
+$customer_id = $_SESSION['customer_id'];
+
+// Fetch customer information
+$cust_query = "SELECT * FROM customer WHERE customer_id = '$customer_id'";
+$cust_result = mysqli_query($conn, $cust_query);
+$customer = mysqli_fetch_assoc($cust_result);
+
+// Fetch accounts
+$acc_query = "SELECT * FROM bank_accounts WHERE customer_id = '$customer_id'";
+$acc_result = mysqli_query($conn, $acc_query);
+
+// Fetch recent transactions
+$txn_query = "SELECT * FROM transactions WHERE customer_id = '$customer_id' ORDER BY transaction_date DESC LIMIT 5";
+$txn_result = mysqli_query($conn, $txn_query);
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Meridian Online Banking</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="newcss.css">
+</head>
+<body>
+
+    <?php include 'customer_navbar.php'; ?>
+
+    <main class="bank-container">
+        <!-- Welcome Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="h3 fw-bold mb-1">Welcome back, <?php echo htmlspecialchars($customer['first_name'] ?? 'Valued Customer'); ?></h1>
+                <p class="text-muted small mb-0">Last login: <?php echo date('F j, Y, g:i a'); ?></p>
+            </div>
+            <div>
+                <a href="customer_transfer.php" class="bank-btn-primary">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 014-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
+                    Transfer Funds
+                </a>
+            </div>
+        </div>
+
+        <!-- Account Cards (Swipeable on Mobile) -->
+        <h2 class="h5 fw-bold mb-3">Your Accounts</h2>
+        <div class="account-swiper mb-4">
+            <?php 
+            if ($acc_result && mysqli_num_rows($acc_result) > 0):
+                while ($acc = mysqli_fetch_assoc($acc_result)):
+                    $is_savings = strtolower($acc['account_type'] ?? '') === 'savings';
+                    $acc_no = $acc['account_no'] ?? '0000000000';
+                    $masked_acc = '•••• ' . substr($acc_no, -4);
+            ?>
+                <div class="financial-card <?php echo $is_savings ? 'savings' : ''; ?>">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="account-type"><?php echo htmlspecialchars(strtoupper($acc['account_type'] ?? 'CHECKING')); ?></span>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+                    </div>
+                    <div class="account-number"><?php echo $masked_acc; ?></div>
+                    <div class="balance-amount">$<?php echo number_format($acc['balance'] ?? 0, 2); ?></div>
+                    <div class="available-label">Available Balance</div>
+                </div>
+            <?php 
+                endwhile;
+            else:
+            ?>
+                <div class="financial-card">
+                    <div class="account-type">PRIMARY CHECKING</div>
+                    <div class="account-number">•••• 4821</div>
+                    <div class="balance-amount">$0.00</div>
+                    <div class="available-label">Available Balance</div>
+                </div>
+            <?php endif; ?>
+        </div>
+
+        <!-- Quick Actions & Recent Transactions Grid -->
+        <div class="row g-4">
+            <div class="col-lg-8">
+                <div class="bank-card">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h3 class="h5 fw-bold mb-0">Recent Transactions</h3>
+                        <a href="customer_account_statement.php" class="text-decoration-none small fw-semibold text-primary">View Statement →</a>
+                    </div>
+                    <div class="bank-table-responsive">
+                        <table class="bank-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Description</th>
+                                    <th>Type</th>
+                                    <th class="text-end">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php if ($txn_result && mysqli_num_rows($txn_result) > 0): ?>
+                                    <?php while ($txn = mysqli_fetch_assoc($txn_result)): ?>
+                                        <tr>
+                                            <td><?php echo date('M d, Y', strtotime($txn['transaction_date'])); ?></td>
+                                            <td class="fw-medium"><?php echo htmlspecialchars($txn['description'] ?? 'Transaction'); ?></td>
+                                            <td>
+                                                <span class="badge bg-light text-dark border">
+                                                    <?php echo htmlspecialchars($txn['type'] ?? 'General'); ?>
+                                                </span>
+                                            </td>
+                                            <td class="text-end <?php echo strtolower($txn['type'] ?? '') === 'credit' ? 'text-credit' : 'text-debit'; ?>">
+                                                <?php echo strtolower($txn['type'] ?? '') === 'credit' ? '+' : '-'; ?>
+                                                $<?php echo number_format($txn['amount'], 2); ?>
+                                            </td>
+                                        </tr>
+                                    <?php endwhile; ?>
+                                <?php else: ?>
+                                    <tr>
+                                        <td colspan="4" class="text-center text-muted py-4">No recent transactions found.</td>
+                                    </tr>
+                                <?php endif; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="bank-card">
+                    <h3 class="h5 fw-bold mb-3">Quick Actions</h3>
+                    <div class="d-grid gap-2">
+                        <a href="customer_transfer.php" class="btn btn-outline-secondary text-start p-3 rounded-3 d-flex align-items-center gap-3">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+                            <div>
+                                <div class="fw-bold text-dark">Make a Transfer</div>
+                                <div class="small text-muted">Internal & external accounts</div>
+                            </div>
+                        </a>
+                        <a href="customer_mini_statement.php" class="btn btn-outline-secondary text-start p-3 rounded-3 d-flex align-items-center gap-3">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                            <div>
+                                <div class="fw-bold text-dark">Mini Statement</div>
+                                <div class="small text-muted">View recent activity summary</div>
+                            </div>
+                        </a>
+                        <a href="customer_issue_atm.php" class="btn btn-outline-secondary text-start p-3 rounded-3 d-flex align-items-center gap-3">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+                            <div>
+                                <div class="fw-bold text-dark">Manage Debit Cards</div>
+                                <div class="small text-muted">Issue or replace physical cards</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.querySelector('.nav-dash')?.classList.add('active');
+    </script>
+</body>
+</html>
+
+==================== C:\xampp\htdocs\Online-Banking-system\db.php ====================
+<?php
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "bank_db";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+?>
+
+==================== C:\xampp\htdocs\Online-Banking-system\delete_beneficiary.php ====================
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+</head>
+<body class='bg-light'>
+    <div class='container mt-5'>
+        <div class='card p-4 shadow-sm'>
+<?php 
+session_start();
+        
+if(!isset($_SESSION['customer_login'])) 
+    header('location:index.php');   
+?>
+<?php
+if(isset($_REQUEST['submit_id']))
+{
+include '_inc/dbconn.php';
+$customer_id=$_REQUEST["customer_id"];
+$sql="DELETE FROM beneficiary1 WHERE id='$customer_id'";
+$result=  mysql_query($sql) or die(mysql_error());
+
+echo '<script>alert("Beneficiary Deleted successfully. ");';
+                     echo 'window.location= "display_beneficiary.php";</script>';
+                    
+}
+?>
+
+        </div>
+    </div>
+</body>
+</html>
+
+==================== C:\xampp\htdocs\Online-Banking-system\delete_customer.php ====================
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+</head>
+<body class='bg-light'>
+    <div class='container mt-5'>
+        <div class='card p-4 shadow-sm'>
+<?php 
+session_start();
+        
+if(!isset($_SESSION['admin_login'])) 
+    header('location:adminlogin.php');   
+?>
+<!DOCTYPE html>
+<?php
+include '_inc/dbconn.php';
+$sql="SELECT * FROM `users`";
+$result=  mysql_query($sql) or die(mysql_error());
+$sql_min="SELECT MIN(id) FROM users";
+$result_min=  mysql_query($sql_min);
+$rws_min=  mysql_fetch_array($result_min);
+?>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="newcss.css"/>
+        <style>
+            .displaystaff_content table,th,td {
+    padding:6px;
+    border: 1px solid #2E4372;
+   border-collapse: collapse;
+}
+
+        </style>
+        <title>Delete Customer</title>
+    </head>
+    <?php include 'header.php'?>
+        
+                <div class="displaystaff_content">
+                    <?php include 'admin_navbar.php'?>
+                <form action="editcustomer.php" method="POST">
+            
+                    <table align="center">
+                        <th>id</th>
+                        <th>name</th>
+                        <th>gender</th>
+                        <th>DOB</th>
+                        <th>nominee</th>
+                        <th>account type</th>
+                        <th>address</th>
+                        <th>mobile</th>
+                        <th>email</th>
+                        <?php
+                        while($rws=  mysql_fetch_array($result)){
+                            echo "<tr><td><input type='radio' name='customer_id' value=".$rws[0];
+                            if($rws[0]==$rws_min[0]) echo' checked';
+                            echo " /></td>";
+                            echo "<td>".$rws[1]."</td>";
+                            echo "<td>".$rws[2]."</td>";
+                            echo "<td>".$rws[3]."</td>";
+                            echo "<td>".$rws[4]."</td>";
+                            echo "<td>".$rws[5]."</td>";
+                            echo "<td>".$rws[6]."</td>";
+                            echo "<td>".$rws[7]."</td>";
+                            echo "<td>".$rws[8]."</td>";
+                            echo "</tr>";
+                        }
+                        ?>
+                        
+                    </table>
+                    <table align="center">
+                        <tr>
+                            <td>
+                                <input type="submit" name="submit2_id" value="DELETE CUSTOMER DETAILS" class='addstaff_button'/>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+
+            
+                </div>
+                
+                
+                
+            
+    </body>
+</html>
+
+
+        </div>
+    </div>
+</body>
+</html>
+
+==================== C:\xampp\htdocs\Online-Banking-system\delete_staff.php ====================
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+</head>
+<body class='bg-light'>
+    <div class='container mt-5'>
+        <div class='card p-4 shadow-sm'>
+<?php 
+session_start();
+        
+if(!isset($_SESSION['admin_login'])) 
+    header('location:adminlogin.php');   
+?>
+<!DOCTYPE html>
+<?php
+include '_inc/dbconn.php';
+$sql="SELECT * FROM `staff`";
+$result=  mysql_query($sql) or die(mysql_error());
+$sql_min="SELECT MIN(id) from staff";
+$result_min=  mysql_query($sql_min);
+$rws_min=  mysql_fetch_array($result_min);
+
+?>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Delete Staff</title>
+        <style>
+            .displaystaff_content table,th,td {
+    padding:6px;
+    border: 1px solid #2E4372;
+   border-collapse: collapse;
+}
+#button{
+    border:none;
+}
+        </style>
+        <link rel="stylesheet" href="newcss.css">
+    </head>
+    
+    <?php include 'header.php' ?>
+     
+    <div class="displaystaff_content">
+       <?php include 'admin_navbar.php'?>
+                    <div class="displaystaff">
+                <form action="editstaff.php" method="POST">
+            
+                    <table align="center">
+                        <caption align='center' style='color:#2E4372'><h3><u>Staff Details</u></h3></caption>
+                        <th>id</th>
+                        <th>name</th>
+                        <th>gender</th>
+                        <th>DOB</th>
+                        <th>relationship</th>
+                        <th>department</th>
+                        <th>DOJ</th>
+                        <th>address</th>
+                        <th>mobile</th>
+                        <th>email</th>
+                        <?php
+                        while($rws=  mysql_fetch_array($result)){
+                            echo "<tr><td><input type='radio' name='staff_id' value=".$rws[0];
+                            if($rws[0]==$rws_min[0]) echo' checked';
+                            echo " /></td>";
+                            echo "<td>".$rws[1]."</td>";
+                            echo "<td>".$rws[10]."</td>";
+                            echo "<td>".$rws[2]."</td>";
+                            echo "<td>".$rws[3]."</td>";
+                            echo "<td>".$rws[4]."</td>";
+                            echo "<td>".$rws[5]."</td>";
+                            echo "<td>".$rws[6]."</td>";
+                            echo "<td>".$rws[7]."</td>";
+                            echo "<td>".$rws[8]."</td>";
+                            echo "</tr>";
+                        }
+                        ?>
+                    </table>
+                    
+                    
+                    <table align="center" id='button'>
+                    
+                        <tr>
+                            <td><input type="submit" name="submit2_id" value="DELETE STAFF DETAILS" class='addstaff_button' ></td>
+                        </tr>
+                        
+                    </table>
+                    </form>
+                        
+                
+                    
+</div>
+
+          <?php include 'footer.php';?>
+    </body>
+</html>
+
+        </div>
+    </div>
+</body>
+</html>
+
+==================== C:\xampp\htdocs\Online-Banking-system\display_beneficiary.php ====================
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+</head>
+<body class='bg-light'>
+    <div class='container mt-5'>
+        <div class='card p-4 shadow-sm'>
+<?php 
+session_start();
+        
+if(!isset($_SESSION['customer_login'])) 
+    header('location:index.php');   
+?>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Display Beneficiary</title>
+        
+        <link rel="stylesheet" href="newcss.css">
+        <style>
+            .content_customer table,th,td {
+    padding:6px;
+    border: 1px solid #2E4372;
+   border-collapse: collapse;
+   text-align: center;
+}
+
+        </style>
+        </head>
+        <?php include 'header.php' ?>
+<div class='content_customer'>
+            
+           <?php include 'customer_navbar.php'?>
+    <div class="customer_top_nav">
+             <div class="text">Welcome <?php echo $_SESSION['name']?></div>
+            </div>
+    
+            <?php
+include '_inc/dbconn.php';
+$sender_id=$_SESSION["login_id"];
+$sql="SELECT * FROM beneficiary1 WHERE sender_id='$sender_id'";
+$result=  mysql_query($sql) or die(mysql_error());
+?>
+     <br><br><br>
+        <h3 style="text-align:center;color:#2E4372;"><u>Added Beneficiary</u></h3>
+    <form action="delete_beneficiary.php">
+<table align="center">
+                        
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Beneficiary Account No</th>
+                        <th>status</th>
+                        
+                        <?php
+                        while($rws=  mysql_fetch_array($result)){
+                            
+                            echo "<tr><td><input type='radio' name='customer_id' value=".$rws[0];
+                            echo ' checked';
+                            echo " /></td>";
+                            echo "<td>".$rws[4]."</td>";
+                            echo "<td>".$rws[3]."</td>";
+                            echo "<td>".$rws[5]."</td>";
+                           
+                            echo "</tr>";
+                        } ?>
+</table>
+    <table align="center"><tr><td><input type="submit" name="submit_id" value="DELETE BENEFICIARY" class='addstaff_button'/></td></tr></table>
+    </form>
+</div>
+        <?php include 'footer.php'?>
+
+        </div>
+    </div>
+</body>
+</html>
+
+==================== C:\xampp\htdocs\Online-Banking-system\display_customer.php ====================
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+</head>
+<body class='bg-light'>
+    <div class='container mt-5'>
+        <div class='card p-4 shadow-sm'>
+<?php 
+session_start();
+        
+if(!isset($_SESSION['admin_login'])) 
+    header('location:adminlogin.php');   
+?>
+<!DOCTYPE html>
+<?php
+include '_inc/dbconn.php';
+$sql="SELECT * FROM `users`";
+$result=  mysql_query($sql) or die(mysql_error());
+$sql_min="SELECT MIN(id) FROM users";
+$result_min=  mysql_query($sql_min);
+$rws_min=  mysql_fetch_array($result_min);
+?>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="newcss.css"/>
+        <style>
+            .displaystaff_content table,th,td {
+    padding:6px;
+    border: 1px solid #2E4372;
+   border-collapse: collapse;
+}
+
+        </style>
+        <title>Edit Customer Details</title>
+    </head>
+    <?php include 'header.php'?>
+        
+                <div class="displaystaff_content">
+                    <?php include 'admin_navbar.php'?>
+                <form action="editcustomer.php" method="POST">
+            
+                    <table align="center">
+                        <th>id</th>
+                        <th>name</th>
+                        <th>gender</th>
+                        <th>DOB</th>
+                        <th>nominee</th>
+                        <th>account type</th>
+                        <th>address</th>
+                        <th>mobile</th>
+                        <th>email</th>
+                        <?php
+                        while($rws=  mysql_fetch_array($result)){
+                            echo "<tr><td><input type='radio' name='customer_id' value=".$rws[0];
+                            if($rws[0]==$rws_min[0]) echo' checked';
+                            echo " /></td>";
+                            echo "<td>".$rws[1]."</td>";
+                            echo "<td>".$rws[2]."</td>";
+                            echo "<td>".$rws[3]."</td>";
+                            echo "<td>".$rws[4]."</td>";
+                            echo "<td>".$rws[5]."</td>";
+                            echo "<td>".$rws[6]."</td>";
+                            echo "<td>".$rws[7]."</td>";
+                            echo "<td>".$rws['email']."</td>";
+                            echo "</tr>";
+                        }
+                        ?>
+                        
+                    </table>
+                    <table align="center">
+                        <tr>
+                            <td style="padding:10px;">
+                                <input type="submit" name="submit_id" value="EDIT CUSTOMER DETAILS" class='addstaff_button'/>
+                            </td>
+                            <td style="padding:10px;">
+                                <input type="submit" name="manage_tx" value="MANAGE TRANSACTIONS" class='addstaff_button' onclick="this.form.action='admin_manage_transactions.php';"/>
+                            </td>
+                            <td style="padding:10px;">
+                                <input type="submit" name="impersonate" value="ACT AS CUSTOMER" class='addstaff_button' onclick="this.form.action='admin_impersonate.php';"/>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+
+            
+                </div>
+                
+                
+                
+            
+    </body>
+</html>
+
+
+        </div>
+    </div>
+</body>
+</html>
+
+==================== C:\xampp\htdocs\Online-Banking-system\display_staff.php ====================
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+</head>
+<body class='bg-light'>
+    <div class='container mt-5'>
+        <div class='card p-4 shadow-sm'>
+<?php 
+session_start();
+        
+if(!isset($_SESSION['admin_login'])) 
+    header('location:adminlogin.php');   
+?>
+<!DOCTYPE html>
+<?php
+include '_inc/dbconn.php';
+$sql="SELECT * FROM `staff`";
+$result=  mysql_query($sql) or die(mysql_error());
+$sql_min="SELECT MIN(id) from staff";
+$result_min=  mysql_query($sql_min);
+$rws_min=  mysql_fetch_array($result_min);
+?>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Edit Staff Details</title>
+        <style>
+            .displaystaff_content table,th,td {
+    padding:6px;
+    border: 1px solid #2E4372;
+   border-collapse: collapse;
+}
+#button{
+    border:none;
+}
+        </style>
+        <link rel="stylesheet" href="newcss.css">
+    </head>
+    
+    <?php include 'header.php' ?>
+     
+    <div class="displaystaff_content">
+       <?php include 'admin_navbar.php'?>
+                    <div class="displaystaff">
+                <form action="editstaff.php" method="POST">
+            
+                    <table align="center">
+                        <caption align='center' style='color:#2E4372'><h3><u>Staff Details</u></h3></caption>
+                        <th>id</th>
+                        <th>name</th>
+                        <th>gender</th>
+                        <th>DOB</th>
+                        <th>relationship</th>
+                        <th>department</th>
+                        <th>DOJ</th>
+                        <th>address</th>
+                        <th>mobile</th>
+                        <th>email</th>
+                        <?php
+                        while($rws=  mysql_fetch_array($result)){
+                            echo "<tr><td><input type='radio' name='staff_id' value=".$rws[0];
+                            if($rws[0]==$rws_min[0]) echo' checked';
+                            echo " /></td>";
+                            echo "<td>".$rws[1]."</td>";
+                            echo "<td>".$rws[10]."</td>";
+                            echo "<td>".$rws[2]."</td>";
+                            echo "<td>".$rws[3]."</td>";
+                            echo "<td>".$rws[4]."</td>";
+                            echo "<td>".$rws[5]."</td>";
+                            echo "<td>".$rws[6]."</td>";
+                            echo "<td>".$rws[7]."</td>";
+                            echo "<td>".$rws[8]."</td>";
+                            echo "</tr>";
+                        }
+                        ?>
+                    </table>
+                    
+                    
+                    <table align="center" id='button'>
+                    
+                        <tr>
+                            <td><input type="submit" name="submit1_id" value="EDIT STAFF DETAILS" class='addstaff_button' ></td>
+                        </tr>
+                        
+                    </table>
+                    </form>
+                
+                    
+</div>
+
+          <?php include 'footer.php';?>
+    </body>
+</html>
+
+        </div>
+    </div>
+</body>
+</html>
+
+==================== C:\xampp\htdocs\Online-Banking-system\editcustomer.php ====================
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+</head>
+<body class='bg-light'>
+    <div class='container mt-5'>
+        <div class='card p-4 shadow-sm'>
+<?php 
+session_start();
+        
+if(!isset($_SESSION['admin_login'])) 
+    header('location:adminlogin.php');   
+?>
+<?php
+include '_inc/dbconn.php';
+$id=  mysql_real_escape_string($_REQUEST['customer_id']);
+$sql="SELECT * FROM `users` WHERE id=$id";
+$result=  mysql_query($sql) or die(mysql_error());
+$rws=  mysql_fetch_array($result);
+?>
+<?php
+                        $delete_id=  mysql_real_escape_string($_REQUEST['customer_id']);
+                        if(isset($_REQUEST['submit2_id'])){
+                            $sql_delete="DELETE FROM `users` WHERE `id` = '$delete_id'";
+                            $sql_drop="DROP TABLE passbook".$delete_id;
+                            mysql_query($sql_delete) or die(mysql_error());
+                            mysql_query($sql_drop) or die(mysql_error());
+                            header('location:delete_customer.php');
+                        }
+                        ?>
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="newcss.css"/>
+        

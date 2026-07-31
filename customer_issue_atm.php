@@ -1,82 +1,73 @@
-<!DOCTYPE html>
-<html lang='en'>
-<head>
-    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
-</head>
-<body class='bg-light'>
-    <div class='container mt-5'>
-        <div class='card p-4 shadow-sm'>
-<?php 
+﻿<?php
 session_start();
-        
-if(!isset($_SESSION['customer_login'])) 
-    header('location:index.php');   
-?>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>ATM request</title>
-        
-        <link rel="stylesheet" href="newcss.css">
-        <style>
-            .content_customer table,th,td {
-    padding:6px;
-    border: 1px solid #2E4372;
-   border-collapse: collapse;
-   text-align: center;
+if (!isset($_SESSION['customer_login']) || !isset($_SESSION['login_id'])) {
+    header('location:login.php');
+    exit();
 }
 
-        </style>
-    </head>
-        <?php include 'header.php' ?>
-<div class='content_customer'>
+include '_inc/dbconn.php';
 
-           <?php include 'customer_navbar.php'?>
-     <div class="customer_top_nav">
-             <div class="text">Welcome <?php echo $_SESSION['name']?></div>
-            </div>
-            <br><br>
-    
-    <form action="customer_issue_atm_process.php" method="POST">
-    <table align="center">
-        <tr><td>Issue: <select name="atm">
-        <option value='ATM' selected>ATM</option>
-        <option value='CHEQUE'>Cheque Book</option></td><tr>
-        
-    </select>
-          </table>      
-    <table align="center"><tr><td><input type="submit" name="submitBtn" value="Request" class='addstaff_button'></td></tr>
-    </table>    </form>
-    
-    <?php 
-        include '_inc/dbconn.php';
-        $sender_id=$_SESSION["login_id"];
-        
-        $sql="SELECT * FROM cheque_book WHERE account_no='$sender_id'";
-        $result=mysql_query($sql) or die(mysql_error());
-        $rws=mysql_fetch_array($result);
-        $c_status=$rws[3];
-        $c_id=$rws[2];
-        
-        $sql="SELECT * FROM atm WHERE account_no='$sender_id'";
-        $result=mysql_query($sql) or die(mysql_error());
-        $rws=mysql_fetch_array($result);
-        $atm_status=$rws[3];
-        $a_id=$rws[2];
-        
-        if(($a_id==$sender_id) || ($c_id==$sender_id))
-        {
-            
-        echo "<table align='center'>";
-        echo "<th>Requests</th><th>Status</th>";
-        echo "<tr><td>ATM Card Status: </td><td>$atm_status</td></tr>";
-        echo "<tr><td>Cheque Book Status: </td><td>$c_status</td></tr>";
-            echo "</table>"; }?>
+$account_no = mysql_real_escape_string($_SESSION['login_id']);
 
-    <?php include 'footer.php';?>
+// Fetch ATM Card Status
+$atm_sql = "SELECT * FROM atm WHERE account_no='$account_no' ORDER BY id DESC LIMIT 1";
+$atm_res = mysql_query($atm_sql);
+$atm_status = ($atm_res && $atm_row = mysql_fetch_array($atm_res)) ? $atm_row['atm_status'] : 'NOT REQUESTED';
 
+// Fetch Cheque Book Status
+$cheque_sql = "SELECT * FROM cheque_book WHERE account_no='$account_no' ORDER BY id DESC LIMIT 1";
+$cheque_res = mysql_query($cheque_sql);
+$cheque_status = ($cheque_res && $cheque_row = mysql_fetch_array($cheque_res)) ? $cheque_row['cheque_book_status'] : 'NOT REQUESTED';
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATM & Cheque Book Request - Meridian Online Banking</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="newcss.css">
+</head>
+<body class="bg-light">
+
+    <?php include 'customer_navbar.php'; ?>
+
+    <main class="container my-5" style="max-width: 650px;">
+        <div class="card border-0 shadow-sm rounded-4 p-4 bg-white mb-4">
+            <h1 class="h4 fw-bold text-dark mb-1">Issue / Request Cards & Cheque Book</h1>
+            <p class="text-muted small mb-4">Request a new physical debit card or cheque book for Account No: <strong><?php echo $account_no; ?></strong>.</p>
+
+            <form action="customer_issue_atm_process.php" method="POST">
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">Select Request Type</label>
+                    <select name="atm" class="form-select" required>
+                        <option value="ATM">ATM Debit Card</option>
+                        <option value="CHEQUE">Cheque Book</option>
+                    </select>
+                </div>
+
+                <button type="submit" name="submitBtn" class="btn btn-primary w-100 py-2 rounded-pill fw-semibold">Submit Request</button>
+            </form>
         </div>
-    </div>
+
+        <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
+            <h3 class="h5 fw-bold text-dark mb-3">Request Status Overview</h3>
+            <div class="d-flex justify-content-between align-items-center p-3 bg-light rounded-3 mb-2">
+                <span class="fw-semibold text-dark">ATM Card Request:</span>
+                <span class="badge bg-<?php echo $atm_status === 'ISSUED' ? 'success' : ($atm_status === 'PENDING' ? 'warning' : 'secondary'); ?> fs-6"><?php echo $atm_status; ?></span>
+            </div>
+            <div class="d-flex justify-content-between align-items-center p-3 bg-light rounded-3">
+                <span class="fw-semibold text-dark">Cheque Book Request:</span>
+                <span class="badge bg-<?php echo $cheque_status === 'ISSUED' ? 'success' : ($cheque_status === 'PENDING' ? 'warning' : 'secondary'); ?> fs-6"><?php echo $cheque_status; ?></span>
+            </div>
+        </div>
+    </main>
+
+    <?php include 'footer.php'; ?>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.querySelector('.nav-atm')?.classList.add('active');
+    </script>
 </body>
 </html>

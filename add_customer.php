@@ -1,62 +1,53 @@
-<!DOCTYPE html>
-<html lang='en'>
-<head>
-    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
-</head>
-<body class='bg-light'>
-    <div class='container mt-5'>
-        <div class='card p-4 shadow-sm'>
-<?php 
+﻿<?php
 session_start();
-        
-if(!isset($_SESSION['admin_login'])) 
-    header('location:adminlogin.php');   
-?>
-    <?php
-include '_inc/dbconn.php';
-$name=  mysql_real_escape_string($_REQUEST['customer_name']);
-$gender=  mysql_real_escape_string($_REQUEST['customer_gender']);
-$dob=  mysql_real_escape_string($_REQUEST['customer_dob']);
-$nominee=  mysql_real_escape_string($_REQUEST['customer_nominee']);
-$type=  mysql_real_escape_string($_REQUEST['customer_account']);
-$credit=  mysql_real_escape_string($_REQUEST['initial']);
-$address=  mysql_real_escape_string($_REQUEST['customer_address']);
-$mobile=  mysql_real_escape_string($_REQUEST['customer_mobile']);
-$email= mysql_real_escape_string($_REQUEST['customer_email']);
-
-//salting of password
-$salt="@g26jQsG&nh*&#8v";
-$password=  sha1($_REQUEST['customer_pwd'].$salt);
-
-$branch=  mysql_real_escape_string($_REQUEST['branch']);
-$date=date("Y-m-d");
-switch($branch){
-case 'KOLKATA': $ifsc="K421A";
-    break;
-case 'DELHI': $ifsc="D30AC";
-    break;
-case 'BANGALORE': $ifsc="B6A9E";
-    break;
+if (!isset($_SESSION['admin_login'])) {
+    header('location:adminlogin.php');
+    exit();
 }
 
-$sql3="SELECT MAX(id) from customer";
-$result=mysql_query($sql3) or die(mysql_error());
-$rws=  mysql_fetch_array($result);
-$id=$rws[0]+1;
-$sql1="CREATE TABLE passbook".$id." 
-    (transactionid int(5) AUTO_INCREMENT, transactiondate date, name VARCHAR(255), branch VARCHAR(255), ifsc VARCHAR(255), credit int(10), debit int(10), 
-    amount float(10,2), narration VARCHAR(255), PRIMARY KEY (transactionid))";
+include '_inc/dbconn.php';
 
-$sql="insert into customer values('','$name','$gender','$dob','$nominee','$type','$address','$mobile',
-    '$email','$password','$branch','$ifsc','','ACTIVE')";
-mysql_query($sql) or die("Email already exists!");
-mysql_query($sql1) or die(mysql_error());
-$sql4="insert into passbook".$id." values('','$date','$name','$branch','$ifsc','$credit','0','$credit','Account Open')";
-mysql_query($sql4) or die(mysql_error());
-header('location:admin_hompage.php');
+if (isset($_POST['add_customer'])) {
+    $name = mysql_real_escape_string($_POST['customer_name']);
+    $gender = mysql_real_escape_string($_POST['customer_gender']);
+    $dob = mysql_real_escape_string($_POST['customer_dob']);
+    $nominee = mysql_real_escape_string($_POST['customer_nominee']);
+    $type = mysql_real_escape_string($_POST['customer_account']);
+    $credit = floatval($_POST['initial']);
+    $address = mysql_real_escape_string($_POST['customer_address']);
+    $mobile = mysql_real_escape_string($_POST['customer_mobile']);
+    $email = mysql_real_escape_string($_POST['customer_email']);
+    $branch = mysql_real_escape_string($_POST['branch']);
+
+    $salt = "@g26jQsG&nh*&#8v";
+    $password = sha1($_POST['customer_pwd'] . $salt);
+
+    $date = date("Y-m-d");
+    switch ($branch) {
+        case 'KOLKATA': $ifsc = "K421A"; break;
+        case 'DELHI': $ifsc = "D30AC"; break;
+        case 'BANGALORE': $ifsc = "B6A9E"; break;
+        default: $ifsc = "M100B"; break;
+    }
+
+    $sql_insert = "INSERT INTO customer VALUES('', '$name', '$gender', '$dob', '$nominee', '$type', '$address', '$mobile', '$email', '$password', '$branch', '$ifsc', '', 'ACTIVE')";
+    if (!mysql_query($sql_insert)) {
+        die("Error creating customer account: " . mysql_error());
+    }
+
+    $id = mysql_insert_id();
+
+    // Create passbook table for customer
+    $sql_create_passbook = "CREATE TABLE passbook" . $id . " 
+        (transactionid int(5) AUTO_INCREMENT, transactiondate date, name VARCHAR(255), branch VARCHAR(255), ifsc VARCHAR(255), credit int(10), debit int(10), 
+        amount float(10,2), narration VARCHAR(255), PRIMARY KEY (transactionid))";
+    mysql_query($sql_create_passbook) or die(mysql_error());
+
+    // Insert opening balance entry
+    $sql_init_passbook = "INSERT INTO passbook" . $id . " VALUES('', '$date', '$name', '$branch', '$ifsc', '$credit', '0', '$credit', 'Account Open')";
+    mysql_query($sql_init_passbook) or die(mysql_error());
+
+    header('location:admin_hompage.php');
+    exit();
+}
 ?>
-
-        </div>
-    </div>
-</body>
-</html>

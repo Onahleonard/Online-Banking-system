@@ -1,12 +1,4 @@
-<!DOCTYPE html>
-<html lang='en'>
-<head>
-    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
-</head>
-<body class='bg-light'>
-    <div class='container mt-5'>
-        <div class='card p-4 shadow-sm'>
-<?php
+﻿<?php
 session_start();
 if (!isset($_SESSION['admin_login'])) {
     header('location:adminlogin.php');
@@ -16,6 +8,7 @@ if (!isset($_SESSION['admin_login'])) {
 include '_inc/dbconn.php';
 
 $customer_id = isset($_REQUEST['customer_id']) ? mysql_real_escape_string($_REQUEST['customer_id']) : '';
+
 if (empty($customer_id)) {
     echo "<script>alert('Please select a customer first!'); window.location='display_customer.php';</script>";
     exit();
@@ -23,27 +16,24 @@ if (empty($customer_id)) {
 
 $sql = "SELECT * FROM customer WHERE id='$customer_id'";
 $res = mysql_query($sql);
+
 if ($res && mysql_num_rows($res) > 0) {
     $row = mysql_fetch_array($res);
-    
-    // Save admin impersonating flag
+
+    // Set impersonator session flag
     $_SESSION['admin_impersonator'] = true;
-    
-    // Set customer credentials in session
+
+    // Set active customer session variables
     $_SESSION['customer_login'] = 1;
     $_SESSION['cust_id'] = $row['email'];
     $_SESSION['login_id'] = $row['id'];
     $_SESSION['name'] = $row['name'];
-    
-    header('location:customer_account_summary.php');
+    $_SESSION['customer_id'] = $row['id'];
+
+    header('location:dashboard.php');
     exit();
 } else {
     echo "<script>alert('Customer not found!'); window.location='display_customer.php';</script>";
     exit();
 }
 ?>
-
-        </div>
-    </div>
-</body>
-</html>

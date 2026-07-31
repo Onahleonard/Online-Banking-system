@@ -1,24 +1,16 @@
-<!DOCTYPE html>
-<html lang='en'>
-<head>
-    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
-</head>
-<body class='bg-light'>
-    <div class='container mt-5'>
-        <div class='card p-4 shadow-sm'>
-<?php
+﻿<?php
+// _inc/dbconn.php - Core Database Connection & Compatibility Layer
 $serverName = "localhost";
 $dbusername = "root";
-$dbpassword = ""; // XAMPP default password is empty
+$dbpassword = "";
 $dbname = "bank_db";
 
-// Upgrade to modern, secure MySQLi extension
 $conn = null;
 try {
     $conn = mysqli_connect($serverName, $dbusername, $dbpassword, $dbname);
 } catch (mysqli_sql_exception $exception) {
-    error_log("[dbconn] Database connection exception: " . $exception->getMessage());
-    $conn = null; // Allow the demo to continue using session-backed fallback data
+    error_log("[dbconn] Connection error: " . $exception->getMessage());
+    $conn = null;
 }
 
 if ($conn === false) {
@@ -26,9 +18,7 @@ if ($conn === false) {
     $conn = null;
 }
 
-// -----------------------------------------------------------------------------
-// Legacy mysql_* Extension Compatibility Shims
-// -----------------------------------------------------------------------------
+// Legacy mysql_* compatibility shims
 if (!function_exists('mysql_query')) {
     function mysql_query($query, $link = null) {
         global $conn;
@@ -77,6 +67,15 @@ if (!function_exists('mysql_num_rows')) {
     }
 }
 
+if (!function_exists('mysql_insert_id')) {
+    function mysql_insert_id($link = null) {
+        global $conn;
+        $l = $link ? $link : $conn;
+        if (!$l) return 0;
+        return mysqli_insert_id($l);
+    }
+}
+
 if (!function_exists('mysql_close')) {
     function mysql_close($link = null) {
         global $conn;
@@ -86,12 +85,9 @@ if (!function_exists('mysql_close')) {
     }
 }
 
-// -----------------------------------------------------------------------------
-// Auto-initialize Dynamic Schema Tables & Seeding
-// -----------------------------------------------------------------------------
+// Auto-initialize required operational tables
 if ($conn) {
-    // 1. pending_transfers table
-    $createPendingSql = "CREATE TABLE IF NOT EXISTS `pending_transfers` (
+    mysqli_query($conn, "CREATE TABLE IF NOT EXISTS `pending_transfers` (
       `id` INT AUTO_INCREMENT PRIMARY KEY,
       `sender_id` INT NOT NULL,
       `sender_name` VARCHAR(255) NOT NULL,
@@ -101,44 +97,36 @@ if ($conn) {
       `date` DATE NOT NULL,
       `narration` VARCHAR(255),
       `status` VARCHAR(15) DEFAULT 'PENDING'
-    ) ENGINE=InnoDB DEFAULT CHARSET=latin1;";
-    mysqli_query($conn, $createPendingSql);
+    ) ENGINE=InnoDB DEFAULT CHARSET=latin1;");
 
-    // 2. contact_details table
-    $createContactSql = "CREATE TABLE IF NOT EXISTS `contact_details` (
+    mysqli_query($conn, "CREATE TABLE IF NOT EXISTS `contact_details` (
       `id` INT AUTO_INCREMENT PRIMARY KEY,
       `branch_name` VARCHAR(255) NOT NULL,
       `address` VARCHAR(255) NOT NULL,
       `phone` VARCHAR(255) NOT NULL,
       `email` VARCHAR(255) NOT NULL
-    ) ENGINE=InnoDB DEFAULT CHARSET=latin1;";
-    mysqli_query($conn, $createContactSql);
+    ) ENGINE=InnoDB DEFAULT CHARSET=latin1;");
 
-    // Seed contact_details if empty
     $checkContact = mysqli_query($conn, "SELECT COUNT(*) FROM `contact_details`");
     if ($checkContact) {
         $countRow = mysqli_fetch_row($checkContact);
-        if ($countRow[0] == 0) {
-            $seedSql = "INSERT INTO `contact_details` (`branch_name`, `address`, `phone`, `email`) VALUES
-                ('Kolkata Branch', 'Globsyn Buisness School, IBRAD buisness school, Keshtopur, Kolkata.', '033-456892/12', 'kolkatabranch@onlinebank.com'),
-                ('Delhi Branch', 'Globsyn Buisness School, Sector V-A , Malviya Nagar, Delhi.', '013-456856/32', 'delhibranch@onlinebank.com'),
-                ('Bangalore Branch', 'Globsyn Buisness School, Near City Center, Kamarthalli, Bangalore.', '022-456854/11', 'bangalorebranch@onlinebank.com');";
-            mysqli_query($conn, $seedSql);
+        if ($countRow && $countRow[0] == 0) {
+            mysqli_query($conn, "INSERT INTO `contact_details` (`branch_name`, `address`, `phone`, `email`) VALUES
+                ('Kolkata Branch', 'Globsyn Business School, IBRAD business school, Keshtopur, Kolkata.', '033-456892/12', 'kolkatabranch@onlinebank.com'),
+                ('Delhi Branch', 'Globsyn Business School, Sector V-A, Malviya Nagar, Delhi.', '013-456856/32', 'delhibranch@onlinebank.com'),
+                ('Bangalore Branch', 'Globsyn Business School, Near City Center, Kamarthalli, Bangalore.', '022-456854/11', 'bangalorebranch@onlinebank.com');");
         }
     }
 
-    // 3. device_verification table
-    $createDeviceSql = "CREATE TABLE IF NOT EXISTS `device_verification` (
+    mysqli_query($conn, "CREATE TABLE IF NOT EXISTS `device_verification` (
       `id` INT AUTO_INCREMENT PRIMARY KEY,
       `user_id` INT NOT NULL,
       `device_token` VARCHAR(255) NOT NULL,
       `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
       UNIQUE KEY `user_device` (`user_id`, `device_token`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=latin1;";
-    mysqli_query($conn, $createDeviceSql);
+    ) ENGINE=InnoDB DEFAULT CHARSET=latin1;");
 
-    // 4. temp_otp table
-    $createOtpSql = "CREATE TABLE IF NOT EXISTS `temp_otp` (
+    mysqli_query($conn, "CREATE TABLE IF NOT EXISTS `temp_otp` (
       `id` INT AUTO_INCREMENT PRIMARY KEY,
       `user_id` INT NOT NULL,
       `otp_code` VARCHAR(10) NOT NULL,
@@ -146,12 +134,5 @@ if ($conn) {
       `otp_verified` TINYINT(1) DEFAULT 0,
       `auth_verified` TINYINT(1) DEFAULT 0,
       `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP
-    ) ENGINE=InnoDB DEFAULT CHARSET=latin1;";
-    mysqli_query($conn, $createOtpSql);
+    ) ENGINE=InnoDB DEFAULT CHARSET=latin1;");
 }
-?>
-
-        </div>
-    </div>
-</body>
-</html>

@@ -1,37 +1,22 @@
-<!DOCTYPE html>
-<html lang='en'>
-<head>
-    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
-</head>
-<body class='bg-light'>
-    <div class='container mt-5'>
-        <div class='card p-4 shadow-sm'>
-<?php 
+﻿<?php
 session_start();
-        
-if(!isset($_SESSION['staff_login'])) 
-    header('location:staff_login.php');   
-?>
-<?php
-if(isset($_REQUEST['submit_id']))
-{
-    include '_inc/dbconn.php';
-    $id=$_REQUEST['customer_id'];
-    
-    $sql="SELECT * FROM cheque_book WHERE id='$id'";
-    $result=  mysql_query($sql) or die(mysql_error());
-    $rws=  mysql_fetch_array($result);
-                
-    if($rws[3]=="PENDING")
-    $sql="UPDATE cheque_book SET cheque_book_status='ISSUED' WHERE id='$id'";
-    
-    mysql_query($sql) or die(mysql_error());
-    
-    echo '<script>alert("Cheque Book Issued");';
-    echo 'window.location= "staff_cheque_approve.php";</script>';
+if (!isset($_SESSION['staff_login'])) {
+    header('location:staff_login.php');
+    exit();
 }
 
-        </div>
-    </div>
-</body>
-</html>
+include '_inc/dbconn.php';
+
+if (isset($_REQUEST['submit_id'])) {
+    $id = mysql_real_escape_string($_REQUEST['customer_id']);
+
+    $sql = "UPDATE cheque_book SET cheque_book_status='ISSUED' WHERE id='$id'";
+    mysql_query($sql) or die(mysql_error());
+
+    echo '<script>alert("Cheque Book request approved and set to ISSUED."); window.location="staff_cheque_approve.php";</script>';
+    exit();
+} else {
+    header('location:staff_cheque_approve.php');
+    exit();
+}
+?>

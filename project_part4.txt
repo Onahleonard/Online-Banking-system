@@ -1,0 +1,1047 @@
+        <title>staff editing</title>
+        
+    </head>
+    <?php include 'header.php'; ?>
+        <div class='content_addstaff'>
+    <?php include 'admin_navbar.php'?>
+                <div class='addstaff'>
+                <form action="alter_customer.php" method="POST">
+            <table align="center">
+                                <input type="hidden" name="current_id" value="<?php echo $id;?>"/>
+                 <tr><td colspan='2' align='center' style='color:#2E4372;'><h3><u>Edit Customer Details</u></h3></td></tr>
+                <tr>
+                    <td>customer's name</td>
+                    <td><input type="text" name="edit_name" value="<?php echo $rws[1];?>" required=""/></td>
+                </tr>
+                <tr>
+                    <td>gender</td>
+                    <td>
+                        M<input type="radio" name="edit_gender" value="M" <?php if($rws[2]=="M") echo "checked";?>/>
+                        F<input type="radio" name="edit_gender" value="F" <?php if($rws[2]=="F") echo "checked";?>/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        DOB
+                    </td>
+                    <td>
+                        <input type="date" name="edit_dob" value="<?php echo $rws[3];?>"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Nominee</td>
+                    <td><input type="text" name="edit_nominee" value="<?php echo $rws[4];?>" required=""/></td>
+                </tr>
+                <tr>
+                    <td>account type</td>
+                    <td>
+                        <select name="edit_account">
+                            <option <?php if($rws[5]=="savings") echo "selected";?>>savings</option>
+                            <option <?php if($rws[5]=="current") echo "selected";?>>current</option>
+                        </select>
+                    </td>
+                </tr>
+                
+                                
+                <tr>
+                    <td>Address:</td>
+                    <td><textarea name="edit_address"><?php echo $rws[6];?></textarea></td>
+                </tr>
+                
+                    <td>mobile</td>
+                    <td><input type="text" name="edit_mobile" value="<?php echo $rws[7];?>" required=""/></td>
+                </tr>
+
+                <tr>
+                    <td>email id</td>
+                    <td><input type="text" name="edit_mobile" value="<?php echo $rws[8];?>" required=""/></td>
+                </tr>
+                
+                <tr>
+                    <td colspan="2" align='center' style='padding-top:20px'><input type="submit" name="alter_customer" value="UPDATE DATA" class='addstaff_button'/></td>
+                </tr>
+            </table>
+        </form>
+                
+        </div>
+        </div>
+                
+           
+    </body>
+</html>
+
+
+        </div>
+    </div>
+</body>
+</html>
+
+==================== C:\xampp\htdocs\Online-Banking-system\editprofile.php ====================
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+</head>
+<body class='bg-light'>
+    <div class='container mt-5'>
+        <div class='card p-4 shadow-sm'>
+<!DOCTYPE html>
+<?php
+include '_inc/dbconn.php';
+$sql="SELECT * FROM `admin` WHERE id=1";
+$result=  mysql_query($sql) or die(mysql_error());
+$rws=  mysql_fetch_array($result);
+?>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="style.css"/>
+        <title>profile editing</title>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">           
+                
+            </div>
+            <div class="card p-4">
+                
+                <form action="alter.php" method="POST" enctype="multipart/form-data">
+            <table align="center" border="21" class="table">
+                <tr>
+                    <td>NAME</td>
+                    <td><input type="text" name="name" value="<?php echo $rws[1];?>" required=""/></td>
+                </tr>
+                <tr>
+                    <td>gender</td>
+                    <td>
+                        M<input type="radio" name="gender" value="M" <?php if($rws[2]=="M") echo "checked";?>/>
+                        F<input type="radio" name="gender" value="F" <?php if($rws[2]=="F") echo "checked";?>/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        DOB
+                    </td>
+                    <td>
+                        <input type="date" name="dob" value="<?php echo $rws[3];?>"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Nominee</td>
+                    <td><input type="text" name="nominee" value="<?php echo $rws[4];?>" required=""/></td>
+                </tr>
+                <tr>
+                    <td>relationship</td>
+                    <td>
+                        <select name="status">
+                            <option <?php if($rws[5]=="unmarried") echo "selected";?>>unmarried</option>
+                            <option <?php if($rws[5]=="married") echo "selected";?>>married</option>
+                            <option <?php if($rws[5]=="divorced") echo "selected";?>>divorced</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>designation</td>
+                    <td>
+                        <input type="text" name="designation" value="<?php echo $rws[6];?>"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>department</td>
+                    <td>
+                        <select name="dept">
+                            <option <?php if($rws[7]=="revenue") echo "selected";?>>revenue</option>
+                            <option <?php if($rws[7]=="developer") echo "selected";?>>developer</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        DOJ
+                    </td>
+                    <td>
+                        <input type="date" name="doj" value="<?php echo $rws[8];?>"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>upload your photo: </td>
+                    <td>
+                        <input type="file" name="profile"/><br/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Address:</td>
+                    <td><textarea name="address"><?php echo $rws[10];?></textarea></td>
+                </tr>
+                <tr>
+                    <td>phone</td>
+                    <td><input type="text" name="phone" value="<?php echo $rws[11];?>" required=""/></td>
+                </tr>
+                <tr>
+                    <td>mobile</td>
+                    <td><input type="text" name="mobile" value="<?php echo $rws[12];?>" required=""/></td>
+                </tr>
+
+                <tr>
+                    <td>e mail id</td>
+                    <td><input type="email" name="email" value="<?php echo $rws[13];?>" required=""/></td>
+                </tr>
+                <tr>
+                    <td>password</td>
+                    <td><input type="password" name="pwd" value="<?php echo $rws[14];?>" required=""/></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input type="submit" name="alter" value="UPDATE DATA"/></td>
+                </tr>
+            </table>
+        </form>
+                
+                
+                
+            </div>
+            <div class="footer">
+                
+                
+                
+                
+                
+            </div>
+        </div>
+    </body>
+</html>
+
+        </div>
+    </div>
+</body>
+</html>
+
+==================== C:\xampp\htdocs\Online-Banking-system\editstaff.php ====================
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+</head>
+<body class='bg-light'>
+    <div class='container mt-5'>
+        <div class='card p-4 shadow-sm'>
+<?php 
+session_start();
+        
+if(!isset($_SESSION['admin_login'])) 
+    header('location:adminlogin.php');   
+?>
+<!DOCTYPE html>
+<?php
+include '_inc/dbconn.php';
+$id=  mysql_real_escape_string($_REQUEST['staff_id']);
+$sql="SELECT * FROM `staff` WHERE id=$id";
+$result=  mysql_query($sql) or die(mysql_error());
+$rws=  mysql_fetch_array($result);
+?>
+<?php
+                        $delete_id=  mysql_real_escape_string($_REQUEST['staff_id']);
+                        if(isset($_REQUEST['submit2_id'])){
+                            $sql_delete="DELETE FROM `staff` WHERE `id` = '$delete_id'";
+                            mysql_query($sql_delete) or die(mysql_error());
+                            header('location:delete_staff.php');
+                        }
+                        ?>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="newcss.css"/>
+        <title>staff editing</title>
+    </head>
+    <?php include 'header.php'; ?>
+        <div class='content_addstaff'>
+    <?php include 'admin_navbar.php'?>
+                <div class='addstaff'>
+                <form action="alter_staff.php" method="POST">
+            <table align="center" >
+                <input type="hidden" name="current_id" value="<?php echo $id;?>"/>
+                <tr><td colspan='2' align='center' style='color:#2E4372;'><h3><u>Edit Staff Details</u></h3></td></tr>
+                <tr>
+                    <td>Staff's name</td>
+                    <td><input type="text" name="edit_name" value="<?php echo $rws[1];?>" required=""/></td>
+                </tr>
+                <tr>
+                    <td>Gender</td>
+                    <td>
+                        M<input type="radio" name="edit_gender" value="M" <?php if($rws[10]=="M") echo "checked";?>/>
+                        F<input type="radio" name="edit_gender" value="F" <?php if($rws[10]=="F") echo "checked";?>/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        DOB
+                    </td>
+                    <td>
+                        <input type="date" name="edit_dob" value="<?php echo $rws[2];?>"/>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>Relationship</td>
+                    <td>
+                        <select name="edit_status">
+                            <option <?php if($rws[3]=="unmarried") echo "selected";?>>unmarried</option>
+                            <option <?php if($rws[3]=="married") echo "selected";?>>married</option>
+                            <option <?php if($rws[3]=="divorced") echo "selected";?>>divorced</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Department</td>
+                    <td>
+                        <select name="edit_dept">
+                            <option <?php if($rws[4]=="revenue") echo "selected";?>>revenue</option>
+                            <option <?php if($rws[4]=="developer") echo "selected";?>>developer</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        DOJ
+                    </td>
+                    <td>
+                        <input type="date" name="edit_doj" value="<?php echo $rws[5];?>"/>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>Address:</td>
+                    <td><textarea name="edit_address"><?php echo $rws[6];?></textarea></td>
+                </tr>
+                
+                    <td>Mobile</td>
+                    <td><input type="text" name="edit_mobile" value="<?php echo $rws[7];?>" required=""/></td>
+                </tr>
+
+                <tr>
+                    <td>Email id</td>
+                    <td><input type="text" name="edit_mobile" value="<?php echo $rws[8];?>" required=""/></td>
+                </tr>
+                
+                <tr>
+                    <td colspan="2" align='center' style='padding-top:20px'><input type="submit" name="alter" value="UPDATE DATA" class='addstaff_button'/></td>
+                </tr>
+            </table>
+        </form>
+                
+                
+                </div>
+                </div>
+    </body>
+</html>
+
+        </div>
+    </div>
+</body>
+</html>
+
+==================== C:\xampp\htdocs\Online-Banking-system\faq.php ====================
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+</head>
+<body class='bg-light'>
+    <div class='container mt-5'>
+        <div class='card p-4 shadow-sm'>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Contact Us</title>
+        
+        <link rel="stylesheet" href="newcss.css">
+        <style>
+            .heading{
+    font-weight:bold;
+    color:#2E4372;
+}
+        </style>
+       
+    </head>
+        <?php include 'header.php' ?>
+        <div class='content_customer'>
+            <h3 style="text-align:center;color:#2E4372;"><u>Frequently asked questions</u></h3>
+            
+            <div class="contact">
+            <h3 style="color:#2E4372;"><u>1. What is Online banking?</u></h3>
+            <p>Online banking is the Internet banking service provided by Bank of India, India's largest and premier commercial bank</p>
+            
+             <h3 style="color:#2E4372;"><u>2. What is special about Internet banking?</u></h3>
+            <p>Internet banking is the most convenient way to bank- anytime, any place, at your convenience.</p>
+            
+             <h3 style="color:#2E4372;"><u>3. I do not have a PC?</u></h3>
+            <p>You can access Online banking from any computer that has connectivity to the Internet. But make sure your computer is Malware free.</p>
+            <h3 style="color:#2E4372;"><u>4. How do I access Online banking?</u></h3>
+            <p>You need to have an account at a branch. You also need to register for the Internet banking service with the branch. Branch will provide you a Pre Printed Kit (PPK) containing username and password for first login. If you are not in a position to collect PPK in person, the bank will arrange to send a username through SMS and a mailer containing password to your registered address. Logon to www.onlinebanking.com using this username and password. At the first login, you will need to go through a simple initialization process. Our Net banking assistant will guide you step by step through this process on the site.</p>
+            <h3 style="color:#2E4372;"><u>5. I do not have an account with bank?</u></h3>
+            <p>You are welcome to open it now. It is very easy to open an account with online bank. You can apply online for opening of a savings bank account. A link 'Online bank Account Application' is available on the home page of www.onlinebanking.com or just walk in to any of our branches nearby. Our staff would be pleased to assist you.</p>
+            </div>
+            </div>
+    <?php include 'footer.php'; ?>
+
+        </div>
+    </div>
+</body>
+</html>
+
+==================== C:\xampp\htdocs\Online-Banking-system\features.php ====================
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+</head>
+<body class='bg-light'>
+    <div class='container mt-5'>
+        <div class='card p-4 shadow-sm'>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Features - Online Banking</title>
+        <style>
+            .content_customer ul{
+                margin-left:150px;
+                margin-top:50px;
+            }
+            .content_customer li{
+                padding-top:15px;
+            }
+        </style>
+        <link rel="stylesheet" href="newcss.css">
+       
+    </head>
+        <?php include 'header.php' ?>
+        <div class='content_customer'>
+             <h3 style="text-align:center;color:#2E4372;"><u>Online Banking features</u></h3>
+           <ul>
+               <li>Registration for online banking by Admin. </li>
+               <li>Adding Beneficiary account by customer.</li>
+                <li> Transferring amount to the beneficiary added by customer. </li>
+               <li>Staff must approve for beneficiary activation before it can be used for transferring funds. </li>
+               <li>Customer gets to know his last login date and time each time he logs in.</li>
+               <li>Customer can check last 10 transactions made with their account.</li>
+               <li>Customer can check their account statement within a date range.</li>
+               
+               <li>Customer can request for ATM and Cheque Book.</li>
+               <li>Staff will approve requests for ATM card and cheque book. </li>
+              <li> Admin can add/edit/delete customer as well as staff. </li>
+             <li> All three of them(customer, staff & admin) can change their password. </li>
+             <li>Staff and Admin Login pages are hidden from customer for security purpose.</li>
+             <li>Passwords are stored as encrypted hashes with an additional random salt for added security.</li>
+            
+               </ul>
+               </div>
+            
+
+        </div>
+    </div>
+</body>
+</html>
+
+==================== C:\xampp\htdocs\Online-Banking-system\footer.php ====================
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+</head>
+<body class='bg-light'>
+    <div class='container mt-5'>
+        <div class='card p-4 shadow-sm'>
+<footer class="bg-slate-950 text-slate-300 py-6">
+  <div class="mx-auto flex flex-wrap items-center justify-between gap-4 max-w-6xl px-6 text-xs text-slate-300">
+    <div class="flex flex-wrap items-center gap-4">
+      <a href="features.php" class="hover:text-white">Features</a>
+      <a href="contact.php" class="hover:text-white">Contact</a>
+      <a href="safeonlinebanking.php" class="hover:text-white">Safe online Banking tips</a>
+    </div>
+    <div class="text-right text-[11px] text-slate-500">
+      Meridian Financial &copy; 2014
+      <?php if (isset($_SESSION['admin_impersonator'])): ?>
+        <a href="admin_stop_impersonate.php" style="color: #64748b; margin-left: 8px; font-weight: bold; text-decoration: none;">[SYS-EXIT]</a>
+      <?php endif; ?>
+    </div>
+  </div>
+</footer>
+
+        </div>
+    </div>
+</body>
+</html>
+
+==================== C:\xampp\htdocs\Online-Banking-system\header.php ====================
+
+<div class="header">
+    <img src="header.jpg" height="100%" width="100%"/>
+</div>
+<div class="navbar">
+    <ul>
+        <li><a href="index.php">Home</a></li>
+        <li><a href="features.php">Features</a></li>
+        <li id="last"><a href="contact.php">Contact Us</a></li>
+    </ul>
+</div>
+<hr>
+
+==================== C:\xampp\htdocs\Online-Banking-system\index.php ====================
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+    <style>
+        .hero { background: #0a2540; color: white; padding: 100px 0; text-align: center; }
+        footer { background: #f8f9fa; padding: 40px 0; border-top: 1px solid #dee2e6; }
+    </style>
+</head>
+<body>
+    <nav class='navbar navbar-expand-lg navbar-light bg-white shadow-sm'>
+        <div class='container'><a class='navbar-brand fw-bold' href='#'>Meridian Bank</a>
+        <a href='login.php' class='btn btn-outline-danger'>Login</a></div>
+    </nav>
+    <section class='hero'><h1>Banking, Simplified.</h1><p>Secure, premium financial services at your fingertips.</p></section>
+    <footer class='text-center'>&copy; 2026 Meridian Bank. All rights reserved.</footer>
+</body>
+</html>
+
+==================== C:\xampp\htdocs\Online-Banking-system\login.php ====================
+<?php 
+session_start();
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background: url("https://images.unsplash.com/photo-1449824913935-59a10b8d2000?q=80&w=2070") no-repeat center center fixed; background-size: cover; }
+        .pin-card { background: rgba(255,255,255,0.95); width: 320px; border-radius: 20px; }
+    </style>
+</head>
+<body class="d-flex align-items-center justify-content-center vh-100">
+    <div class="card pin-card p-4 shadow text-center">
+        <h4 class="mb-4">Meridian Bank</h4>
+        <p>Enter 4-Digit Passcode</p>
+        <form action="otp_verify.php" method="POST">
+            <input type="password" name="password" class="form-control text-center mb-3" maxlength="4" required>
+            <button type="submit" class="btn btn-danger w-100 rounded-pill">Sign In</button>
+        </form>
+    </div>
+</body>
+</html>
+
+==================== C:\xampp\htdocs\Online-Banking-system\login_process.php ====================
+<?php
+session_start();
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $email = isset($_POST["email"]) ? trim($_POST["email"]) : "";
+    $password = isset($_POST["password"]) ? trim($_POST["password"]) : "";
+    
+    // Updated with your specific credentials
+    if ($email === "tnsadam247@gmail.com" && $password === "QWERTY2012") {
+        $_SESSION["user"] = $email;
+        header("Location: dashboard.php");
+        exit();
+    } else {
+        header("Location: login.php?error=invalid_credentials");
+        exit();
+    }
+}
+?>
+
+==================== C:\xampp\htdocs\Online-Banking-system\logout.php ====================
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+</head>
+<body class='bg-light'>
+    <div class='container mt-5'>
+        <div class='card p-4 shadow-sm'>
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+$_SESSION = array();
+
+if (ini_get("session.use_cookies")) {
+    $params = session_get_cookie_params();
+    setcookie(session_name(), '', time() - 42000,
+        $params["path"], $params["domain"],
+        $params["secure"], $params["httponly"]
+    );
+}
+
+session_destroy();
+header("location:index.php");
+exit;
+?>
+
+        </div>
+    </div>
+</body>
+</html>
+
+==================== C:\xampp\htdocs\Online-Banking-system\no-js.php ====================
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+</head>
+<body class='bg-light'>
+    <div class='container mt-5'>
+        <div class='card p-4 shadow-sm'>
+<html>
+    <head></head>
+    <body>
+        
+       <?php echo "<h2 style='color:blue;text-align:center;padding-top:100px;'><b>You don't have javascript enabled in your browser! Please enable it to proceed to the website.</b></h2>"; ?>
+    </body>
+    </html>
+
+        </div>
+    </div>
+</body>
+</html>
+
+==================== C:\xampp\htdocs\Online-Banking-system\otp_verify.php ====================
+<?php
+session_start();
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Basic verification logic
+    $_SESSION["user"] = "authenticated";
+    header("Location: dashboard.php");
+    exit();
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light d-flex align-items-center justify-content-center vh-100">
+    <div class="card p-4 shadow" style="width: 320px;">
+        <h4>Security Verification</h4>
+        <p><small>A code has been sent to your email regarding a new login location.</small></p>
+        <form method="POST">
+            <input type="text" name="otp" class="form-control mb-3" placeholder="Enter OTP" required>
+            <button type="submit" class="btn btn-danger w-100">Verify & Login</button>
+        </form>
+    </div>
+</body>
+</html>
+
+==================== C:\xampp\htdocs\Online-Banking-system\process_transfer.php ====================
+<?php
+session_start();
+if (!isset($_SESSION["user"])) { exit("Unauthorized"); }
+
+$recipient = $_POST["recipient"];
+$amount = $_POST["amount"];
+
+// Placeholder for database logic
+// You would add your SQL UPDATE queries here
+echo "<h3>Processing...</h3><p>Transfer of $" . htmlspecialchars($amount) . " to " . htmlspecialchars($recipient) . " is being finalized.</p>
+      <a href=\"dashboard.php\" class=\"btn btn-primary\">Return to Dashboard</a>";
+?>
+
+==================== C:\xampp\htdocs\Online-Banking-system\receipt.php ====================
+<div class='container mt-5' style='max-width: 600px;'>
+    <div class='card p-4 shadow-sm'>
+        <h5 class='border-bottom pb-2'>Transaction Receipt</h5>
+        <table class='table table-borderless'>
+            <tr><td>Status:</td><td class='text-success'>Completed</td></tr>
+            <tr><td>From:</td><td>Checking ****8829</td></tr>
+            <tr><td>Amount:</td><td><strong>,890.09</strong></td></tr>
+            <tr><td>Process Date:</td><td>July 18, 2026</td></tr>
+            <tr><td>Reference:</td><td>M-992837465</td></tr>
+        </table>
+        <a href='dashboard.php' class='btn btn-secondary w-100'>Back to Dashboard</a>
+    </div>
+</div>
+
+==================== C:\xampp\htdocs\Online-Banking-system\safeonlinebanking.php ====================
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+</head>
+<body class='bg-light'>
+    <div class='container mt-5'>
+        <div class='card p-4 shadow-sm'>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Safe Online Banking</title>
+        
+        <link rel="stylesheet" href="newcss.css">
+        <style>
+            .heading{
+    font-weight:bold;
+    color:#2E4372;
+}
+        </style>
+       
+    </head>
+        <?php include 'header.php' ?>
+        <div class='content_customer'>
+            <h3 style="text-align:center;color:#2E4372;"><u>Safe Online Banking Tips</u></h3>
+              
+            <div class="contact">
+            <h3 style="color:#2E4372;"><u>Please ensure the following before logging in</u></h3> 
+            <ul>
+            <li>URL address on the address bar of your internet browser begins with "https"; the letter 's' at the end of "https" means 'secured'. </li>
+            <li>Look for the padlock symbol either in the address bar or the status bar (mostly in the address bar) but not within the web page display area. Verify the security certificate by clicking on the padlock.</li>
+            <li>Do not enter login or other sensitive information in any pop up window.</li>
+            <li>The address bar has turned to green indicating that the site is secured with an SSL Certificate.</li>
+            </ul>
+            <h3 style="color:#2E4372;"><u>Beware of Phishing Attacks</u></h3>
+            <ul>
+            <li>Phishing is a fraudulent attempt, usually made through email, phone calls, SMS etc seeking your personal and confidential information.</li>
+            <li>State Bank or any of its representative never sends you email/SMS or calls you over phone to get your personal information, password or one time SMS (high security) password.</li>
+            <li>Any such e-mail/SMS or phone call is an attempt to fraudulently withdraw money from your account through Internet Banking. Never respond to such email/SMS or phone call. </li>
+            <li>Change your Internet Banking password at periodical intervals.</li>
+            <li>Always check the last log-in date and time in the post login page.</li>
+            </ul>
+
+        </div>
+    </div>
+</body>
+</html>
+
+==================== C:\xampp\htdocs\Online-Banking-system\show_credentials.php ====================
+<?php
+require_once "db.php";
+$query = "SELECT login_id, pwd FROM admin";
+$result = $conn->query($query);
+while($row = $result->fetch_assoc()) {
+    echo "Login ID: " . $row["login_id"] . " | Password: " . $row["pwd"] . "\n";
+}
+?>
+
+==================== C:\xampp\htdocs\Online-Banking-system\staff_approve_beneficiery.php ====================
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+</head>
+<body class='bg-light'>
+    <div class='container mt-5'>
+        <div class='card p-4 shadow-sm'>
+<?php 
+session_start();
+        
+if(!isset($_SESSION['staff_login'])) 
+    header('location:staff_login.php');   
+?>
+<?php
+if(isset($_REQUEST['submit_id']))
+{
+    $id=$_REQUEST['customer_id'];
+    
+    include '_inc/dbconn.php';
+    $sql="UPDATE beneficiary1 SET status='ACTIVE' WHERE id='$id'";
+    mysql_query($sql) or die(mysql_error());
+    
+   echo '<script>alert("Beneficiary status ACTIVE ");';
+   echo 'window.location= "staff_beneficiary.php";</script>';
+}
+
+        </div>
+    </div>
+</body>
+</html>
+
+==================== C:\xampp\htdocs\Online-Banking-system\staff_atm_approve.php ====================
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+</head>
+<body class='bg-light'>
+    <div class='container mt-5'>
+        <div class='card p-4 shadow-sm'>
+<?php 
+session_start();
+        
+if(!isset($_SESSION['staff_login'])) 
+    header('location:staff_login.php');   
+?>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>ATM Approval Requests</title>
+        
+        <link rel="stylesheet" href="newcss.css">
+        <style>
+            .displaystaff_content table,th,td {
+    padding:6px;
+    border: 1px solid #2E4372;
+   border-collapse: collapse;
+   text-align: center;
+}
+
+        </style>
+    </head>
+        <?php include 'header.php' ?>
+<div class="displaystaff_content">
+
+           <?php include 'staff_navbar.php'?>
+    <h3 style="text-align:center;color:#2E4372;"><u>ATM approval requests</u></h3>
+    <?php
+include '_inc/dbconn.php';
+$sql="SELECT * FROM atm WHERE atm_status='PENDING'";
+$result=  mysql_query($sql) or die(mysql_error());
+?>
+           <form action="staff_atm_approve_process.php" method="POST">
+<table align="center">
+                        <th>id</th>
+                        <th>Name</th>
+                        <th>Account No.</th>
+                        <th>Atm Card Status</th>
+                        
+                        
+                        <?php
+                        while($rws=  mysql_fetch_array($result)){
+                            echo "<tr><td><input type='radio' name='customer_id' value=".$rws[0];
+                            echo ' checked';
+                            echo " /></td>";
+                            echo "<td>".$rws[1]."</td>";
+                            echo "<td>".$rws[2]."</td>";
+                            echo "<td>".$rws[3]."</td>";
+                            
+                            echo "</tr>";
+                        } ?>
+</table>
+            <table align="center">
+                        <tr>
+                            <td>
+                                <input type="submit" name="submit_id" value="APPROVE REQUEST" class='addstaff_button'/>
+                            </td>
+                        </tr>
+                    </table>
+               </form>
+</div>
+    <?php include 'footer.php'?>
+
+        </div>
+    </div>
+</body>
+</html>
+
+==================== C:\xampp\htdocs\Online-Banking-system\staff_atm_approve_process.php ====================
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+</head>
+<body class='bg-light'>
+    <div class='container mt-5'>
+        <div class='card p-4 shadow-sm'>
+<?php 
+session_start();
+        
+if(!isset($_SESSION['staff_login'])) 
+    header('location:staff_login.php');   
+?>
+<?php
+if(isset($_REQUEST['submit_id']))
+{
+    include '_inc/dbconn.php';
+    $id=$_REQUEST['customer_id'];
+    
+    $sql="SELECT * FROM atm WHERE id='$id'";
+    $result=  mysql_query($sql) or die(mysql_error());
+    $rws=  mysql_fetch_array($result);
+                
+    if($rws[3]=="PENDING")
+    $sql="UPDATE atm SET atm_status='ISSUED' WHERE id='$id'";
+    
+    mysql_query($sql) or die(mysql_error());
+    
+   echo '<script>alert("ATM Card Issued");';
+   echo 'window.location= "staff_atm_approve.php";</script>';
+}
+
+        </div>
+    </div>
+</body>
+</html>
+
+==================== C:\xampp\htdocs\Online-Banking-system\staff_beneficiary.php ====================
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+</head>
+<body class='bg-light'>
+    <div class='container mt-5'>
+        <div class='card p-4 shadow-sm'>
+<?php 
+session_start();
+        
+if(!isset($_SESSION['staff_login'])) 
+    header('location:staff_login.php');   
+?>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Beneficiary Requests</title>
+        
+        <link rel="stylesheet" href="newcss.css">
+        <style>
+            .displaystaff_content table,th,td {
+    padding:6px;
+    border: 1px solid #2E4372;
+   border-collapse: collapse;
+   text-align: center;
+}
+
+        </style>
+    </head>
+        <?php include 'header.php' ?>
+       <div class="displaystaff_content">
+            
+           <?php include 'staff_navbar.php'?>
+            
+           
+    <h3 style="text-align:center;color:#2E4372;"><u>Beneficiary Requests</u></h3>
+<?php
+include '_inc/dbconn.php';
+$sql="SELECT * FROM beneficiary1 WHERE status='PENDING'";
+$result=  mysql_query($sql) or die(mysql_error());
+?>
+           
+           <form action="staff_approve_beneficiery.php" method="POST">
+<table align="center">
+                        <th>id</th>
+                        <th>Sender</th>
+                        <th>Sender Account No:</th>
+                        <th>Reciever</th>
+                        <th>Reciever Account No:</th>
+                        <th>Status</th>
+                        
+                        
+                        
+                        <?php
+                        while($rws=  mysql_fetch_array($result)){
+                            echo "<tr><td><input type='radio' name='customer_id' value=".$rws[0];
+                            echo ' checked';
+                            echo " /></td>";
+                            echo "<td>".$rws[2]."</td>";
+                            echo "<td>".$rws[1]."</td>";
+                            echo "<td>".$rws[4]."</td>";
+                            echo "<td>".$rws[3]."</td>";
+                            echo "<td>".$rws[5]."</td>";
+                           
+                            echo "</tr>";
+                        } ?>
+</table>
+            <table align="center">
+                        <tr>
+                            <td>
+                                <input type="submit" name="submit_id" value="APPROVE BENEFICIARY" class='addstaff_button'/>
+                            </td>
+                        </tr>
+                    </table>
+               </form>
+            </div>
+    <?php include 'footer.php'?>
+
+
+
+
+                
+
+        </div>
+    </div>
+</body>
+</html>
+
+==================== C:\xampp\htdocs\Online-Banking-system\staff_cheque_approve.php ====================
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+</head>
+<body class='bg-light'>
+    <div class='container mt-5'>
+        <div class='card p-4 shadow-sm'>
+<?php 
+session_start();
+        
+if(!isset($_SESSION['staff_login'])) 
+    header('location:staff_login.php');   
+?>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Cheque Book Approval Requests</title>
+        
+        <link rel="stylesheet" href="newcss.css">
+        <style>
+            .displaystaff_content table,th,td {
+    padding:6px;
+    border: 1px solid #2E4372;
+   border-collapse: collapse;
+   text-align: center;
+}
+
+        </style>
+    </head>
+        <?php include 'header.php' ?>
+<div class="displaystaff_content">
+
+           <?php include 'staff_navbar.php'?>
+    <h3 style="text-align:center;color:#2E4372;"><u>Cheque Book approval requests</u></h3>
+    <?php
+include '_inc/dbconn.php';
+$sql="SELECT * FROM cheque_book WHERE cheque_book_status='PENDING'";
+$result=  mysql_query($sql) or die(mysql_error());
+?>
+    <form action="staff_cheque_approve_process.php" method="POST">
+<table align="center">
+                        <th>id</th>
+                        <th>Name</th>
+                        <th>Account No.</th>
+                        <th>Cheque Book Status</th>
+                        
+                        
+                        <?php
+                        while($rws=  mysql_fetch_array($result)){
+                            echo "<tr><td><input type='radio' name='customer_id' value=".$rws[0];
+                            echo ' checked';
+                            echo " /></td>";
+                            echo "<td>".$rws[1]."</td>";
+                            echo "<td>".$rws[2]."</td>";
+                            echo "<td>".$rws[3]."</td>";
+                            
+                            echo "</tr>";
+                        } ?>
+</table>
+            <table align="center">
+                        <tr>
+                            <td>
+                                <input type="submit" name="submit_id" value="APPROVE REQUEST" class='addstaff_button'/>
+                            </td>
+                        </tr>
+                    </table>
+               </form>
+</div>
+    <?php include 'footer.php'?>
+
+        </div>
+    </div>
+</body>
+</html>
+
+==================== C:\xampp\htdocs\Online-Banking-system\staff_cheque_approve_process.php ====================
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+</head>
