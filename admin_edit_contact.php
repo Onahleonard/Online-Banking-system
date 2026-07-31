@@ -104,3 +104,4 @@ $res = mysql_query($sql);
         <?php include 'footer.php'; ?>
     </body>
 </html>
+
