@@ -20,7 +20,7 @@ if(!isset($_SESSION['staff_login']))
 }
 
         </style>
-        <link rel="stylesheet" href="newcss.css">
+        <link rel="stylesheet" href="assets/css/bank-theme.css?v=<?php echo time(); ?>">
     </head>
         <?php include 'header.php' ?>
         <div class='content'>

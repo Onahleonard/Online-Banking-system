@@ -11,7 +11,7 @@ if(isset($_SESSION['staff_login']))
         <meta charset="UTF-8">
         <title>Staff Login - Online Banking</title>
         
-        <link rel="stylesheet" href="newcss.css">
+        <link rel="stylesheet" href="assets/css/bank-theme.css?v=<?php echo time(); ?>">
     </head>
 <?php
 include 'header.php'; ?>

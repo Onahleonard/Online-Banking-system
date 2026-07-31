@@ -29,7 +29,7 @@ $res = mysql_query($sql);
     <head>
         <meta charset="UTF-8">
         <title>Edit Contact details</title>
-        <link rel="stylesheet" href="newcss.css">
+        <link rel="stylesheet" href="assets/css/bank-theme.css?v=<?php echo time(); ?>">
         <style>
             .contact_box {
                 margin: 20px auto;

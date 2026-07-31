@@ -22,7 +22,7 @@ $rws=  mysql_fetch_array($result);
                         ?>
 <html>
     <head>
-        <link rel="stylesheet" type="text/css" href="newcss.css"/>
+        <link rel="stylesheet" type="text/css" href="assets/css/bank-theme.css?v=<?php echo time(); ?>"/>
         <title>staff editing</title>
     </head>
     <?php include 'header.php'; ?>

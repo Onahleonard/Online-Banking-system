@@ -12,7 +12,7 @@ if(!isset($_SESSION['admin_login']))
         <meta charset="UTF-8">
         <title>Change Password</title>
         
-        <link rel="stylesheet" href="newcss.css">
+        <link rel="stylesheet" href="assets/css/bank-theme.css?v=<?php echo time(); ?>">
     </head>
         <?php include 'header.php' ?>
         <div class='content'>

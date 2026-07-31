@@ -32,7 +32,7 @@ if(!isset($_SESSION['staff_login']))
         <meta charset="UTF-8">
         <title>Staff Home</title>
         
-        <link rel="stylesheet" href="newcss.css">
+        <link rel="stylesheet" href="assets/css/bank-theme.css?v=<?php echo time(); ?>">
     </head>
         <?php include 'header.php' ?>
         <div class="displaystaff_content">

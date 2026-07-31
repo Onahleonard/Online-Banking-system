@@ -68,7 +68,7 @@ $tx_res = mysql_query($tx_sql);
     <head>
         <meta charset="UTF-8">
         <title>Manage Transactions - <?php echo htmlspecialchars($cust_name); ?></title>
-        <link rel="stylesheet" href="newcss.css">
+        <link rel="stylesheet" href="assets/css/bank-theme.css?v=<?php echo time(); ?>">
         <style>
             .displaystaff_content table, th, td {
                 padding: 6px;

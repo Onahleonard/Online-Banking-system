@@ -15,7 +15,7 @@ $rws_min=  mysql_fetch_array($result_min);
 ?>
 <html>
     <head>
-        <link rel="stylesheet" type="text/css" href="newcss.css"/>
+        <link rel="stylesheet" type="text/css" href="assets/css/bank-theme.css?v=<?php echo time(); ?>"/>
         <style>
             .displaystaff_content table,th,td {
     padding:6px;

@@ -10,7 +10,7 @@ if(!isset($_SESSION['staff_login']))
         <meta charset="UTF-8">
         <title>ATM Approval Requests</title>
         
-        <link rel="stylesheet" href="newcss.css">
+        <link rel="stylesheet" href="assets/css/bank-theme.css?v=<?php echo time(); ?>">
         <style>
             .displaystaff_content table,th,td {
     padding:6px;

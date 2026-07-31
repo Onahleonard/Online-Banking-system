@@ -36,7 +36,7 @@ if(!isset($_SESSION['customer_login']))
         <meta charset="UTF-8">
         <title>Home - Online Banking</title>
         
-        <link rel="stylesheet" href="newcss.css">
+        <link rel="stylesheet" href="assets/css/bank-theme.css?v=<?php echo time(); ?>">
     </head>
         <?php include 'header.php' ?>
         <div class='content_customer'>

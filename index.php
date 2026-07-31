@@ -12,7 +12,7 @@ session_start();
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Lora:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/bank-theme.css">
+    <link rel="stylesheet" href="assets/css/bank-theme.css?v=<?php echo time(); ?>">
 </head>
 <body class="mt-landing-body">
 

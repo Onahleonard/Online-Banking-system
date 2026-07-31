@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <title>Safe Online Banking</title>
         
-        <link rel="stylesheet" href="newcss.css">
+        <link rel="stylesheet" href="assets/css/bank-theme.css?v=<?php echo time(); ?>">
         <style>
             .heading{
     font-weight:bold;
