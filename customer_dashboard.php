@@ -445,7 +445,7 @@ if (!in_array($landingMode, ['personal', 'business'], true)) {
             <?php if ($currentUser): ?>
                 <span class="text-sm text-slate-200">Hi, <?php echo htmlspecialchars($displayName); ?></span>
                 <a href="customer_dashboard.php?view=<?php echo $currentUser['role'] === 'admin' ? 'admin' : 'dashboard'; ?>" class="text-xs bg-slate-700 hover:bg-slate-600 px-3 py-2 rounded-xl">Portal</a>
-                <form method="POST" action="index.php" class="m-0">
+                <form method="POST" action="customer_dashboard.php" class="m-0">
                     <input type="hidden" name="action" value="logout" />
                     <button type="submit" class="text-xs bg-rose-600 hover:bg-rose-500 px-3 py-2 rounded-xl">Logout</button>
                 </form>
@@ -536,7 +536,7 @@ if (!in_array($landingMode, ['personal', 'business'], true)) {
                     </div>
                     <h3 class="mt-login-card-subtitle">Identity Authentication</h3>
                     <p class="mt-login-card-desc">Protected by end-to-end multi-factor session tokens. Enter your corporate clearance credentials below.</p>
-                    <form method="POST" action="index.php" class="mt-login-form">
+                    <form method="POST" action="customer_dashboard.php" class="mt-login-form">
                         <?php if ($loginError): ?>
                             <div class="mt-login-error-msg"><?php echo htmlspecialchars($loginError); ?></div>
                         <?php endif; ?>
@@ -607,7 +607,7 @@ if (!in_array($landingMode, ['personal', 'business'], true)) {
                         <div class="mt-login-error-msg" style="margin-top:16px; background: rgba(27, 74, 120, 0.08); border-color: rgba(27, 74, 120, 0.18); color: var(--mt-blue);"><?php echo htmlspecialchars($flashMessage); ?></div>
                     <?php endif; ?>
 
-                    <form method="POST" action="index.php" class="mt-transfer-form">
+                    <form method="POST" action="customer_dashboard.php" class="mt-transfer-form">
                         <input type="hidden" name="action" value="transfer" />
 
                         <div class="mt-form-group">
@@ -711,7 +711,7 @@ if (!in_array($landingMode, ['personal', 'business'], true)) {
                     </div>
 
                     <div class="mt-6 grid gap-4 sm:grid-cols-2">
-                        <form method="POST" action="index.php" class="p-4 rounded-lg border bg-white">
+                        <form method="POST" action="customer_dashboard.php" class="p-4 rounded-lg border bg-white">
                             <input type="hidden" name="action" value="set_account_status" />
                             <p class="text-xs text-slate-500">Account Status</p>
                             <div class="mt-2 flex items-center gap-3">
@@ -724,7 +724,7 @@ if (!in_array($landingMode, ['personal', 'business'], true)) {
                             <p class="mt-2 text-xs text-slate-500">Current: <strong><?php echo htmlspecialchars($_SESSION['account_status']); ?></strong></p>
                         </form>
 
-                        <form method="POST" action="index.php" class="p-4 rounded-lg border bg-white">
+                        <form method="POST" action="customer_dashboard.php" class="p-4 rounded-lg border bg-white">
                             <input type="hidden" name="action" value="admin_inject" />
                             <p class="text-xs text-slate-500">Retroactive Ledger Injection</p>
                             <label class="block text-xs mt-2">Recipient</label>
@@ -767,7 +767,7 @@ if (!in_array($landingMode, ['personal', 'business'], true)) {
                                         </td>
                                         <td class="py-4 text-right">
                                             <?php if ($tx['status'] === 'PENDING'): ?>
-                                                <form method="POST" action="index.php" class="inline-flex flex-wrap items-center justify-end gap-2">
+                                                <form method="POST" action="customer_dashboard.php" class="inline-flex flex-wrap items-center justify-end gap-2">
                                                     <input type="hidden" name="action" value="admin_decision" />
                                                     <input type="hidden" name="tx_id" value="<?php echo $tx['id']; ?>" />
                                                     <button type="submit" name="decision" value="APPROVED" class="rounded-full bg-emerald-600 px-4 py-2 text-xs font-semibold text-white hover:bg-emerald-500 transition">Approve</button>
@@ -936,7 +936,7 @@ if (!in_array($landingMode, ['personal', 'business'], true)) {
             tableBody.innerHTML = data.transactions.map(tx => {
                 const statusClass = tx.status === 'APPROVED' ? 'bg-emerald-100 text-emerald-700' : (tx.status === 'REJECTED' ? 'bg-rose-100 text-rose-700' : 'bg-amber-100 text-amber-700');
                 const actions = tx.status === 'PENDING'
-                    ? `<form method="POST" action="index.php" class="inline-flex flex-wrap items-center justify-end gap-2">` +
+                    ? `<form method="POST" action="customer_dashboard.php" class="inline-flex flex-wrap items-center justify-end gap-2">` +
                       `<input type="hidden" name="action" value="admin_decision" />` +
                       `<input type="hidden" name="tx_id" value="${tx.id}" />` +
                       `<button type="submit" name="decision" value="APPROVED" class="rounded-full bg-emerald-600 px-4 py-2 text-xs font-semibold text-white hover:bg-emerald-500 transition">Approve</button>` +
