@@ -429,29 +429,28 @@ if (!in_array($landingMode, ['personal', 'business'], true)) {
         background: var(--google-blue-700, #1967d2);
       }
     </style>
-<link rel="stylesheet" href="assets/css/bank-theme.css?v=<?php echo time(); ?>"></head>
+<link rel="stylesheet" href="assets/css/bank-theme.css?v=<?php echo time(); ?>"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Lora:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet"></head>
 <body class="min-h-screen bg-slate-50 text-slate-900 flex flex-col">
 
-    <header class="bg-slate-950 text-white px-6 py-4 flex flex-wrap items-center justify-between gap-4 shadow-lg">
-        <a href="customer_dashboard.php?view=landing" class="flex items-center gap-3">
-            <div class="w-10 h-10 bg-cyan-500 rounded-2xl flex items-center justify-center text-lg font-black shadow">M</div>
-            <div>
-                <p class="font-semibold tracking-wide">Meridian Financial</p>
-                <p class="text-xs text-slate-400">Institutional Banking Platform</p>
+    <!-- Modernized corporate header -->
+    <header class="mt-portal-header">
+        <div class="mt-portal-header-container">
+            <div class="mt-logo">
+                <svg class="mt-logo-icon" width="28" height="28" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M17 2C8.71573 2 2 8.71573 2 17C2 25.2843 8.71573 32 17 32C25.2843 32 32 25.2843 32 17C32 8.71573 25.2843 2 17 2Z" fill="#B3191F"/>
+                    <path d="M10 24C12.5 19 15 15.5 24 13C20 16 16.5 19.5 15 24H10Z" fill="white"/>
+                </svg>
+                <h2 style="font-size:1.15rem; color:#ffffff; font-weight:800; letter-spacing:0.04em; text-transform:uppercase; margin:0;">Meridian Trust Bank</h2>
             </div>
-        </a>
-
-        <div class="flex items-center gap-3">
-            <?php if ($currentUser): ?>
-                <span class="text-sm text-slate-200">Hi, <?php echo htmlspecialchars($displayName); ?></span>
-                <a href="customer_dashboard.php?view=<?php echo $currentUser['role'] === 'admin' ? 'admin' : 'dashboard'; ?>" class="text-xs bg-slate-700 hover:bg-slate-600 px-3 py-2 rounded-xl">Portal</a>
-                <form method="POST" action="customer_dashboard.php" class="m-0">
-                    <input type="hidden" name="action" value="logout" />
-                    <button type="submit" class="text-xs bg-rose-600 hover:bg-rose-500 px-3 py-2 rounded-xl">Logout</button>
-                </form>
-            <?php else: ?>
-                <a href="customer_dashboard.php?view=login" class="text-xs bg-blue-600 hover:bg-blue-500 px-3 py-2 rounded-xl">Sign In</a>
-            <?php endif; ?>
+            <div class="mt-portal-header-nav">
+                <?php if ($currentUser): ?>
+                    <span class="text-sm" style="color: #ffffff; font-weight:600; font-size:0.9rem; margin-right:16px;">Hi, <?php echo htmlspecialchars($displayName); ?></span>
+                    <form method="POST" action="customer_dashboard.php" class="m-0" style="display:inline;">
+                        <input type="hidden" name="action" value="logout" />
+                        <button type="submit" class="mt-btn-login-red" style="padding: 0.45rem 1.2rem; font-size:0.8rem;">Logout</button>
+                    </form>
+                <?php endif; ?>
+            </div>
         </div>
     </header>
 

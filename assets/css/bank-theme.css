@@ -1603,3 +1603,14 @@ select.mt-form-select:focus {
 }
 
 
+
+
+/* Force Font and Heading Scale Override */
+body, .min-h-screen, .mt-serif-title {
+  font-family: var(--mt-font) !important;
+}
+
+.mt-serif-title {
+  font-family: "Lora", Georgia, "Times New Roman", serif !important;
+}
+
