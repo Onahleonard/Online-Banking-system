@@ -206,28 +206,101 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if ($action === 'logout') {
-        session_destroy();
-        header('Location: index.php');
-        exit();
-    }
+        
 
-    if ($action === 'transfer') {
-        requireRole('customer');
-        $amount = floatval($_POST['amount'] ?? 0);
-        $recipient = trim(htmlspecialchars($_POST['recipient'] ?? ''));
+    /* Re-injected and Modernized Outbound & Internal Transfer Handler */
+    if ($action === "transfer") {
+        requireRole("customer");
+        $amount = floatval($_POST["amount"] ?? 0);
+        $recipient = trim(htmlspecialchars($_POST["recipient"] ?? ""));
+        $transfer_type = $_POST["transfer_type"] ?? "external";
 
-        if ($amount > 0 && $amount <= $_SESSION['mock_balance'] && $recipient !== '') {
-            createTransaction($recipient, $amount);
-            addFlash('Transfer queued successfully. Awaiting administrative approval.');
+        if ($transfer_type === "internal_checking_to_savings") {
+            if ($amount > 0 && $amount <= $_SESSION["mock_balance"]) {
+                $_SESSION["mock_balance"] -= $amount;
+                $_SESSION["savings_balance"] += $amount;
+                $_SESSION["mock_transactions"][] = [
+                    "id" => rand(300000, 399999),
+                    "account" => "checking",
+                    "recipient" => "Internal Transfer to Savings",
+                    "amount" => $amount,
+                    "status" => "APPROVED",
+                    "date" => date("m/d/Y"),
+                    "narration" => "checking to savings"
+                ];
+                $_SESSION["mock_transactions"][] = [
+                    "id" => rand(300000, 399999),
+                    "account" => "savings",
+                    "recipient" => "Internal Transfer from Checking",
+                    "amount" => $amount,
+                    "status" => "APPROVED",
+                    "date" => date("m/d/Y"),
+                    "narration" => "checking to savings"
+                ];
+                addFlash("Internal transfer of $" . number_format($amount, 2) . " from Checking to Savings completed successfully.");
+            } else {
+                addFlash("Error: Insufficient funds in Corporate Checking.");
+            }
+        } elseif ($transfer_type === "internal_savings_to_checking") {
+            if ($amount > 0 && $amount <= $_SESSION["savings_balance"]) {
+                $_SESSION["savings_balance"] -= $amount;
+                $_SESSION["mock_balance"] += $amount;
+                $_SESSION["mock_transactions"][] = [
+                    "id" => rand(300000, 399999),
+                    "account" => "savings",
+                    "recipient" => "Internal Transfer to Checking",
+                    "amount" => $amount,
+                    "status" => "APPROVED",
+                    "date" => date("m/d/Y"),
+                    "narration" => "savings to checking"
+                ];
+                $_SESSION["mock_transactions"][] = [
+                    "id" => rand(300000, 399999),
+                    "account" => "checking",
+                    "recipient" => "Internal Transfer from Savings",
+                    "amount" => $amount,
+                    "status" => "APPROVED",
+                    "date" => date("m/d/Y"),
+                    "narration" => "savings to checking"
+                ];
+                addFlash("Internal transfer of $" . number_format($amount, 2) . " from Savings to Checking completed successfully.");
+            } else {
+                addFlash("Error: Insufficient funds in Premium Savings.");
+            }
         } else {
-            addFlash('Error: Enter a valid recipient and amount not exceeding your available balance.');
+            if ($amount > 0 && $amount <= $_SESSION["mock_balance"] && $recipient !== "") {
+                createTransaction($recipient, $amount);
+                addFlash("Transfer queued successfully. Awaiting administrative approval.");
+            } else {
+                addFlash("Error: Enter a valid recipient and amount not exceeding your available balance.");
+            }
         }
 
-        header('Location: customer_dashboard.php?view=dashboard');
+        header("Location: customer_dashboard.php?view=dashboard");
         exit();
     }
 
-    if ($action === 'admin_decision') {
+    <!-- Modernized corporate header -->
+    <header class="mt-portal-header">
+        <div class="mt-portal-header-container">
+            <div class="mt-logo">
+                <svg class="mt-logo-icon" width="28" height="28" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M17 2C8.71573 2 2 8.71573 2 17C2 25.2843 8.71573 32 17 32C25.2843 32 32 25.2843 32 17C32 8.71573 25.2843 2 17 2Z" fill="#B3191F"/>
+                    <path d="M10 24C12.5 19 15 15.5 24 13C20 16 16.5 19.5 15 24H10Z" fill="white"/>
+                </svg>
+                <h2 style="font-size:1.15rem; color:#ffffff; font-weight:800; letter-spacing:0.04em; text-transform:uppercase; margin:0;">Meridian Trust Bank</h2>
+            </div>
+            <div class="mt-portal-header-nav">
+                <?php if ($currentUser): ?>
+                    <span class="text-sm" style="color: #ffffff; font-weight:600; font-size:0.9rem; margin-right:16px;">Hi, <?php echo htmlspecialchars($displayName); ?></span>
+                    <form method="POST" action="customer_dashboard.php" class="m-0" style="display:inline;">
+                        <input type="hidden" name="action" value="logout" />
+                        <button type="submit" class="mt-btn-login-red" style="padding: 0.45rem 1.2rem; font-size:0.8rem;">Logout</button>
+                    </form>
+                <?php endif; ?>
+            </div>
+        </div>
+    </header>if ($action === 'admin_decision') {
         requireRole('admin');
         $txId = intval($_POST['tx_id'] ?? 0);
         $decision = $_POST['decision'] === 'APPROVED' ? 'APPROVED' : 'REJECTED';
