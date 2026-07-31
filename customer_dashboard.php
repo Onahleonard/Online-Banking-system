@@ -60,7 +60,7 @@ function requireRole(string $role): void
 {
     $user = currentUser();
     if (!$user || $user['role'] !== $role) {
-        header('Location: index.php?view=login');
+        header('Location: customer_dashboard.php?view=login');
         exit();
     }
 }
@@ -196,12 +196,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'label' => $users[$email]['label'],
             ];
             $redirect = $users[$email]['role'] === 'admin' ? 'admin' : 'dashboard';
-            header("Location: index.php?view=$redirect");
+            header("Location: customer_dashboard.php?view=$redirect");
             exit();
         }
 
         $_SESSION['login_error'] = 'Invalid credentials. Use user@bank.com / UserPass123 or admin@bank.com / AdminPass123';
-        header('Location: index.php?view=login');
+        header('Location: customer_dashboard.php?view=login');
         exit();
     }
 
@@ -223,7 +223,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             addFlash('Error: Enter a valid recipient and amount not exceeding your available balance.');
         }
 
-        header('Location: index.php?view=dashboard');
+        header('Location: customer_dashboard.php?view=dashboard');
         exit();
     }
 
@@ -233,7 +233,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $decision = $_POST['decision'] === 'APPROVED' ? 'APPROVED' : 'REJECTED';
         updateTransactionStatus($txId, $decision);
         addFlash('Transaction status updated to ' . $decision . '.');
-        header('Location: index.php?view=admin');
+        header('Location: customer_dashboard.php?view=admin');
         exit();
     }
 
@@ -242,7 +242,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $newStatus = strtoupper(trim($_POST['status'] ?? 'ACTIVE')) === 'FROZEN' ? 'FROZEN' : 'ACTIVE';
         $_SESSION['account_status'] = $newStatus;
         addFlash('Account status set to ' . $newStatus . '.');
-        header('Location: index.php?view=admin');
+        header('Location: customer_dashboard.php?view=admin');
         exit();
     }
 
@@ -266,7 +266,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             addFlash('Injection failed: provide recipient and positive amount.');
         }
-        header('Location: index.php?view=admin');
+        header('Location: customer_dashboard.php?view=admin');
         exit();
     }
 }
@@ -433,7 +433,7 @@ if (!in_array($landingMode, ['personal', 'business'], true)) {
 <body class="min-h-screen bg-slate-50 text-slate-900 flex flex-col">
 
     <header class="bg-slate-950 text-white px-6 py-4 flex flex-wrap items-center justify-between gap-4 shadow-lg">
-        <a href="index.php?view=landing" class="flex items-center gap-3">
+        <a href="customer_dashboard.php?view=landing" class="flex items-center gap-3">
             <div class="w-10 h-10 bg-cyan-500 rounded-2xl flex items-center justify-center text-lg font-black shadow">M</div>
             <div>
                 <p class="font-semibold tracking-wide">Meridian Financial</p>
@@ -444,13 +444,13 @@ if (!in_array($landingMode, ['personal', 'business'], true)) {
         <div class="flex items-center gap-3">
             <?php if ($currentUser): ?>
                 <span class="text-sm text-slate-200">Hi, <?php echo htmlspecialchars($displayName); ?></span>
-                <a href="index.php?view=<?php echo $currentUser['role'] === 'admin' ? 'admin' : 'dashboard'; ?>" class="text-xs bg-slate-700 hover:bg-slate-600 px-3 py-2 rounded-xl">Portal</a>
+                <a href="customer_dashboard.php?view=<?php echo $currentUser['role'] === 'admin' ? 'admin' : 'dashboard'; ?>" class="text-xs bg-slate-700 hover:bg-slate-600 px-3 py-2 rounded-xl">Portal</a>
                 <form method="POST" action="index.php" class="m-0">
                     <input type="hidden" name="action" value="logout" />
                     <button type="submit" class="text-xs bg-rose-600 hover:bg-rose-500 px-3 py-2 rounded-xl">Logout</button>
                 </form>
             <?php else: ?>
-                <a href="index.php?view=login" class="text-xs bg-blue-600 hover:bg-blue-500 px-3 py-2 rounded-xl">Sign In</a>
+                <a href="customer_dashboard.php?view=login" class="text-xs bg-blue-600 hover:bg-blue-500 px-3 py-2 rounded-xl">Sign In</a>
             <?php endif; ?>
         </div>
     </header>
@@ -487,7 +487,7 @@ if (!in_array($landingMode, ['personal', 'business'], true)) {
                                     <span class="relative z-10 w-10 text-center text-[11px] font-semibold uppercase text-white" id="landingToggleLabel">Personal</span>
                                 </button>
                             </div>
-                            <a href="index.php?view=login" class="inline-flex items-center justify-center rounded-3xl bg-cyan-500 px-6 py-3 text-sm font-semibold text-slate-950 shadow-xl shadow-cyan-500/30 hover:bg-cyan-400 transition">Enter the Application Portal</a>
+                            <a href="customer_dashboard.php?view=login" class="inline-flex items-center justify-center rounded-3xl bg-cyan-500 px-6 py-3 text-sm font-semibold text-slate-950 shadow-xl shadow-cyan-500/30 hover:bg-cyan-400 transition">Enter the Application Portal</a>
                         </div>
                     </div>
 

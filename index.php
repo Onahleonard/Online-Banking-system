@@ -84,7 +84,7 @@ session_start();
         </nav>
 
         <div class="mt-header-buttons">
-            <a href="login.php" class="mt-btn-login-red">LOGIN <span class="mt-caret-white"></span></a>
+            <a href="customer_dashboard.php?view=login" class="mt-btn-login-red">LOGIN <span class="mt-caret-white"></span></a>
         </div>
     </div>
 </header>
@@ -109,7 +109,7 @@ session_start();
                 <h3>Online Banking Login</h3>
             </div>
             <div class="mt-login-panel-body">
-                <form action="login.php" method="POST">
+                <form action="customer_dashboard.php?view=login" method="POST">
                     <div class="mt-form-group">
                         <select name="login_type" class="mt-form-select" aria-label="Select banking account type">
                             <option value="personal">Personal Banking</option>
@@ -120,7 +120,7 @@ session_start();
                     <button type="submit" class="mt-btn-login-submit">LOG IN</button>
                 </form>
                 <div class="mt-login-panel-footer">
-                    <a href="login.php" class="mt-panel-footer-link">Enroll in Digital Banking <span class="mt-ext-arrow">&nearr;</span></a>
+                    <a href="customer_dashboard.php?view=login" class="mt-panel-footer-link">Enroll in Digital Banking <span class="mt-ext-arrow">&nearr;</span></a>
                     <a href="#security" class="mt-panel-footer-link">Security Center <span class="mt-ext-arrow">&nearr;</span></a>
                 </div>
             </div>
@@ -131,11 +131,11 @@ session_start();
 <!-- Quick Actions Action Bar (Dark Blue) -->
 <section class="mt-action-bar">
     <div class="mt-container mt-action-bar-grid">
-        <a href="login.php" class="mt-action-item">
+        <a href="customer_dashboard.php?view=login" class="mt-action-item">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3L21 7L17 11"/><path d="M3 17L7 21L3 25"/><path d="M21 7H9C5.13401 7 2 10.134 2 14v1"/><path d="M3 17H15C18.866 17 22 13.866 22 10V9"/></svg>
             <span>Wire Transfers</span>
         </a>
-        <a href="login.php" class="mt-action-item">
+        <a href="customer_dashboard.php?view=login" class="mt-action-item">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
             <span>Order Checks</span>
         </a>
@@ -143,7 +143,7 @@ session_start();
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
             <span>Manage & Pay Mortgage</span>
         </a>
-        <a href="login.php" class="mt-action-item">
+        <a href="customer_dashboard.php?view=login" class="mt-action-item">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
             <span>Open an Account</span>
         </a>
@@ -168,7 +168,7 @@ session_start();
                 </div>
                 <h3>Personal Banking</h3>
                 <p>Accounts, loans and tools to help you achieve more.</p>
-                <a href="login.php" class="mt-card-link">LEARN MORE &rarr;</a>
+                <a href="customer_dashboard.php?view=login" class="mt-card-link">LEARN MORE &rarr;</a>
             </div>
 
             <!-- Card 2: Business -->
@@ -178,7 +178,7 @@ session_start();
                 </div>
                 <h3>Business Banking</h3>
                 <p>Solutions to help your business grow and thrive.</p>
-                <a href="login.php" class="mt-card-link">LEARN MORE &rarr;</a>
+                <a href="customer_dashboard.php?view=login" class="mt-card-link">LEARN MORE &rarr;</a>
             </div>
 
             <!-- Card 3: Commercial -->
@@ -188,7 +188,7 @@ session_start();
                 </div>
                 <h3>Commercial Banking</h3>
                 <p>Strategic banking for complex business needs.</p>
-                <a href="login.php" class="mt-card-link">LEARN MORE &rarr;</a>
+                <a href="customer_dashboard.php?view=login" class="mt-card-link">LEARN MORE &rarr;</a>
             </div>
 
             <!-- Card 4: Wealth Management -->
@@ -198,7 +198,7 @@ session_start();
                 </div>
                 <h3>Wealth Management</h3>
                 <p>Personalized strategies to grow and protect wealth.</p>
-                <a href="login.php" class="mt-card-link">LEARN MORE &rarr;</a>
+                <a href="customer_dashboard.php?view=login" class="mt-card-link">LEARN MORE &rarr;</a>
             </div>
         </div>
     </div>
@@ -323,7 +323,7 @@ session_start();
                     <li><a href="#mortgages">Home Mortgages</a></li>
                     <li><a href="#private">Private Banking</a></li>
                     <li><a href="#wealth">Wealth</a></li>
-                    <li><a href="login.php" class="mt-bold-link">Enroll in Digital Banking <span class="mt-ext-arrow">&nearr;</span></a></li>
+                    <li><a href="customer_dashboard.php?view=login" class="mt-bold-link">Enroll in Digital Banking <span class="mt-ext-arrow">&nearr;</span></a></li>
                 </ul>
             </div>
 
@@ -347,8 +347,8 @@ session_start();
                 <h4>RESOURCES</h4>
                 <ul>
                     <li><a href="#locations">Locations</a></li>
-                    <li><a href="login.php">Wire Transfers</a></li>
-                    <li><a href="login.php">Order Checks</a></li>
+                    <li><a href="customer_dashboard.php?view=login">Wire Transfers</a></li>
+                    <li><a href="customer_dashboard.php?view=login">Order Checks</a></li>
                     <li><a href="#mortgage">Manage and Pay Mortgage</a></li>
                     <li><a href="#faqs">FAQs</a></li>
                     <li><a href="#resource-center">Resource Center</a></li>
