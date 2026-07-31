@@ -1229,3 +1229,264 @@ select.mt-form-select:focus {
   height: 60px !important;
 }
 
+
+
+/* ==========================================================================
+   Meridian Trust Bank - Authenticated Customer Dashboard Portal Styles
+   ========================================================================== */
+
+.mt-portal-container {
+  width: min(1180px, calc(100% - 32px)) !important;
+  margin: 0 auto 52px auto !important;
+}
+
+.mt-portal-grid-3 {
+  display: grid !important;
+  grid-template-columns: 1.2fr 0.8fr !important;
+  gap: 24px !important;
+}
+
+.mt-span-2 {
+  grid-column: span 1 !important;
+}
+
+.mt-card {
+  background: #ffffff !important;
+  border: 1px solid var(--mt-border) !important;
+  border-radius: var(--mt-radius-lg) !important;
+  padding: 32px !important;
+  box-shadow: var(--mt-shadow-sm) !important;
+}
+
+.mt-margin-top-30 {
+  margin-top: 30px !important;
+}
+
+.mt-card-header-line {
+  border-bottom: 1.5px solid var(--mt-border) !important;
+  padding-bottom: 18px !important;
+  margin-bottom: 24px !important;
+}
+
+.mt-card-header-line-flex {
+  border-bottom: 1.5px solid var(--mt-border) !important;
+  padding-bottom: 18px !important;
+  margin-bottom: 24px !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+}
+
+.mt-card-label {
+  text-transform: uppercase !important;
+  font-size: 0.78rem !important;
+  letter-spacing: 0.08em !important;
+  color: var(--mt-gold) !important;
+  font-weight: 800 !important;
+  margin: 0 0 6px 0 !important;
+}
+
+.mt-card-title-main {
+  font-size: 1.5rem !important;
+  color: var(--mt-navy) !important;
+  font-weight: 800 !important;
+  margin: 0 !important;
+  letter-spacing: -0.015em !important;
+}
+
+.mt-balance-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, 1fr) !important;
+  gap: 20px !important;
+}
+
+.mt-balance-card {
+  background: #f8fafc !important;
+  border: 1px solid var(--mt-border) !important;
+  border-radius: var(--mt-radius-md) !important;
+  padding: 24px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
+  position: relative !important;
+  transition: border-color var(--mt-transition) !important;
+}
+
+.mt-balance-card:hover {
+  border-color: rgba(7, 29, 52, 0.16) !important;
+}
+
+.mt-card-accent-gold {
+  border-top: 3.5px solid var(--mt-gold) !important;
+}
+
+.mt-balance-tag {
+  font-size: 0.72rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  color: var(--mt-muted) !important;
+  font-weight: 700 !important;
+}
+
+.mt-balance-acc-name {
+  margin: 0 !important;
+  font-size: 1.1rem !important;
+  color: var(--mt-navy) !important;
+  font-weight: 700 !important;
+}
+
+.mt-balance-row {
+  display: flex !important;
+  align-items: baseline !important;
+  gap: 12px !important;
+}
+
+.mt-balance-amount {
+  font-size: 1.95rem !important;
+  color: var(--mt-navy) !important;
+  letter-spacing: -0.02em !important;
+}
+
+.mt-btn-hide {
+  background: transparent !important;
+  border: 0 !important;
+  color: var(--mt-blue) !important;
+  font-size: 0.78rem !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+  text-decoration: underline !important;
+}
+
+.mt-balance-sub {
+  font-size: 0.8rem !important;
+  color: var(--mt-text-2) !important;
+  font-weight: 500 !important;
+}
+
+.mt-transfer-form {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 18px !important;
+}
+
+.mt-status-badge {
+  background: var(--mt-bg) !important;
+  border: 1px solid var(--mt-border) !important;
+  padding: 6px 14px !important;
+  font-size: 0.74rem !important;
+  font-weight: 700 !important;
+  border-radius: 999px !important;
+  color: var(--mt-text-2) !important;
+}
+
+.mt-ledger-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, 1fr) !important;
+  gap: 32px !important;
+}
+
+.mt-ledger-column-title {
+  font-size: 0.95rem !important;
+  color: var(--mt-navy) !important;
+  font-weight: 750 !important;
+  margin: 0 0 16px 0 !important;
+  border-left: 3px solid var(--mt-gold) !important;
+  padding-left: 10px !important;
+}
+
+.mt-ledger-feed {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 14px !important;
+}
+
+.mt-ledger-item {
+  background: #f8fafc !important;
+  border: 1px solid var(--mt-border) !important;
+  border-radius: var(--mt-radius-lg) !important;
+  padding: 18px 20px !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  transition: border-color var(--mt-transition), box-shadow var(--mt-transition) !important;
+}
+
+.mt-ledger-item:hover {
+  border-color: rgba(7, 29, 52, 0.16) !important;
+  box-shadow: var(--mt-shadow-sm) !important;
+}
+
+.mt-ledger-details {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 4px !important;
+}
+
+.mt-ledger-recipient {
+  margin: 0 !important;
+  font-weight: 700 !important;
+  font-size: 0.9rem !important;
+  color: var(--mt-text) !important;
+}
+
+.mt-ledger-date {
+  margin: 0 !important;
+  font-size: 0.78rem !important;
+  color: var(--mt-muted) !important;
+  font-weight: 500 !important;
+}
+
+.mt-ledger-narration {
+  margin: 0 !important;
+  font-size: 0.78rem !important;
+  color: var(--mt-text-2) !important;
+  font-weight: 500 !important;
+  font-style: italic !important;
+}
+
+.mt-ledger-action-area {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-end !important;
+  gap: 6px !important;
+}
+
+.mt-ledger-amount {
+  margin: 0 !important;
+  font-size: 1.15rem !important;
+  font-weight: 800 !important;
+  color: var(--mt-navy) !important;
+}
+
+.mt-ledger-link {
+  background: transparent !important;
+  border: 0 !important;
+  padding: 0 !important;
+  font-size: 0.78rem !important;
+  color: var(--mt-red) !important;
+  font-weight: 750 !important;
+  text-decoration: none !important;
+  cursor: pointer !important;
+  transition: color var(--mt-transition) !important;
+}
+
+.mt-ledger-link:hover {
+  color: var(--mt-red-2) !important;
+}
+
+/* Dashboard Responsive Map */
+@media (max-width: 1100px) {
+  .mt-portal-grid-3 {
+    grid-template-columns: 1fr !important;
+  }
+  .mt-ledger-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 720px) {
+  .mt-balance-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+

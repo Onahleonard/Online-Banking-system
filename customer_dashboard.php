@@ -558,139 +558,147 @@ if (!in_array($landingMode, ['personal', 'business'], true)) {
             </div>
         <?php endif; ?>
 
-<?php if ($view === 'dashboard'): ?>
-            <?php requireRole('customer'); ?>
-            <section class="mx-auto max-w-6xl space-y-6">
-                <div class="grid gap-6 lg:grid-cols-2">
-                    <div class="rounded-[2rem] bg-white p-8 shadow-lg border border-slate-200">
-                        <div class="flex items-center justify-between gap-4 pb-6 border-b border-slate-200">
-                            <div>
-                                <h2 class="mt-0 text-3xl font-bold text-slate-950">Account Overview</h2>
+<?php if ($view === "dashboard"): ?>
+        <?php requireRole("customer");?>
+        <div class="mt-portal-container">
+            <!-- Account Overview Cards -->
+            <div class="mt-portal-grid-3">
+                <div class="mt-card mt-span-2">
+                    <div class="mt-card-header-line">
+                        <p class="mt-card-label">Corporate Accounts</p>
+                        <h2 class="mt-card-title-main">Account Overview</h2>
+                    </div>
+                    
+                    <div class="mt-balance-grid">
+                        <?php $checking_balance = $_SESSION["mock_balance"]; $savings_balance = $_SESSION["savings_balance"]; ?>
+                        
+                        <!-- Card: Checking -->
+                        <div class="mt-balance-card mt-card-accent-gold">
+                            <span class="mt-balance-tag">Corporate Checking</span>
+                            <h3 class="mt-balance-acc-name">Corporate Checking Account</h3>
+                            <div class="mt-balance-row">
+                                <span class="mt-balance-amount mt-serif-title" id="currentBalanceChecking" data-original="$<?php echo number_format($checking_balance, 2); ?>">$<?php echo number_format($checking_balance, 2); ?></span>
+                                <button type="button" data-target="currentBalanceChecking" class="balance-toggle mt-btn-hide">[Hide]</button>
                             </div>
+                            <span class="mt-balance-sub">Available Balance</span>
                         </div>
 
-                        <div class="mt-8 grid gap-6 md:grid-cols-2">
-                            <?php $checking_balance = $_SESSION['mock_balance']; $savings_balance = $_SESSION['savings_balance']; ?>
-
-                            <article class="rounded-[1.5rem] page-card-strong p-6 shadow-lg border border-slate-200">
-                                <p class="text-xs uppercase tracking-[0.28em] text-slate-600">Corporate Checking Account</p>
-                                <h3 class="mt-3 text-lg font-semibold text-slate-900">Corporate Checking</h3>
-                                <div class="mt-4 flex items-center gap-3">
-                                    <p id="currentBalanceChecking" data-original="$<?php echo number_format($checking_balance, 2); ?>" class="text-3xl font-extrabold tracking-tight text-slate-900">$<?php echo number_format($checking_balance, 2); ?></p>
-                                    <button type="button" data-target="currentBalanceChecking" class="balance-toggle text-xs text-slate-500 hover:underline">[Hide]</button>
-                                </div>
-                                <p class="mt-3 text-sm text-slate-500">Available Balance</p>
-                            </article>
-
-                            <article class="rounded-[1.5rem] page-card p-6 shadow-md border border-slate-200">
-                                <p class="text-xs uppercase tracking-[0.28em] text-slate-600">Savings Account</p>
-                                <h3 class="mt-3 text-lg font-semibold text-slate-900">Savings Account</h3>
-                                <div class="mt-4 flex items-center gap-3">
-                                    <p id="currentBalanceSavings" data-original="$<?php echo number_format($savings_balance, 2); ?> USD" class="text-3xl font-extrabold tracking-tight text-slate-900">$<?php echo number_format($savings_balance, 2); ?> USD</p>
-                                    <button type="button" data-target="currentBalanceSavings" class="balance-toggle text-xs text-slate-500 hover:underline">[Hide]</button>
-                                </div>
-                                <p class="mt-3 text-sm text-slate-500">Savings Account</p>
-                            </article>
+                        <!-- Card: Savings -->
+                        <div class="mt-balance-card">
+                            <span class="mt-balance-tag">Premium Savings</span>
+                            <h3 class="mt-balance-acc-name">Savings Account</h3>
+                            <div class="mt-balance-row">
+                                <span class="mt-balance-amount mt-serif-title" id="currentBalanceSavings" data-original="$<?php echo number_format($savings_balance, 2); ?> USD">$<?php echo number_format($savings_balance, 2); ?> USD</span>
+                                <button type="button" data-target="currentBalanceSavings" class="balance-toggle mt-btn-hide">[Hide]</button>
+                            </div>
+                            <span class="mt-balance-sub">Available Balance</span>
                         </div>
                     </div>
+                </div>
 
-                    <div class="rounded-[2rem] bg-white p-8 shadow-lg border border-slate-200">
-                        <div class="flex items-start justify-between gap-4 pb-4 border-b border-slate-200">
-                            <div>
-                                <p class="text-xs uppercase tracking-[0.25em] text-slate-400">Transfer funds</p>
-                                <h3 class="mt-2 text-2xl font-semibold text-slate-950">Transfer Funds</h3>
-                            </div>
+                <!-- Transfer Funds Panel -->
+                <div class="mt-card">
+                    <div class="mt-card-header-line">
+                        <p class="mt-card-label">Outbound Settlements</p>
+                        <h2 class="mt-card-title-main">Transfer Funds</h2>
+                    </div>
+
+                    <?php if ($flashMessage): ?>
+                        <div class="mt-login-error-msg" style="margin-top:16px; background: rgba(27, 74, 120, 0.08); border-color: rgba(27, 74, 120, 0.18); color: var(--mt-blue);"><?php echo htmlspecialchars($flashMessage); ?></div>
+                    <?php endif; ?>
+
+                    <form method="POST" action="index.php" class="mt-transfer-form">
+                        <input type="hidden" name="action" value="transfer" />
+
+                        <div class="mt-form-group">
+                            <label class="mt-form-label">Beneficiary Account Number</label>
+                            <input name="recipient" type="text" required placeholder="e.g. 001234567890" class="mt-form-input" />
                         </div>
 
-                        <?php if ($flashMessage): ?>
-                            <div class="mt-6 rounded-3xl border border-cyan-100 bg-cyan-50 p-4 text-sm text-cyan-800"><?php echo htmlspecialchars($flashMessage); ?></div>
+                        <div class="mt-form-group">
+                            <label class="mt-form-label">Routing Transit Number (RTN) / SWIFT Code</label>
+                            <input name="routing" type="text" placeholder="e.g. 021000021 / BARCGB22" class="mt-form-input" />
+                        </div>
+
+                        <div class="mt-form-group">
+                            <label class="mt-form-label">Transfer Amount (USD)</label>
+                            <input name="amount" type="number" step="0.01" min="0.01" required placeholder="0.00" class="mt-form-input" />
+                        </div>
+
+                        <div class="mt-form-group">
+                            <label class="mt-form-label">Transaction Narration / Reference</label>
+                            <input name="narration" type="text" placeholder="e.g. Invoice #12345 - Project Draw" class="mt-form-input" />
+                        </div>
+
+                        <?php if (isset($_SESSION["account_status"]) && $_SESSION["account_status"] === "FROZEN"): ?>
+                            <div class="mt-login-error-msg">Account is currently FROZEN. Outbound transfers are temporarily restricted.</div>
+                        <?php else: ?>
+                            <button type="submit" class="mt-btn-login-submit-card">Queue Pending Transfer</button>
                         <?php endif; ?>
+                    </form>
+                </div>
+            </div>
 
-                        <form method="POST" action="index.php" class="mt-6 space-y-5">
-                            <input type="hidden" name="action" value="transfer" />
-
-                            <label class="block text-sm font-semibold text-slate-700">Beneficiary Account Number</label>
-                            <input name="recipient" type="text" required placeholder="e.g. 001234567890" class="w-full rounded-3xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-100" />
-
-                            <label class="block text-sm font-semibold text-slate-700">Routing Transit Number (RTN) / SWIFT Code</label>
-                            <input name="routing" type="text" placeholder="e.g. 021000021 / BARCGB22" class="w-full rounded-3xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-100" />
-
-                            <label class="block text-sm font-semibold text-slate-700">Transfer Amount (USD)</label>
-                            <input name="amount" type="number" step="0.01" min="0.01" required placeholder="0.00" class="w-full rounded-3xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-100" />
-
-                            <label class="block text-sm font-semibold text-slate-700">Transaction Narration / Reference</label>
-                            <input name="narration" type="text" placeholder="e.g. Invoice #12345 - Project Draw" class="w-full rounded-3xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-100" />
-
-                            <?php if (isset($_SESSION['account_status']) && $_SESSION['account_status'] === 'FROZEN'): ?>
-                                <div class="rounded-2xl bg-rose-50 border border-rose-200 p-4 text-sm text-rose-700">Account is currently FROZEN. Outbound transfers are temporarily restricted.</div>
-                            <?php else: ?>
-                                <button type="submit" class="w-full rounded-3xl bg-cyan-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-cyan-500/20 hover:bg-cyan-500 transition">Queue Pending Transfer</button>
-                            <?php endif; ?>
-                        </form>
+            <!-- Transaction Ledger Grid -->
+            <div class="mt-card mt-margin-top-30">
+                <div class="mt-card-header-line-flex">
+                    <div>
+                        <p class="mt-card-label">Ledger Statements</p>
+                        <h2 class="mt-card-title-main">Account Histories</h2>
                     </div>
+                    <span class="mt-status-badge">Auto-update every 10s</span>
                 </div>
 
-                <div class="rounded-[2rem] bg-white p-8 shadow-lg border border-slate-200">
-                    <div class="flex items-center justify-between gap-4 pb-6 border-b border-slate-200">
-                        <div>
-                            <p class="text-xs uppercase tracking-[0.25em] text-slate-400">Transaction ledger</p>
-                            <h3 class="mt-2 text-2xl font-semibold text-slate-950">Account Histories</h3>
+                <div class="mt-ledger-grid">
+                    <!-- Column: Savings -->
+                    <div>
+                        <h4 class="mt-ledger-column-title">Savings Account History</h4>
+                        <div class="mt-ledger-feed" id="savingsFeed">
+                            <?php foreach (getTransactions() as $tx): ?>
+                                <?php if (($tx["account"] ?? "") === "savings"): ?>
+                                <div class="mt-ledger-item">
+                                    <div class="mt-ledger-details">
+                                        <p class="mt-ledger-recipient"><?php echo htmlspecialchars($tx["recipient"]); ?></p>
+                                        <p class="mt-ledger-date"><?php echo htmlspecialchars($tx["date"]); ?></p>
+                                        <p class="mt-ledger-narration"><?php echo htmlspecialchars($tx["narration"] ?? ""); ?></p>
+                                    </div>
+                                    <div class="mt-ledger-action-area">
+                                        <p class="mt-ledger-amount mt-serif-title">$<?php echo number_format($tx["amount"], 2); ?></p>
+                                        <button data-txid="<?php echo $tx["id"]; ?>" data-recipient="<?php echo htmlspecialchars($tx["recipient"]); ?>" data-amount="2" data-date="<?php echo htmlspecialchars($tx["date"]); ?>" class="download-receipt mt-ledger-link">Download Receipt &rarr;</button>
+                                    </div>
+                                </div>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
                         </div>
-                        <span class="rounded-full bg-slate-100 px-4 py-2 text-xs text-slate-600">Auto-update every 10s</span>
                     </div>
 
-                    <div class="mt-6 grid gap-6 md:grid-cols-2">
-                        <div>
-                            <h4 class="text-sm font-semibold text-slate-800 mb-3">Savings Account History</h4>
-                            <div class="space-y-4" id="savingsFeed">
-                                <?php foreach (getTransactions() as $tx): ?>
-                                    <?php if (($tx['account'] ?? '') === 'savings'): ?>
-                                    <div class="rounded-3xl border border-slate-200 bg-slate-50 p-4 grid gap-3 sm:grid-cols-[1fr_auto] items-center">
-                                        <div>
-                                            <p class="text-sm font-semibold text-slate-900"><?php echo htmlspecialchars($tx['recipient']); ?></p>
-                                            <p class="mt-1 text-xs text-slate-500"><?php echo htmlspecialchars($tx['date']); ?></p>
-                                            <p class="mt-1 text-xs text-slate-500"><?php echo htmlspecialchars($tx['narration'] ?? ''); ?></p>
-                                        </div>
-                                        <div class="text-right">
-                                            <p class="text-lg font-bold text-slate-900">$<?php echo number_format($tx['amount'], 2); ?></p>
-                                            <div class="flex flex-col items-end gap-2">
-                                                <button data-txid="<?php echo $tx['id']; ?>" data-recipient="<?php echo htmlspecialchars($tx['recipient']); ?>" data-amount="<?php echo number_format($tx['amount'], 2); ?>" data-date="<?php echo htmlspecialchars($tx['date']); ?>" class="download-receipt text-xs text-slate-500 underline">Download Receipt</button>
-                                            </div>
-                                        </div>
+                    <!-- Column: Checking -->
+                    <div>
+                        <h4 class="mt-ledger-column-title">Checking Account History</h4>
+                        <div class="mt-ledger-feed" id="checkingFeed">
+                            <?php foreach (getTransactions() as $tx): ?>
+                                <?php if (($tx["account"] ?? "") === "checking"): ?>
+                                <div class="mt-ledger-item">
+                                    <div class="mt-ledger-details">
+                                        <p class="mt-ledger-recipient"><?php echo htmlspecialchars($tx["recipient"]); ?></p>
+                                        <p class="mt-ledger-date"><?php echo htmlspecialchars($tx["date"]); ?></p>
+                                        <p class="mt-ledger-narration"><?php echo htmlspecialchars($tx["narration"] ?? ""); ?></p>
                                     </div>
-                                    <?php endif; ?>
-                                <?php endforeach; ?>
-                            </div>
-                        </div>
-
-                        <div>
-                            <h4 class="text-sm font-semibold text-slate-800 mb-3">Checking Account History</h4>
-                            <div class="space-y-4" id="checkingFeed">
-                                <?php foreach (getTransactions() as $tx): ?>
-                                    <?php if (($tx['account'] ?? '') === 'checking'): ?>
-                                    <div class="rounded-3xl border border-slate-200 bg-slate-50 p-4 grid gap-3 sm:grid-cols-[1fr_auto] items-center">
-                                        <div>
-                                            <p class="text-sm font-semibold text-slate-900"><?php echo htmlspecialchars($tx['recipient']); ?></p>
-                                            <p class="mt-1 text-xs text-slate-500"><?php echo htmlspecialchars($tx['date']); ?></p>
-                                            <p class="mt-1 text-xs text-slate-500"><?php echo htmlspecialchars($tx['narration'] ?? ''); ?></p>
-                                        </div>
-                                        <div class="text-right">
-                                            <p class="text-lg font-bold text-slate-900">$<?php echo number_format($tx['amount'], 2); ?></p>
-                                            <div class="flex flex-col items-end gap-2">
-                                                <button data-txid="<?php echo $tx['id']; ?>" data-recipient="<?php echo htmlspecialchars($tx['recipient']); ?>" data-amount="<?php echo number_format($tx['amount'], 2); ?>" data-date="<?php echo htmlspecialchars($tx['date']); ?>" class="view-voucher text-xs text-slate-500 underline">View Voucher</button>
-                                            </div>
-                                        </div>
+                                    <div class="mt-ledger-action-area">
+                                        <p class="mt-ledger-amount mt-serif-title">$<?php echo number_format($tx["amount"], 2); ?></p>
+                                        <button data-txid="<?php echo $tx["id"]; ?>" data-recipient="<?php echo htmlspecialchars($tx["recipient"]); ?>" data-amount="2" data-date="<?php echo htmlspecialchars($tx["date"]); ?>" class="view-voucher mt-ledger-link">View Voucher &rarr;</button>
                                     </div>
-                                    <?php endif; ?>
-                                <?php endforeach; ?>
-                            </div>
+                                </div>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
                         </div>
                     </div>
                 </div>
-            </section>
-        <?php endif; ?>
+            </div>
+        </div>
+    <?php endif; ?>
 
-        <?php if ($view === 'admin'): ?>
+<?php if ($view === 'admin'): ?>
             <?php requireRole('admin'); ?>
             <section class="mx-auto max-w-6xl space-y-6">
                 <div class="rounded-[2rem] bg-white p-8 shadow-lg border border-slate-200">
